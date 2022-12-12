@@ -1,15 +1,26 @@
 import Link from "next/link";
 import React from "react";
+import styles from "../styles/Navbar.module.css";
 
 export default function Navbar() {
     return (
-        <nav>
+        <nav className={styles.headerContainer}>
             <div>
-                <h1>Logo</h1>
+                <Link href="/" className={styles.link}>
+                    Logo
+                </Link>
             </div>
-            <Link href="/">Link1</Link>
-            <Link href="/">Link2</Link>
-            <Link href="/">Link3</Link>
+            <div>
+                <Link href="/posts" className={styles.link}>
+                    View Posts
+                </Link>
+                <Link href="/" className={styles.link}>
+                    Link2
+                </Link>
+                <Link href="/" className={styles.link}>
+                    Link3
+                </Link>
+            </div>
         </nav>
     );
 }

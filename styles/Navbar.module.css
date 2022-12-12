@@ -1,0 +1,12 @@
+.headerContainer {
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.link, .link:hover, .link:visited, .link:active {
+    color: inherit;
+    text-decoration: none;
+}

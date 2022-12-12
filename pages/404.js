@@ -9,7 +9,7 @@ export default function NotFound() {
             </Head>
             <div>
                 <h1>Uh Oh!</h1>
-                <h2>This page doesn't exist</h2>
+                <h2>This page does not exist</h2>
                 <p>
                     Return to the <Link href="/">Homepage</Link>
                 </p>
