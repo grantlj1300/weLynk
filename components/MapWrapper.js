@@ -7,11 +7,10 @@ import VectorSource from "ol/source/Vector";
 import XYZ from "ol/source/XYZ";
 import { transform } from "ol/proj";
 
-export default function MapWrapper(props) {
+export default function MapWrapper({ regionView }) {
     const [map, setMap] = useState();
     const [featuresLayer, setFeaturesLayer] = useState();
     const [selectedCoord, setSelectedCoord] = useState();
-
     const mapElement = useRef();
 
     const mapRef = useRef();
@@ -41,13 +40,31 @@ export default function MapWrapper(props) {
                 }),
                 controls: [],
             });
-
+            const america = transform(
+                [regionView.lon, regionView.lat],
+                "EPSG:4326",
+                "EPSG:3857"
+            );
+            initialMap.getView().setCenter(america);
+            initialMap.getView().setZoom(4);
             initialMap.on("click", handleMapClick);
             mapRef.current = initialMap;
             setMap(initialMap);
             setFeaturesLayer(initalFeaturesLayer);
         }
     }, []);
+
+    useEffect(() => {
+        if (map) {
+            const newCenter = transform(
+                [regionView.lon, regionView.lat],
+                "EPSG:4326",
+                "EPSG:3857"
+            );
+
+            map.getView().setCenter(newCenter);
+        }
+    }, [regionView]);
 
     // useEffect(() => {
     //     if (props.features.length) {
