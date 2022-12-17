@@ -7,10 +7,7 @@ let autoComplete;
 
 export default function Posts() {
     const [query, setQuery] = useState("");
-    const [regionView, setRegionView] = useState({
-        lon: -95.54955,
-        lat: 40.12426,
-    });
+    const [regionView, setRegionView] = useState(null);
     const autoCompleteRef = useRef(null);
 
     function handleScriptLoad(updateQuery, autoCompleteRef) {
@@ -36,12 +33,14 @@ export default function Posts() {
         const query = addressObject.formatted_address;
         updateQuery(query);
         const newView = {
-            lon: addressObject.geometry.location.lng(),
-            lat: addressObject.geometry.location.lat(),
+            maxLon: addressObject.geometry.viewport.getNorthEast().lng(),
+            minLon: addressObject.geometry.viewport.getSouthWest().lng(),
+            maxLat: addressObject.geometry.viewport.getNorthEast().lat(),
+            minLat: addressObject.geometry.viewport.getSouthWest().lat(),
         };
         setRegionView(newView);
         console.log(addressObject);
-        console.log(addressObject.geometry.location.lat());
+        console.log(newView);
     }
 
     const loadScript = (url, callback) => {

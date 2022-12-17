@@ -5,7 +5,8 @@ import TileLayer from "ol/layer/Tile";
 import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
 import XYZ from "ol/source/XYZ";
-import { transform } from "ol/proj";
+import { transform, transformExtent } from "ol/proj";
+import MapboxVector from "ol/layer/MapboxVector";
 
 export default function MapWrapper({ regionView }) {
     const [map, setMap] = useState();
@@ -24,11 +25,10 @@ export default function MapWrapper({ regionView }) {
             const initialMap = new Map({
                 target: mapElement.current,
                 layers: [
-                    // Google Maps Terrain
-                    new TileLayer({
-                        source: new XYZ({
-                            url: "http://mt0.google.com/vt/lyrs=p&hl=en&x={x}&y={y}&z={z}",
-                        }),
+                    new MapboxVector({
+                        styleUrl: "mapbox://styles/mapbox/streets-v12",
+                        accessToken:
+                            "pk.eyJ1IjoiZ3JhbnRsajEzMDAiLCJhIjoiY2xic2ZmZXNsMDJlNDNvcGY5Z2x4aTlvdiJ9.qfeMh-gZ1kixcbZQNKI99w",
                     }),
 
                     initalFeaturesLayer,
@@ -40,13 +40,19 @@ export default function MapWrapper({ regionView }) {
                 }),
                 controls: [],
             });
-            const america = transform(
-                [regionView.lon, regionView.lat],
-                "EPSG:4326",
-                "EPSG:3857"
-            );
-            initialMap.getView().setCenter(america);
-            initialMap.getView().setZoom(4);
+            if (regionView) {
+                const extent = transformExtent(
+                    [
+                        regionView.minLon,
+                        regionView.minLat,
+                        regionView.maxLon,
+                        regionView.maxLat,
+                    ],
+                    "EPSG:4326",
+                    "EPSG:3857"
+                );
+                initialMap.getView().fit(extent);
+            }
             initialMap.on("click", handleMapClick);
             mapRef.current = initialMap;
             setMap(initialMap);
@@ -56,29 +62,19 @@ export default function MapWrapper({ regionView }) {
 
     useEffect(() => {
         if (map) {
-            const newCenter = transform(
-                [regionView.lon, regionView.lat],
+            const extent = transformExtent(
+                [
+                    regionView.minLon,
+                    regionView.minLat,
+                    regionView.maxLon,
+                    regionView.maxLat,
+                ],
                 "EPSG:4326",
                 "EPSG:3857"
             );
-
-            map.getView().setCenter(newCenter);
+            map.getView().fit(extent);
         }
     }, [regionView]);
-
-    // useEffect(() => {
-    //     if (props.features.length) {
-    //         featuresLayer.setSource(
-    //             new VectorSource({
-    //                 features: props.features,
-    //             })
-    //         );
-
-    //         map.getView().fit(featuresLayer.getSource().getExtent(), {
-    //             padding: [100, 100, 100, 100],
-    //         });
-    //     }
-    // }, [props.features]);
 
     const handleMapClick = (event) => {
         const clickedCoord = mapRef.current.getCoordinateFromPixel(event.pixel);
@@ -90,13 +86,11 @@ export default function MapWrapper({ regionView }) {
         );
 
         setSelectedCoord(transormedCoord);
-
-        console.log(transormedCoord);
     };
 
     return (
         <div
-            style={{ width: "80%", height: "500px" }}
+            style={{ width: "100%", height: "80vh" }}
             ref={mapElement}
             className="map-container"
         />
