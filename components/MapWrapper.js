@@ -71,6 +71,7 @@ export default function MapWrapper({ regionView, events }) {
             mapRef.current = initialMap;
             setMap(initialMap);
         }
+        // eslint-disable-next-line
     }, []);
 
     useEffect(() => {
@@ -87,6 +88,7 @@ export default function MapWrapper({ regionView, events }) {
             );
             map.getView().fit(extent);
         }
+        // eslint-disable-next-line
     }, [regionView]);
 
     useEffect(() => {
@@ -102,6 +104,7 @@ export default function MapWrapper({ regionView, events }) {
             });
             markerSource.addFeatures(features);
         }
+        // eslint-disable-next-line
     }, [events]);
 
     function handleMapClick(e) {

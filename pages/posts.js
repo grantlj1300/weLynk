@@ -87,6 +87,7 @@ export default function Posts() {
                 () => handleScriptLoad(setQuery, autoCompleteRef)
             );
         });
+        // eslint-disable-next-line
     }, []);
 
     return (
