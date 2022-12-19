@@ -1,0 +1,4 @@
+.formContent {
+    display: flex;
+    flex-direction: column;
+}

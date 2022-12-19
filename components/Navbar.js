@@ -14,8 +14,8 @@ export default function Navbar() {
                 <Link href="/posts" className={styles.link}>
                     View Posts
                 </Link>
-                <Link href="/" className={styles.link}>
-                    Link2
+                <Link href="/post/create" className={styles.link}>
+                    Create Post
                 </Link>
                 <Link href="/" className={styles.link}>
                     Link3

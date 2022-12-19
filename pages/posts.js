@@ -8,7 +8,21 @@ let autoComplete;
 export default function Posts() {
     const [query, setQuery] = useState("");
     const [regionView, setRegionView] = useState(null);
+    const [events, setEvents] = useState([]);
     const autoCompleteRef = useRef(null);
+
+    async function getEvents() {
+        try {
+            const res = await fetch("/api/posts", {
+                method: "GET",
+            });
+            const data = await res.json();
+            setEvents(data);
+            console.log(data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     function handleScriptLoad(updateQuery, autoCompleteRef) {
         // autoComplete = new window.google.maps.places.Autocomplete(
@@ -43,7 +57,7 @@ export default function Posts() {
         console.log(newView);
     }
 
-    const loadScript = (url, callback) => {
+    function loadScript(url, callback) {
         let script = document.createElement("script");
         script.type = "text/javascript";
 
@@ -63,13 +77,16 @@ export default function Posts() {
 
         script.src = url;
         document.getElementsByTagName("head")[0].appendChild(script);
-    };
+    }
 
     useEffect(() => {
-        loadScript(
-            `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_MAP_API_KEY}&libraries=places`,
-            () => handleScriptLoad(setQuery, autoCompleteRef)
-        );
+        getEvents().then(() => {
+            console.log("here");
+            loadScript(
+                `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_MAP_API_KEY}&libraries=places`,
+                () => handleScriptLoad(setQuery, autoCompleteRef)
+            );
+        });
     }, []);
 
     return (
@@ -78,12 +95,13 @@ export default function Posts() {
                 <title>MeetUp | Posts</title>
             </Head>
             <input
+                className={styles.searchBox}
                 ref={autoCompleteRef}
                 onChange={(event) => setQuery(event.target.value)}
                 placeholder="Enter a City"
                 value={query}
             />
-            <MapWrapper regionView={regionView} />
+            <MapWrapper regionView={regionView} events={events} />
         </div>
     );
 }
