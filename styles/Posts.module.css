@@ -6,14 +6,18 @@
 
 .searchBox {
     position: absolute;
+    left: 50%;
+    transform: translate(-50%);
     z-index: 1;
-    margin-top: 15px;
-    border-radius: 40px;
-    border: 1px solid rgba(160, 160, 160, 0.615);
     height: 50px;
-    width: 50%;
+    width: 40%;
+    margin-top: 15px;
     padding-left: 20px;
+    padding-right: 10px;
+    border: 1px solid rgba(160, 160, 160, 0.615);
+    border-radius: 40px;
     font-size: 18pt;
+    text-overflow: ellipsis;
 }
 .searchBox:focus{
     outline: none;

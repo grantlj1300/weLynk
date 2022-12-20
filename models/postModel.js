@@ -6,6 +6,11 @@ const postSchema = new Schema({
         required: true,
         trim: true,
     },
+    address: {
+        type: String,
+        required: true,
+        trim: true,
+    },
     lon: {
         type: String,
         required: true,

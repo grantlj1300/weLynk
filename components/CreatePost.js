@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import styles from "../styles/CreatePost.module.css";
+import PlaceSearch from "./PlaceSearch";
 
 export default function CreatePost() {
     const [formData, setFormData] = useState({
         title: "",
+        address: "",
         lon: "",
         lat: "",
         description: "",
@@ -43,6 +45,10 @@ export default function CreatePost() {
                     value={formData.name}
                     onChange={handleChange}
                 />
+            </label>
+            <label>
+                Address:
+                <PlaceSearch />
             </label>
             <label>
                 Lon:

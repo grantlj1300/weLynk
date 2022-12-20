@@ -1,0 +1,8 @@
+.infoBox {
+    position: absolute;
+    right: 0;
+    z-index: 1;
+    background-color: rgba(255, 255, 255, 0.317);
+    height: inherit;
+    width: 40%;
+}
