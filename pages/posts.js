@@ -7,6 +7,7 @@ import PlaceSearch from "../components/PlaceSearch";
 export default function Posts() {
     const [regionView, setRegionView] = useState(null);
     const [events, setEvents] = useState([]);
+    const [showSearch, setShowSearch] = useState(true);
 
     async function getEvents() {
         try {
@@ -18,6 +19,16 @@ export default function Posts() {
         } catch (error) {
             console.log(error);
         }
+    }
+
+    function handlePlaceSelect(addressObject) {
+        const newView = {
+            maxLon: addressObject.geometry.viewport.getNorthEast().lng(),
+            minLon: addressObject.geometry.viewport.getSouthWest().lng(),
+            maxLat: addressObject.geometry.viewport.getNorthEast().lat(),
+            minLat: addressObject.geometry.viewport.getSouthWest().lat(),
+        };
+        setRegionView(newView);
     }
 
     useEffect(() => {
@@ -32,9 +43,14 @@ export default function Posts() {
             </Head>
             <PlaceSearch
                 style={styles.searchBox}
-                setRegionView={setRegionView}
+                handlePlaceSelect={handlePlaceSelect}
+                showSearch={showSearch}
             />
-            <MapWrapper regionView={regionView} events={events} />
+            <MapWrapper
+                regionView={regionView}
+                events={events}
+                setShowSearch={setShowSearch}
+            />
         </div>
     );
 }

@@ -1,47 +1,18 @@
 import React, { useRef, useState } from "react";
-import {
-    StandaloneSearchBox,
-    LoadScript,
-    Autocomplete,
-} from "@react-google-maps/api";
+import { LoadScript, Autocomplete } from "@react-google-maps/api";
 
 const libraries = ["places"];
 
-export default function PlaceSearch({ style, setRegionView }) {
+export default function PlaceSearch({ style, handlePlaceSelect, showSearch }) {
     const [query, setQuery] = useState("");
     const autoCompleteRef = useRef(null);
 
-    async function handlePlaceSelect() {
+    async function selectPlace() {
         const addressObject = autoCompleteRef.current.getPlace();
         const query = addressObject.formatted_address;
-        console.log(addressObject);
         setQuery(query);
-        const newView = {
-            maxLon: addressObject.geometry.viewport.getNorthEast().lng(),
-            minLon: addressObject.geometry.viewport.getSouthWest().lng(),
-            maxLat: addressObject.geometry.viewport.getNorthEast().lat(),
-            minLat: addressObject.geometry.viewport.getSouthWest().lat(),
-        };
-        setRegionView(newView);
+        handlePlaceSelect(addressObject);
     }
-
-    // function handleScriptLoad(updateQuery, autoCompleteRef) {
-    //     // autoComplete = new window.google.maps.places.Autocomplete(
-    //     //     autoCompleteRef.current,
-    //     //     { types: ["(cities)"], componentRestrictions: { country: "us" } }
-    //     // );
-    //     autoComplete = new window.google.maps.places.Autocomplete(
-    //         autoCompleteRef.current
-    //     );
-    //     autoComplete.setFields([
-    //         "address_components",
-    //         "formatted_address",
-    //         "geometry",
-    //     ]);
-    //     autoComplete.addListener("place_changed", () =>
-    //         handlePlaceSelect(updateQuery)
-    //     );
-    // }
 
     return (
         <LoadScript
@@ -50,14 +21,19 @@ export default function PlaceSearch({ style, setRegionView }) {
         >
             <Autocomplete
                 onLoad={(ref) => (autoCompleteRef.current = ref)}
-                onPlaceChanged={handlePlaceSelect}
+                onPlaceChanged={selectPlace}
                 fields={["address_components", "formatted_address", "geometry"]}
             >
                 <input
                     className={style}
+                    style={
+                        showSearch
+                            ? { visibility: "visible" }
+                            : { visibility: "hidden" }
+                    }
                     ref={autoCompleteRef}
-                    onChange={(event) => setQuery(event.target.value)}
-                    placeholder="Enter a City"
+                    onChange={(e) => setQuery(e.target.value)}
+                    placeholder="Search a location"
                     value={query}
                 />
             </Autocomplete>

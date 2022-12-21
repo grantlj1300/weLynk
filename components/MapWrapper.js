@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import styles from "../styles/MapWrapper.module.css";
-import { Map, View, Feature } from "ol";
+import { Map, View, Feature, Overlay } from "ol";
 import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
 import { fromLonLat, transformExtent } from "ol/proj";
@@ -10,10 +10,11 @@ import Style from "ol/style/Style";
 import Icon from "ol/style/Icon";
 import EventPreview from "./EventPreview";
 
-export default function MapWrapper({ regionView, events }) {
+export default function MapWrapper({ regionView, events, setShowSearch }) {
     const [map, setMap] = useState();
     const [currentEvent, setCurrentEvent] = useState();
     const [markerSource, setMarkerSource] = useState();
+    const overlaySource = useRef();
     const mapElement = useRef();
     const mapRef = useRef();
 
@@ -61,7 +62,15 @@ export default function MapWrapper({ regionView, events }) {
                 );
                 initialMap.getView().fit(extent);
             }
+            const overlay = new Overlay({
+                element: document.getElementById("popup"),
+                positioning: "bottom-center",
+                offset: [0, -50],
+            });
+            overlaySource.current = overlay;
+            initialMap.addOverlay(overlay);
             initialMap.on("click", handleMapClick);
+            initialMap.on("pointermove", handlePointerMove);
             mapRef.current = initialMap;
             setMap(initialMap);
         }
@@ -96,10 +105,28 @@ export default function MapWrapper({ regionView, events }) {
                 feature.setId(event._id);
                 return feature;
             });
+
             markerSource.addFeatures(features);
         }
         // eslint-disable-next-line
     }, [events]);
+
+    function handlePointerMove(e) {
+        const hovered = mapRef.current.forEachFeatureAtPixel(
+            e.pixel,
+            (feature) => {
+                return feature;
+            }
+        );
+        if (hovered instanceof Feature) {
+            const coord = hovered.getGeometry().getCoordinates();
+            let container = document.getElementById("popup");
+            container.innerHTML = hovered.get("event").title;
+            overlaySource.current.setPosition(coord);
+        } else {
+            overlaySource.current.setPosition(undefined);
+        }
+    }
 
     function handleMapClick(e) {
         const clicked = mapRef.current.forEachFeatureAtPixel(
@@ -111,14 +138,17 @@ export default function MapWrapper({ regionView, events }) {
         if (clicked instanceof Feature) {
             console.log(clicked.get("event"));
             setCurrentEvent(clicked.get("event"));
+            setShowSearch(false);
         } else {
             setCurrentEvent(null);
+            setShowSearch(true);
         }
     }
 
     return (
         <div ref={mapElement} className={styles.map}>
-            <EventPreview event={currentEvent} />
+            <div id="popup" className={styles.popup}></div>
+            <EventPreview event={currentEvent} setEvent={setCurrentEvent} />
         </div>
     );
 }

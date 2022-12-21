@@ -18,8 +18,22 @@ export default function CreatePost() {
         setFormData((prevData) => ({ ...prevData, [name]: value }));
     }
 
-    async function postEvent(e) {
+    function handlePlaceSelect(addressObject) {
+        setFormData((prevData) => ({
+            ...prevData,
+            address: addressObject.formatted_address,
+            lon: addressObject.geometry.location.lng(),
+            lat: addressObject.geometry.location.lat(),
+        }));
+    }
+
+    async function handleSubmit(e) {
         e.preventDefault();
+        if (!formData.address || !formData.lon || !formData.lat) return;
+        await postEvent();
+    }
+
+    async function postEvent() {
         try {
             const res = await fetch("/api/posts", {
                 method: "POST",
@@ -36,7 +50,7 @@ export default function CreatePost() {
     }
 
     return (
-        <form className={styles.formContent} onSubmit={postEvent}>
+        <form className={styles.formContent} onSubmit={handleSubmit}>
             <label>
                 Event Name:
                 <input
@@ -48,22 +62,9 @@ export default function CreatePost() {
             </label>
             <label>
                 Address:
-                <PlaceSearch />
-            </label>
-            <label>
-                Lon:
-                <input
-                    type="text"
-                    name="lon"
-                    value={formData.lon}
-                    onChange={handleChange}
-                />
-                Lat:
-                <input
-                    type="text"
-                    name="lat"
-                    value={formData.lat}
-                    onChange={handleChange}
+                <PlaceSearch
+                    handlePlaceSelect={handlePlaceSelect}
+                    showSearch={true}
                 />
             </label>
             <label>
