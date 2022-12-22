@@ -19,61 +19,60 @@ export default function MapWrapper({ regionView, events, setShowSearch }) {
     const mapRef = useRef();
 
     useEffect(() => {
-        if (!mapRef.current) {
-            const markers = new VectorLayer({
-                source: new VectorSource({
-                    features: [],
+        if (mapRef.current) return;
+        const markers = new VectorLayer({
+            source: new VectorSource({
+                features: [],
+            }),
+            style: new Style({
+                image: new Icon({
+                    src: "https://docs.maptiler.com/openlayers/default-marker/marker-icon.png",
+                    anchor: [0.5, 1],
                 }),
-                style: new Style({
-                    image: new Icon({
-                        src: "https://docs.maptiler.com/openlayers/default-marker/marker-icon.png",
-                        anchor: [0.5, 1],
-                    }),
+            }),
+        });
+        setMarkerSource(markers.getSource());
+        const initialMap = new Map({
+            target: mapElement.current,
+            layers: [
+                new MapboxVector({
+                    styleUrl: "mapbox://styles/mapbox/streets-v12",
+                    accessToken:
+                        "pk.eyJ1IjoiZ3JhbnRsajEzMDAiLCJhIjoiY2xic2ZmZXNsMDJlNDNvcGY5Z2x4aTlvdiJ9.qfeMh-gZ1kixcbZQNKI99w",
                 }),
-            });
-            setMarkerSource(markers.getSource());
-            const initialMap = new Map({
-                target: mapElement.current,
-                layers: [
-                    new MapboxVector({
-                        styleUrl: "mapbox://styles/mapbox/streets-v12",
-                        accessToken:
-                            "pk.eyJ1IjoiZ3JhbnRsajEzMDAiLCJhIjoiY2xic2ZmZXNsMDJlNDNvcGY5Z2x4aTlvdiJ9.qfeMh-gZ1kixcbZQNKI99w",
-                    }),
-                    markers,
+                markers,
+            ],
+            view: new View({
+                projection: "EPSG:3857",
+                center: [0, 0],
+                zoom: 2,
+            }),
+            controls: [],
+        });
+        if (regionView) {
+            const extent = transformExtent(
+                [
+                    regionView.minLon,
+                    regionView.minLat,
+                    regionView.maxLon,
+                    regionView.maxLat,
                 ],
-                view: new View({
-                    projection: "EPSG:3857",
-                    center: [0, 0],
-                    zoom: 2,
-                }),
-                controls: [],
-            });
-            if (regionView) {
-                const extent = transformExtent(
-                    [
-                        regionView.minLon,
-                        regionView.minLat,
-                        regionView.maxLon,
-                        regionView.maxLat,
-                    ],
-                    "EPSG:4326",
-                    "EPSG:3857"
-                );
-                initialMap.getView().fit(extent);
-            }
-            const overlay = new Overlay({
-                element: document.getElementById("popup"),
-                positioning: "bottom-center",
-                offset: [0, -50],
-            });
-            overlaySource.current = overlay;
-            initialMap.addOverlay(overlay);
-            initialMap.on("click", handleMapClick);
-            initialMap.on("pointermove", handlePointerMove);
-            mapRef.current = initialMap;
-            setMap(initialMap);
+                "EPSG:4326",
+                "EPSG:3857"
+            );
+            initialMap.getView().fit(extent);
         }
+        const overlay = new Overlay({
+            element: document.getElementById("popup"),
+            positioning: "bottom-center",
+            offset: [0, -50],
+        });
+        overlaySource.current = overlay;
+        initialMap.addOverlay(overlay);
+        initialMap.on("click", handleMapClick);
+        initialMap.on("pointermove", handlePointerMove);
+        mapRef.current = initialMap;
+        setMap(initialMap);
         // eslint-disable-next-line
     }, []);
 
@@ -89,7 +88,8 @@ export default function MapWrapper({ regionView, events, setShowSearch }) {
                 "EPSG:4326",
                 "EPSG:3857"
             );
-            map.getView().fit(extent, { duration: 2000 });
+            //map.getView().fit(extent, { duration: 2000 });
+            map.getView().fit(extent);
         }
         // eslint-disable-next-line
     }, [regionView]);
@@ -119,12 +119,17 @@ export default function MapWrapper({ regionView, events, setShowSearch }) {
             }
         );
         if (hovered instanceof Feature) {
+            var clickedon = mapRef.current.getCoordinateFromPixel(e.pixel);
+            var offset = Math.floor(clickedon[0] / 40075016.68 + 0.5);
             const coord = hovered.getGeometry().getCoordinates();
+            coord[0] += offset * 20037508.34 * 2;
             let container = document.getElementById("popup");
             container.innerHTML = hovered.get("event").title;
+            e.map.getTargetElement().style.cursor = "pointer";
             overlaySource.current.setPosition(coord);
         } else {
             overlaySource.current.setPosition(undefined);
+            e.map.getTargetElement().style.cursor = "";
         }
     }
 
@@ -136,19 +141,30 @@ export default function MapWrapper({ regionView, events, setShowSearch }) {
             }
         );
         if (clicked instanceof Feature) {
-            console.log(clicked.get("event"));
             setCurrentEvent(clicked.get("event"));
             setShowSearch(false);
         } else {
-            setCurrentEvent(null);
-            setShowSearch(true);
+            closeEventPreview();
         }
+    }
+
+    function closeEventPreview() {
+        setCurrentEvent(null);
+        setShowSearch(true);
     }
 
     return (
         <div ref={mapElement} className={styles.map}>
             <div id="popup" className={styles.popup}></div>
-            <EventPreview event={currentEvent} setEvent={setCurrentEvent} />
+            {events === "loading" && (
+                <div className={styles.loading}>
+                    <div className={styles.spinner} />
+                </div>
+            )}
+            <EventPreview
+                event={currentEvent}
+                closeEventPreview={closeEventPreview}
+            />
         </div>
     );
 }

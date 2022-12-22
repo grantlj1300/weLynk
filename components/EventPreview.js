@@ -3,14 +3,14 @@ import styles from "../styles/EventPreview.module.css";
 import Image from "next/image";
 import { AiOutlineClose } from "react-icons/ai";
 
-export default function EventPreview({ event, setEvent }) {
+export default function EventPreview({ event, closeEventPreview }) {
     return event ? (
         <div className={styles.infoBox}>
             <div className={styles.imageContainer}>
                 <AiOutlineClose
                     className={styles.closeIcon}
                     size={25}
-                    onClick={() => setEvent(false)}
+                    onClick={() => closeEventPreview()}
                 />
                 <Image
                     src="/assets/img/temp.jpg"

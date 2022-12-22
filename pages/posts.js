@@ -6,8 +6,8 @@ import PlaceSearch from "../components/PlaceSearch";
 
 export default function Posts() {
     const [regionView, setRegionView] = useState(null);
-    const [events, setEvents] = useState([]);
-    const [showSearch, setShowSearch] = useState(true);
+    const [events, setEvents] = useState("loading");
+    const [showSearch, setShowSearch] = useState(false);
 
     async function getEvents() {
         try {
@@ -16,6 +16,7 @@ export default function Posts() {
             });
             const data = await res.json();
             setEvents(data);
+            setShowSearch(true);
         } catch (error) {
             console.log(error);
         }
