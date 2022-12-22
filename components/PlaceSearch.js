@@ -1,7 +1,12 @@
 import React, { useRef, useState } from "react";
 import { Autocomplete } from "@react-google-maps/api";
 
-export default function PlaceSearch({ style, handlePlaceSelect, showSearch }) {
+export default function PlaceSearch({
+    idStyle,
+    classStyle,
+    handlePlaceSelect,
+    showSearch,
+}) {
     const [query, setQuery] = useState("");
     const autoCompleteRef = useRef(null);
 
@@ -19,12 +24,8 @@ export default function PlaceSearch({ style, handlePlaceSelect, showSearch }) {
             fields={["address_components", "formatted_address", "geometry"]}
         >
             <input
-                className={style}
-                style={
-                    showSearch
-                        ? { visibility: "visible" }
-                        : { visibility: "hidden" }
-                }
+                id={idStyle}
+                className={showSearch ? classStyle : undefined}
                 ref={autoCompleteRef}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search a location"

@@ -43,7 +43,8 @@ export default function Posts() {
                 <title>MeetUp | Posts</title>
             </Head>
             <PlaceSearch
-                style={styles.searchBox}
+                idStyle={styles.searchBox}
+                classStyle={styles.showBox}
                 handlePlaceSelect={handlePlaceSelect}
                 showSearch={showSearch}
             />
