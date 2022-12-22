@@ -23,6 +23,7 @@ export default function Posts() {
     }
 
     function handlePlaceSelect(addressObject) {
+        if (!addressObject.geometry) return;
         const newView = {
             maxLon: addressObject.geometry.viewport.getNorthEast().lng(),
             minLon: addressObject.geometry.viewport.getSouthWest().lng(),

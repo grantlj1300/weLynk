@@ -6,6 +6,11 @@ const postSchema = new Schema({
         required: true,
         trim: true,
     },
+    photoURL: {
+        type: String,
+        required: false,
+        trim: true,
+    },
     address: {
         type: String,
         required: true,

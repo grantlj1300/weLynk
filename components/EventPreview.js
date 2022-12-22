@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styles from "../styles/EventPreview.module.css";
 import Image from "next/image";
 import { AiOutlineClose } from "react-icons/ai";
@@ -13,7 +13,11 @@ export default function EventPreview({ event, closeEventPreview }) {
                     onClick={() => closeEventPreview()}
                 />
                 <Image
-                    src="/assets/img/temp.jpg"
+                    src={
+                        event?.photoURL
+                            ? event.photoURL
+                            : "/assets/img/img-not-available.jpg"
+                    }
                     alt="event"
                     fill={true}
                     className={styles.image}

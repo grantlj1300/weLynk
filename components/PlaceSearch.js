@@ -21,7 +21,12 @@ export default function PlaceSearch({
         <Autocomplete
             onLoad={(ref) => (autoCompleteRef.current = ref)}
             onPlaceChanged={selectPlace}
-            fields={["address_components", "formatted_address", "geometry"]}
+            fields={[
+                "address_components",
+                "formatted_address",
+                "geometry",
+                "photos",
+            ]}
         >
             <input
                 id={idStyle}

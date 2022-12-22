@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import styles from "../styles/CreatePost.module.css";
 import PlaceSearch from "./PlaceSearch";
+import Image from "next/image";
 
 export default function CreatePost() {
     const [formData, setFormData] = useState({
         title: "",
+        photoURL: "",
         address: "",
         lon: "",
         lat: "",
@@ -12,6 +14,8 @@ export default function CreatePost() {
         date: "",
         time: "",
     });
+    const [imageOptions, setImageOptions] = useState([]);
+    const [selectedImg, setSelectedImg] = useState();
 
     function handleChange(e) {
         const { name, value } = e.target;
@@ -25,6 +29,7 @@ export default function CreatePost() {
             lon: addressObject.geometry.location.lng(),
             lat: addressObject.geometry.location.lat(),
         }));
+        setImageOptions(addressObject.photos);
     }
 
     async function handleSubmit(e) {
@@ -49,6 +54,41 @@ export default function CreatePost() {
         }
     }
 
+    // function selectPhoto(idx, image) {
+    //     setSelectedImg(idx);
+    // setFormData((prev) => ({
+    //     ...prev,
+    //     photoURL: image.getURL(),
+    // }));
+    // }
+
+    function getImageOptionStyle(match) {
+        if (match) return `${styles.imageOption} ${styles.selected}`;
+        else return styles.imageOption;
+    }
+
+    const googlePhotos =
+        imageOptions &&
+        imageOptions.map((image, idx) => {
+            const url = image.getUrl();
+            return (
+                <Image
+                    src={url}
+                    alt="googleOpt"
+                    className={getImageOptionStyle(url === formData.photoURL)}
+                    width={300}
+                    height={200}
+                    key={idx}
+                    onClick={() =>
+                        setFormData((prev) => ({
+                            ...prev,
+                            photoURL: url,
+                        }))
+                    }
+                />
+            );
+        });
+
     return (
         <form className={styles.formContent} onSubmit={handleSubmit}>
             <label>
@@ -67,6 +107,7 @@ export default function CreatePost() {
                     showSearch={true}
                 />
             </label>
+            <div className={styles.imageOptions}>{googlePhotos}</div>
             <label>
                 Description:
                 <input

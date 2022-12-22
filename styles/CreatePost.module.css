@@ -2,3 +2,18 @@
     display: flex;
     flex-direction: column;
 }
+
+.imageOption {
+    object-fit: cover;
+    margin: 10px;
+    cursor: pointer;
+}
+
+.selected {
+    border: 5px solid green;
+}
+
+.imageOptions {
+    white-space: nowrap;
+    overflow-x: scroll;
+}
