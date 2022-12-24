@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import styles from "../styles/CreatePost.module.css";
 import PlaceSearch from "./PlaceSearch";
 import Image from "next/image";
+import { AiTwotoneCalendar } from "react-icons/ai";
+import { IoLocationSharp } from "react-icons/io5";
 
 export default function CreatePost() {
     const [formData, setFormData] = useState({
@@ -15,7 +17,6 @@ export default function CreatePost() {
         time: "",
     });
     const [imageOptions, setImageOptions] = useState([]);
-    const [selectedImg, setSelectedImg] = useState();
 
     function handleChange(e) {
         const { name, value } = e.target;
@@ -54,14 +55,6 @@ export default function CreatePost() {
         }
     }
 
-    // function selectPhoto(idx, image) {
-    //     setSelectedImg(idx);
-    // setFormData((prev) => ({
-    //     ...prev,
-    //     photoURL: image.getURL(),
-    // }));
-    // }
-
     function getImageOptionStyle(match) {
         if (match) return `${styles.imageOption} ${styles.selected}`;
         else return styles.imageOption;
@@ -90,52 +83,95 @@ export default function CreatePost() {
         });
 
     return (
-        <form className={styles.formContent} onSubmit={handleSubmit}>
-            <label>
-                Event Name:
-                <input
-                    type="text"
-                    name="title"
-                    value={formData.name}
-                    onChange={handleChange}
-                />
-            </label>
-            <label>
-                Address:
-                <PlaceSearch
-                    handlePlaceSelect={handlePlaceSelect}
-                    showSearch={true}
-                />
-            </label>
-            <div className={styles.imageOptions}>{googlePhotos}</div>
-            <label>
-                Description:
-                <input
-                    type="text"
-                    name="description"
-                    value={formData.description}
-                    onChange={handleChange}
-                />
-            </label>
-            <label>
-                Date:
-                <input
-                    type="text"
-                    name="date"
-                    value={formData.date}
-                    onChange={handleChange}
-                />
-            </label>
-            <label>
-                Time:
-                <input
-                    type="text"
-                    name="time"
-                    value={formData.time}
-                    onChange={handleChange}
-                />
-            </label>
-            <input type="submit" />
-        </form>
+        <div className={styles.container}>
+            <h1>Build Your Event</h1>
+            <div className={styles.body}>
+                <form className={styles.formContent} onSubmit={handleSubmit}>
+                    <label>
+                        Event Name:
+                        <input
+                            type="text"
+                            name="title"
+                            value={formData.name}
+                            onChange={handleChange}
+                        />
+                    </label>
+                    <label>
+                        Address:
+                        <PlaceSearch
+                            handlePlaceSelect={handlePlaceSelect}
+                            showSearch={true}
+                        />
+                    </label>
+                    <div className={styles.imageOptions}>{googlePhotos}</div>
+                    <label>
+                        Description:
+                        <input
+                            type="text"
+                            name="description"
+                            value={formData.description}
+                            onChange={handleChange}
+                        />
+                    </label>
+                    <label>
+                        Date:
+                        <input
+                            type="text"
+                            name="date"
+                            value={formData.date}
+                            onChange={handleChange}
+                        />
+                    </label>
+                    <label>
+                        Time:
+                        <input
+                            type="text"
+                            name="time"
+                            value={formData.time}
+                            onChange={handleChange}
+                        />
+                    </label>
+                    <input type="submit" />
+                </form>
+                <div className={styles.infoBox}>
+                    <div className={styles.imageContainer}>
+                        <Image
+                            src={
+                                formData.photoURL
+                                    ? formData.photoURL
+                                    : "/assets/img/img-not-available.jpg"
+                            }
+                            alt="event"
+                            fill={true}
+                            className={styles.image}
+                            sizes="100%"
+                        />
+                    </div>
+                    <div className={styles.previewContent}>
+                        <div className={styles.previewHeader}>
+                            <h1>{formData.title || "Event Title"}</h1>
+                            <h5 className={styles.subheader}>
+                                <AiTwotoneCalendar
+                                    size={20}
+                                    className={styles.bodyIcon}
+                                />
+                                {formData.date || "Date"} -{" "}
+                                {formData.time || "Time"}
+                            </h5>
+                            <h5 className={styles.subheader}>
+                                <IoLocationSharp
+                                    size={20}
+                                    className={styles.bodyIcon}
+                                />
+                                {formData.address || "Address"}
+                            </h5>
+                        </div>
+                        <p className={styles.description}>
+                            {formData.description || "Description"}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
     );
 }

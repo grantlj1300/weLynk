@@ -1,7 +1,8 @@
 import React from "react";
 import styles from "../styles/EventPreview.module.css";
 import Image from "next/image";
-import { AiOutlineClose } from "react-icons/ai";
+import { AiOutlineClose, AiTwotoneCalendar } from "react-icons/ai";
+import { IoLocationSharp } from "react-icons/io5";
 
 export default function EventPreview({ event, closeEventPreview }) {
     return (
@@ -25,12 +26,25 @@ export default function EventPreview({ event, closeEventPreview }) {
                 />
             </div>
             {event && (
-                <div className={styles.previewBody}>
-                    <h1>{event.title}</h1>
-                    <h5>
-                        {event.time} {event.date}
-                    </h5>
-                    <p>{event.description}</p>
+                <div className={styles.previewContent}>
+                    <div className={styles.previewHeader}>
+                        <h1>{event.title}</h1>
+                        <h5 className={styles.subheader}>
+                            <AiTwotoneCalendar
+                                size={20}
+                                className={styles.bodyIcon}
+                            />
+                            {event.date} - {event.time}
+                        </h5>
+                        <h5 className={styles.subheader}>
+                            <IoLocationSharp
+                                size={20}
+                                className={styles.bodyIcon}
+                            />
+                            {event.address}
+                        </h5>
+                    </div>
+                    <p className={styles.description}>{event.description}</p>
                 </div>
             )}
         </div>
