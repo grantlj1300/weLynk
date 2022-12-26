@@ -1,11 +1,16 @@
 import React, { useState } from "react";
-import styles from "../styles/CreatePost.module.css";
-import PlaceSearch from "./PlaceSearch";
 import Image from "next/image";
+import styles from "../styles/CreatePost.module.css";
 import { AiTwotoneCalendar } from "react-icons/ai";
 import { IoLocationSharp } from "react-icons/io5";
+import EventDetails from "./CreateForm/EventDetails";
+import LocationDetails from "./CreateForm/LocationDetails";
+import PhotoSelection from "./CreateForm/PhotoSelection";
+import Success from "./CreateForm/Success";
+import ProgressBar from "./CreateForm/ProgressBar";
 
 export default function CreatePost() {
+    const [formStep, setFormStep] = useState(1);
     const [formData, setFormData] = useState({
         title: "",
         photoURL: "",
@@ -16,11 +21,72 @@ export default function CreatePost() {
         date: "",
         time: "",
     });
-    const [imageOptions, setImageOptions] = useState([]);
+    const [stepStyles, setStepStyles] = useState([
+        `${styles.progressIconContainer} ${styles.completed}`,
+        `${styles.progressIconContainer}`,
+        `${styles.progressIconContainer}`,
+        `${styles.progressIconContainer}`,
+    ]);
+
+    function prevStep() {
+        const newStyles = stepStyles.map((style, idx) =>
+            idx < formStep - 1
+                ? `${styles.progressIconContainer} ${styles.completed}`
+                : `${styles.progressIconContainer}`
+        );
+        setStepStyles(newStyles);
+        setFormStep((prev) => prev - 1);
+    }
+
+    function nextStep() {
+        setTimeout(() => {
+            const newStyles = stepStyles.map((style, idx) =>
+                idx <= formStep
+                    ? `${styles.progressIconContainer} ${styles.completed}`
+                    : `${styles.progressIconContainer}`
+            );
+            setStepStyles(newStyles);
+        }, 800);
+        setFormStep((prev) => prev + 1);
+    }
 
     function handleChange(e) {
-        const { name, value } = e.target;
+        let { name, value } = e.target;
         setFormData((prevData) => ({ ...prevData, [name]: value }));
+    }
+
+    function renderForm() {
+        switch (formStep) {
+            case 1:
+                return (
+                    <EventDetails
+                        nextStep={nextStep}
+                        handleChange={handleChange}
+                        formData={formData}
+                    />
+                );
+            case 2:
+                return (
+                    <LocationDetails
+                        prevStep={prevStep}
+                        nextStep={nextStep}
+                        handlePlaceSelect={handlePlaceSelect}
+                        formData={formData}
+                    />
+                );
+            case 3:
+                return (
+                    <PhotoSelection
+                        prevStep={prevStep}
+                        nextStep={nextStep}
+                        handleChange={handleChange}
+                        formData={formData}
+                    />
+                );
+            case 4:
+                return <Success />;
+            default:
+        }
     }
 
     function handlePlaceSelect(addressObject) {
@@ -30,7 +96,6 @@ export default function CreatePost() {
             lon: addressObject.geometry.location.lng(),
             lat: addressObject.geometry.location.lat(),
         }));
-        setImageOptions(addressObject.photos);
     }
 
     async function handleSubmit(e) {
@@ -55,85 +120,18 @@ export default function CreatePost() {
         }
     }
 
-    function getImageOptionStyle(match) {
-        if (match) return `${styles.imageOption} ${styles.selected}`;
-        else return styles.imageOption;
-    }
-
-    const googlePhotos =
-        imageOptions &&
-        imageOptions.map((image, idx) => {
-            const url = image.getUrl();
-            return (
-                <Image
-                    src={url}
-                    alt="googleOpt"
-                    className={getImageOptionStyle(url === formData.photoURL)}
-                    width={300}
-                    height={200}
-                    key={idx}
-                    onClick={() =>
-                        setFormData((prev) => ({
-                            ...prev,
-                            photoURL: url,
-                        }))
-                    }
-                />
-            );
-        });
+    const [year, month, day] = formData.date.split("-");
+    const formattedDate = month + "/" + day + "/" + year;
 
     return (
         <div className={styles.container}>
             <h1>Build Your Event</h1>
             <div className={styles.body}>
-                <form className={styles.formContent} onSubmit={handleSubmit}>
-                    <label>
-                        Event Name:
-                        <input
-                            type="text"
-                            name="title"
-                            value={formData.name}
-                            onChange={handleChange}
-                        />
-                    </label>
-                    <label>
-                        Address:
-                        <PlaceSearch
-                            handlePlaceSelect={handlePlaceSelect}
-                            showSearch={true}
-                        />
-                    </label>
-                    <div className={styles.imageOptions}>{googlePhotos}</div>
-                    <label>
-                        Description:
-                        <input
-                            type="text"
-                            name="description"
-                            value={formData.description}
-                            onChange={handleChange}
-                        />
-                    </label>
-                    <label>
-                        Date:
-                        <input
-                            type="text"
-                            name="date"
-                            value={formData.date}
-                            onChange={handleChange}
-                        />
-                    </label>
-                    <label>
-                        Time:
-                        <input
-                            type="text"
-                            name="time"
-                            value={formData.time}
-                            onChange={handleChange}
-                        />
-                    </label>
-                    <input type="submit" />
-                </form>
-                <div className={styles.infoBox}>
+                <div className={styles.formContainer}>
+                    <ProgressBar step={formStep} stepStyles={stepStyles} />
+                    {renderForm()}
+                </div>
+                <div className={styles.previewContainer}>
                     <div className={styles.imageContainer}>
                         <Image
                             src={
@@ -155,7 +153,7 @@ export default function CreatePost() {
                                     size={20}
                                     className={styles.bodyIcon}
                                 />
-                                {formData.date || "Date"} -{" "}
+                                {formData.date ? formattedDate : "Date"} -{" "}
                                 {formData.time || "Time"}
                             </h5>
                             <h5 className={styles.subheader}>

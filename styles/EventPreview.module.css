@@ -11,6 +11,7 @@
     border-radius: 25px 0px 0px 25px;
     overflow-x: hidden;
     transition: 0.3s;
+    max-width: 450px;
 }
 
 #infoBox.show {
@@ -33,7 +34,7 @@
 }
 
 .closeIcon {
-    position: relative;
+    position: absolute;
     z-index: 1;
     margin: 10px;
     color: white;

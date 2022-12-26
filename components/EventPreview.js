@@ -1,12 +1,14 @@
 import React from "react";
-import styles from "../styles/EventPreview.module.css";
 import Image from "next/image";
+import styles from "../styles/EventPreview.module.css";
 import { AiOutlineClose, AiTwotoneCalendar } from "react-icons/ai";
 import { IoLocationSharp } from "react-icons/io5";
 
-export default function EventPreview({ event, closeEventPreview }) {
+export default function EventPreview({ event, show, closeEventPreview }) {
+    const [year, month, day] = event.split("-");
+    const formattedDate = month + "/" + day + "/" + year;
     return (
-        <div id={styles.infoBox} className={event ? styles.show : undefined}>
+        <div id={styles.infoBox} className={show ? styles.show : undefined}>
             <div className={styles.imageContainer}>
                 <AiOutlineClose
                     className={styles.closeIcon}
@@ -34,7 +36,7 @@ export default function EventPreview({ event, closeEventPreview }) {
                                 size={20}
                                 className={styles.bodyIcon}
                             />
-                            {event.date} - {event.time}
+                            {formattedDate} - {event.time}
                         </h5>
                         <h5 className={styles.subheader}>
                             <IoLocationSharp

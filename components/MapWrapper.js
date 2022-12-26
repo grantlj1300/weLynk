@@ -14,6 +14,7 @@ export default function MapWrapper({ regionView, events, setShowSearch }) {
     const [map, setMap] = useState();
     const [currentEvent, setCurrentEvent] = useState();
     const [markerSource, setMarkerSource] = useState();
+    const [showPreview, setShowPreview] = useState(false);
     const overlaySource = useRef();
     const mapElement = useRef();
     const mapRef = useRef();
@@ -143,13 +144,18 @@ export default function MapWrapper({ regionView, events, setShowSearch }) {
         if (clicked instanceof Feature) {
             setCurrentEvent(clicked.get("event"));
             setShowSearch(false);
+            setShowPreview(true);
         } else {
             closeEventPreview();
         }
     }
 
     function closeEventPreview() {
-        setCurrentEvent(null);
+        setShowPreview(false);
+        const prevEvent = currentEvent;
+        setTimeout(() => {
+            if (currentEvent === prevEvent) setCurrentEvent(null);
+        }, 300);
         setShowSearch(true);
     }
 
@@ -163,6 +169,7 @@ export default function MapWrapper({ regionView, events, setShowSearch }) {
             )}
             <EventPreview
                 event={currentEvent}
+                show={showPreview}
                 closeEventPreview={closeEventPreview}
             />
         </div>
