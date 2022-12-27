@@ -1,9 +1,10 @@
 import React from "react";
 import styles from "../../styles/CreatePost.module.css";
+import { MdNavigateNext } from "react-icons/md";
 
 export default function EventDetails({ nextStep, handleChange, formData }) {
     return (
-        <div className={styles.detailsContainer}>
+        <div className={styles.formBody}>
             <label className={styles.label}>Event Name:</label>
             <input
                 className={styles.input}
@@ -24,7 +25,7 @@ export default function EventDetails({ nextStep, handleChange, formData }) {
             <label className={styles.label}>Time:</label>
             <input
                 className={styles.input}
-                type="text"
+                type="time"
                 name="time"
                 value={formData.time}
                 onChange={handleChange}
@@ -37,7 +38,14 @@ export default function EventDetails({ nextStep, handleChange, formData }) {
                 value={formData.description}
                 onChange={handleChange}
             />
-            <button onClick={nextStep}>Next</button>
+            <div className={styles.buttonContainer}>
+                <div style={{ width: 150 }} />
+                <MdNavigateNext
+                    className={styles.button}
+                    onClick={nextStep}
+                    size={35}
+                />
+            </div>
         </div>
     );
 }

@@ -13,7 +13,7 @@ export default function CreatePost() {
     const [formStep, setFormStep] = useState(1);
     const [formData, setFormData] = useState({
         title: "",
-        photoURL: "",
+        photo: "",
         address: "",
         lon: "",
         lat: "",
@@ -79,7 +79,7 @@ export default function CreatePost() {
                     <PhotoSelection
                         prevStep={prevStep}
                         nextStep={nextStep}
-                        handleChange={handleChange}
+                        handlePhotoCrop={handlePhotoCrop}
                         formData={formData}
                     />
                 );
@@ -95,6 +95,13 @@ export default function CreatePost() {
             address: addressObject.formatted_address,
             lon: addressObject.geometry.location.lng(),
             lat: addressObject.geometry.location.lat(),
+        }));
+    }
+
+    function handlePhotoCrop(photo) {
+        setFormData((prevData) => ({
+            ...prevData,
+            photo: photo,
         }));
     }
 
@@ -122,6 +129,10 @@ export default function CreatePost() {
 
     const [year, month, day] = formData.date.split("-");
     const formattedDate = month + "/" + day + "/" + year;
+    let formattedTime = formData.time.split(":");
+    const timeOfDay = formattedTime[0] < 12 ? " AM" : " PM";
+    const hours = formattedTime[0] % 12 || 12;
+    formattedTime = hours + ":" + formattedTime[1] + timeOfDay;
 
     return (
         <div className={styles.container}>
@@ -135,8 +146,8 @@ export default function CreatePost() {
                     <div className={styles.imageContainer}>
                         <Image
                             src={
-                                formData.photoURL
-                                    ? formData.photoURL
+                                formData.photo
+                                    ? formData.photo
                                     : "/assets/img/img-not-available.jpg"
                             }
                             alt="event"
@@ -154,7 +165,7 @@ export default function CreatePost() {
                                     className={styles.bodyIcon}
                                 />
                                 {formData.date ? formattedDate : "Date"} -{" "}
-                                {formData.time || "Time"}
+                                {formData.time ? formattedTime : "Time"}
                             </h5>
                             <h5 className={styles.subheader}>
                                 <IoLocationSharp

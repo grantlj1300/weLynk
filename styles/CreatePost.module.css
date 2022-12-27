@@ -18,9 +18,9 @@
     flex-direction: column;
     box-sizing: border-box;
     background-color: rgb(255, 255, 255);
-    height: 500px;
-    min-width: 300px;
-    width: 300px;
+    height: 550px;
+    width: 50%;
+    min-width: 400px;
     margin: 0px 25px 0px 25px;
     padding: 25px;
     box-shadow: 0px 10px 50px -7px rgba(158, 157, 157, 0.75);
@@ -42,6 +42,7 @@
 .progressBarContainer {
     display: flex;
     align-self: center;
+    width: 80%;
 }
 
 .progressStep {
@@ -64,7 +65,7 @@
 
 .progressIconContainer.completed {
     z-index: 1;
-    border: 3px solid rgb(53, 243, 43);
+    border: 3px solid rgb(57, 162, 51);
 }
 
 .progressIcon {
@@ -73,9 +74,9 @@
 
 .progressLine {
     margin-top: 20px;
-    width: 35px;
+    width: 100%;
     height: 4px;
-    background: linear-gradient(to right, rgb(53, 243, 43) 50%, rgb(200, 200, 200) 50%);
+    background: linear-gradient(to right, rgb(57, 162, 51) 50%, rgb(200, 200, 200) 50%);
     background-size: 200% 100%;
     background-position: right bottom;
     transition: all 0.8s ease-out;
@@ -85,10 +86,31 @@
     background-position: left bottom;
 }
 
-.detailsContainer {
+.formBody {
     display: flex;
     flex-direction: column;
     margin-top: 25px;
+}
+
+.buttonContainer {
+    margin-top: 25px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: flex-end;
+}
+
+.button {
+    color: rgba(180, 90, 180, 0.633);
+    width: 150px;
+    cursor: pointer;
+    border: 1px solid rgba(180, 90, 180, 0.633);
+    border-radius: 15px;
+}
+
+.cropArea {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
 }
 
 .previewContainer {

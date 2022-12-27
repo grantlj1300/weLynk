@@ -5,8 +5,8 @@ import { AiOutlineClose, AiTwotoneCalendar } from "react-icons/ai";
 import { IoLocationSharp } from "react-icons/io5";
 
 export default function EventPreview({ event, show, closeEventPreview }) {
-    const [year, month, day] = event.split("-");
-    const formattedDate = month + "/" + day + "/" + year;
+    // const [year, month, day] = event.split("-");
+    // const formattedDate = month + "/" + day + "/" + year;
     return (
         <div id={styles.infoBox} className={show ? styles.show : undefined}>
             <div className={styles.imageContainer}>
@@ -36,7 +36,7 @@ export default function EventPreview({ event, show, closeEventPreview }) {
                                 size={20}
                                 className={styles.bodyIcon}
                             />
-                            {formattedDate} - {event.time}
+                            {event.date} - {event.time}
                         </h5>
                         <h5 className={styles.subheader}>
                             <IoLocationSharp

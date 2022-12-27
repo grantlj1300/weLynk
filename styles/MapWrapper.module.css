@@ -4,6 +4,12 @@
     position: relative;
 }
 
+.miniMap {
+    width: 100%;
+    height: 300px;
+    position: relative;
+}
+
 .loading {
     display: flex;
     align-items: center;

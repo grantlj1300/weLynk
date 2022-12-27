@@ -1,11 +1,107 @@
-import React from "react";
+import React, { useState, useRef } from "react";
+import Cropper from "react-cropper";
+import "cropperjs/dist/cropper.css";
+import styles from "../../styles/CreatePost.module.css";
+import { MdNavigateBefore, MdNavigateNext } from "react-icons/md";
 
-export default function PhotoSelection({ prevStep, nextStep, formData }) {
+export default function PhotoSelection({
+    prevStep,
+    nextStep,
+    handlePhotoCrop,
+    formData,
+}) {
+    const [srcImg, setSrcImg] = useState();
+    const [croppedImg, setCroppedImg] = useState();
+    const cropperRef = useRef(null);
+
+    const onCrop = () => {
+        const imageElement = cropperRef?.current;
+        const cropper = imageElement?.cropper;
+        const newURL = cropper.getCroppedCanvas().toDataURL();
+        setCroppedImg(newURL);
+        handlePhotoCrop(newURL);
+    };
+
+    function handlePhotoChange(e) {
+        if (e.target.files[0]) {
+            setSrcImg(URL.createObjectURL(e.target.files[0]));
+        }
+    }
+
+    function handleLoadAvatar(e) {
+        var file = e.target.files[0];
+        var reader = new FileReader();
+        reader.onload = (e) => {
+            var img = document.createElement("img");
+            img.onload = () => {
+                var canvas = document.createElement("canvas");
+                var ctx = canvas.getContext("2d");
+                ctx.drawImage(img, 0, 0);
+
+                var MAX_WIDTH = 300;
+                var MAX_HEIGHT = 300;
+                var width = img.width;
+                var height = img.height;
+
+                if (width > height) {
+                    if (width > MAX_WIDTH) {
+                        height *= MAX_WIDTH / width;
+                        width = MAX_WIDTH;
+                    }
+                } else {
+                    if (height > MAX_HEIGHT) {
+                        width *= MAX_HEIGHT / height;
+                        height = MAX_HEIGHT;
+                    }
+                }
+                canvas.width = width;
+                canvas.height = height;
+                var ctx = canvas.getContext("2d");
+                ctx.drawImage(img, 0, 0, width, height);
+                var dataurl = canvas.toDataURL("image/png");
+                setSrcImg(dataurl);
+            };
+            img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+
     return (
-        <div>
-            PhotoSelection
-            <button onClick={prevStep}>Previous</button>
-            <button onClick={nextStep}>Next</button>
+        <div className={styles.formBody}>
+            <label className={styles.label}>Upload a photo:</label>
+            <input type="file" accept="image/*" onChange={handlePhotoChange} />
+            {srcImg && (
+                <div className={styles.cropArea}>
+                    <Cropper
+                        src={srcImg}
+                        style={{ height: 300, width: 300 }}
+                        initialAspectRatio={16 / 11}
+                        aspectRatio={16 / 11}
+                        guides={false}
+                        crop={onCrop}
+                        ref={cropperRef}
+                        viewMode={1}
+                        minCropBoxHeight={100}
+                        minCropBoxWidth={100}
+                        background={false}
+                        responsive={true}
+                        autoCropArea={1}
+                        checkOrientation={false}
+                    />
+                </div>
+            )}
+            <div className={styles.buttonContainer}>
+                <MdNavigateBefore
+                    className={styles.button}
+                    onClick={prevStep}
+                    size={35}
+                />
+                <MdNavigateNext
+                    className={styles.button}
+                    onClick={nextStep}
+                    size={35}
+                />
+            </div>
         </div>
     );
 }
