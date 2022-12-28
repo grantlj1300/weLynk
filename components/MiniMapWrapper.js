@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import styles from "../styles/MapWrapper.module.css";
-import { Map, View, Feature, Overlay } from "ol";
+import { Map, View, Feature } from "ol";
 import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
 import { fromLonLat, transform, transformExtent } from "ol/proj";
@@ -9,7 +9,7 @@ import { Point } from "ol/geom";
 import Style from "ol/style/Style";
 import Icon from "ol/style/Icon";
 
-export default function MiniMapWrapper({ regionView }) {
+export default function MiniMapWrapper({ regionView, pin, locationClick }) {
     const [map, setMap] = useState();
     const markerSource = useRef();
     const mapElement = useRef();
@@ -71,19 +71,19 @@ export default function MiniMapWrapper({ regionView }) {
     }, [regionView]);
 
     function handleMapClick(e) {
-        if (markerSource) {
+        const [lon, lat] = transform(e.coordinate, "EPSG:3857", "EPSG:4326");
+        locationClick(lon, lat);
+    }
+
+    useEffect(() => {
+        if (markerSource && pin.lat && pin.lon) {
             markerSource.current.clear();
-            const [lon, lat] = transform(
-                e.coordinate,
-                "EPSG:3857",
-                "EPSG:4326"
-            );
             const feature = new Feature({
-                geometry: new Point(fromLonLat([lon, lat])),
+                geometry: new Point(fromLonLat([pin.lon, pin.lat])),
             });
             markerSource.current.addFeature(feature);
         }
-    }
+    }, [pin]);
 
     return (
         <div ref={mapElement} className={styles.miniMap}>

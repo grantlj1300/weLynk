@@ -18,7 +18,7 @@
     flex-direction: column;
     box-sizing: border-box;
     background-color: rgb(255, 255, 255);
-    height: 550px;
+    height: 650px;
     width: 50%;
     min-width: 400px;
     margin: 0px 25px 0px 25px;
@@ -95,7 +95,7 @@
 .buttonContainer {
     margin-top: 25px;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: flex-end;
 }
 
@@ -105,6 +105,30 @@
     cursor: pointer;
     border: 1px solid rgba(180, 90, 180, 0.633);
     border-radius: 15px;
+}
+
+#searchBar {
+    width: 300px;
+    height: 25px;
+    padding-left: 3px;
+    font-size: 14pt;
+    text-overflow: ellipsis;
+    margin: 10px 0px 10px 0px;
+}
+
+.addressOptionsContainer {
+    display: flex;
+    overflow: scroll;
+    margin-top: 25px;
+}
+
+.addressOption {
+    white-space: nowrap;
+    cursor: pointer;
+    padding: 5px;
+    margin-right: 5px;
+    border: 1px solid black;
+    border-radius: 10px;
 }
 
 .cropArea {
@@ -117,9 +141,9 @@
     display: flex;
     flex-direction: column;
     background-color: rgb(255, 255, 255);
-    height: 550px;
-    min-width: 350px;
-    width: 350px;
+    height: 650px;
+    min-width: 400px;
+    width: 400px;
     margin: 0px 25px 0px 25px;
     box-shadow: 0px 10px 50px -7px rgba(158, 157, 157, 0.75);
     border-radius: 25px;

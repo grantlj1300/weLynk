@@ -6,7 +6,7 @@ const postSchema = new Schema({
         required: true,
         trim: true,
     },
-    photoURL: {
+    photo: {
         type: String,
         required: false,
         trim: true,

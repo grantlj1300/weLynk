@@ -1,6 +1,8 @@
 import dbConnect from "../../lib/mongodb";
 import Post from "../../models/postModel";
 
+export const config = { api: { bodyParser: { sizeLimit: "2mb" } } };
+
 export default async function handler(req, res) {
     const { method } = req;
     await dbConnect();

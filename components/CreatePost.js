@@ -71,6 +71,7 @@ export default function CreatePost() {
                         prevStep={prevStep}
                         nextStep={nextStep}
                         handlePlaceSelect={handlePlaceSelect}
+                        setFormData={setFormData}
                         formData={formData}
                     />
                 );
@@ -80,7 +81,7 @@ export default function CreatePost() {
                         prevStep={prevStep}
                         nextStep={nextStep}
                         handlePhotoCrop={handlePhotoCrop}
-                        formData={formData}
+                        postEvent={postEvent}
                     />
                 );
             case 4:
@@ -121,18 +122,22 @@ export default function CreatePost() {
                 body: JSON.stringify(formData),
             });
             const data = await res.json();
-            console.log(data);
+            return data;
         } catch (error) {
             console.log(error);
         }
     }
 
-    const [year, month, day] = formData.date.split("-");
-    const formattedDate = month + "/" + day + "/" + year;
-    let formattedTime = formData.time.split(":");
-    const timeOfDay = formattedTime[0] < 12 ? " AM" : " PM";
-    const hours = formattedTime[0] % 12 || 12;
-    formattedTime = hours + ":" + formattedTime[1] + timeOfDay;
+    function formatDate() {
+        const [year, month, day] = formData.date.split("-");
+        return month + "/" + day + "/" + year;
+    }
+    function formatTime() {
+        let formattedTime = formData.time.split(":");
+        const timeOfDay = formattedTime[0] < 12 ? " AM" : " PM";
+        const hours = formattedTime[0] % 12 || 12;
+        return hours + ":" + formattedTime[1] + timeOfDay;
+    }
 
     return (
         <div className={styles.container}>
@@ -164,8 +169,8 @@ export default function CreatePost() {
                                     size={20}
                                     className={styles.bodyIcon}
                                 />
-                                {formData.date ? formattedDate : "Date"} -{" "}
-                                {formData.time ? formattedTime : "Time"}
+                                {formData.date ? formatDate() : "Date"} -{" "}
+                                {formData.time ? formatTime() : "Time"}
                             </h5>
                             <h5 className={styles.subheader}>
                                 <IoLocationSharp

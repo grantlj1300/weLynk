@@ -5,8 +5,16 @@ import { AiOutlineClose, AiTwotoneCalendar } from "react-icons/ai";
 import { IoLocationSharp } from "react-icons/io5";
 
 export default function EventPreview({ event, show, closeEventPreview }) {
-    // const [year, month, day] = event.split("-");
-    // const formattedDate = month + "/" + day + "/" + year;
+    function formatDate() {
+        const [year, month, day] = event.date.split("-");
+        return month + "/" + day + "/" + year;
+    }
+    function formatTime() {
+        let formattedTime = event.time.split(":");
+        const timeOfDay = formattedTime[0] < 12 ? " AM" : " PM";
+        const hours = formattedTime[0] % 12 || 12;
+        return hours + ":" + formattedTime[1] + timeOfDay;
+    }
     return (
         <div id={styles.infoBox} className={show ? styles.show : undefined}>
             <div className={styles.imageContainer}>
@@ -17,8 +25,8 @@ export default function EventPreview({ event, show, closeEventPreview }) {
                 />
                 <Image
                     src={
-                        event?.photoURL
-                            ? event.photoURL
+                        event?.photo
+                            ? event.photo
                             : "/assets/img/img-not-available.jpg"
                     }
                     alt="event"
@@ -36,7 +44,7 @@ export default function EventPreview({ event, show, closeEventPreview }) {
                                 size={20}
                                 className={styles.bodyIcon}
                             />
-                            {event.date} - {event.time}
+                            {formatDate()} - {formatTime()}
                         </h5>
                         <h5 className={styles.subheader}>
                             <IoLocationSharp

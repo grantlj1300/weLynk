@@ -8,12 +8,16 @@ export default function LocationDetails({
     prevStep,
     nextStep,
     handlePlaceSelect,
+    setFormData,
     formData,
 }) {
     const [regionView, setRegionView] = useState(null);
+    const [addresses, setAddresses] = useState([]);
+    const geocoder = new google.maps.Geocoder();
 
     function selectPlace(addressObject) {
         if (!addressObject.geometry) return;
+        setAddresses([]);
         const newView = {
             maxLon: addressObject.geometry.viewport.getNorthEast().lng(),
             minLon: addressObject.geometry.viewport.getSouthWest().lng(),
@@ -24,16 +28,64 @@ export default function LocationDetails({
         handlePlaceSelect(addressObject);
     }
 
+    function locationClick(lon, lat) {
+        geocoder.geocode({ location: { lat: lat, lng: lon } }).then((res) => {
+            if (res.results[0]) {
+                setFormData((prevData) => ({
+                    ...prevData,
+                    lon: lon,
+                    lat: lat,
+                }));
+                const addressList = res.results.flatMap((location) =>
+                    location.types.includes("plus_code")
+                        ? []
+                        : location.formatted_address
+                );
+                setAddresses(addressList);
+            }
+        });
+    }
+
+    const addressOptions =
+        addresses &&
+        addresses.map((address, i) => (
+            <div
+                className={styles.addressOption}
+                key={i}
+                onClick={() =>
+                    setFormData((prevData) => ({
+                        ...prevData,
+                        address: addresses[i],
+                    }))
+                }
+            >
+                {address}
+            </div>
+        ));
+
+    function handleNext() {
+        const { address, lon, lat } = formData;
+        if (address && lon && lat) nextStep();
+    }
+
     return (
         <div className={styles.formBody}>
             <label className={styles.label}>
-                Address:
+                Search a Location:
                 <PlaceSearch
+                    idStyle={styles.searchBar}
                     handlePlaceSelect={selectPlace}
                     showSearch={true}
                 />
             </label>
-            <MiniMapWrapper regionView={regionView} />
+            <MiniMapWrapper
+                regionView={regionView}
+                pin={formData}
+                locationClick={locationClick}
+            />
+            <div className={styles.addressOptionsContainer}>
+                {addressOptions}
+            </div>
             <div className={styles.buttonContainer}>
                 <MdNavigateBefore
                     className={styles.button}
@@ -42,7 +94,7 @@ export default function LocationDetails({
                 />
                 <MdNavigateNext
                     className={styles.button}
-                    onClick={nextStep}
+                    onClick={handleNext}
                     size={35}
                 />
             </div>

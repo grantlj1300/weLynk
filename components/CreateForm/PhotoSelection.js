@@ -8,7 +8,7 @@ export default function PhotoSelection({
     prevStep,
     nextStep,
     handlePhotoCrop,
-    formData,
+    postEvent,
 }) {
     const [srcImg, setSrcImg] = useState();
     const [croppedImg, setCroppedImg] = useState();
@@ -22,10 +22,26 @@ export default function PhotoSelection({
         handlePhotoCrop(newURL);
     };
 
-    function handlePhotoChange(e) {
-        if (e.target.files[0]) {
-            setSrcImg(URL.createObjectURL(e.target.files[0]));
+    // function handlePhotoChange(e) {
+    //     if (e.target.files[0]) {
+    //         setSrcImg(URL.createObjectURL(e.target.files[0]));
+    //     }
+    // }
+
+    async function submitForm() {
+        const buffer = Buffer.from(
+            croppedImg.substring(croppedImg.indexOf(",") + 1),
+            "base64"
+        );
+        if (buffer >= 2) {
+            console.log("Too Large!");
+            return;
         }
+        postEvent().then((res) => {
+            if (res) {
+                nextStep();
+            }
+        });
     }
 
     function handleLoadAvatar(e) {
@@ -38,8 +54,8 @@ export default function PhotoSelection({
                 var ctx = canvas.getContext("2d");
                 ctx.drawImage(img, 0, 0);
 
-                var MAX_WIDTH = 300;
-                var MAX_HEIGHT = 300;
+                var MAX_WIDTH = 600;
+                var MAX_HEIGHT = 600;
                 var width = img.width;
                 var height = img.height;
 
@@ -69,7 +85,7 @@ export default function PhotoSelection({
     return (
         <div className={styles.formBody}>
             <label className={styles.label}>Upload a photo:</label>
-            <input type="file" accept="image/*" onChange={handlePhotoChange} />
+            <input type="file" accept="image/*" onChange={handleLoadAvatar} />
             {srcImg && (
                 <div className={styles.cropArea}>
                     <Cropper
@@ -98,7 +114,7 @@ export default function PhotoSelection({
                 />
                 <MdNavigateNext
                     className={styles.button}
-                    onClick={nextStep}
+                    onClick={submitForm}
                     size={35}
                 />
             </div>
