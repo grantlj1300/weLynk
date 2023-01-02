@@ -51,7 +51,7 @@ export default function CreatePost() {
     }
 
     function handleChange(e) {
-        let { name, value } = e.target;
+        const { name, value } = e.target;
         setFormData((prevData) => ({ ...prevData, [name]: value }));
     }
 
