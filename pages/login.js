@@ -99,7 +99,7 @@ export default function Login({ handleUserLogIn }) {
                         Sign In
                     </button>
                     <p>
-                        Don't have an account?{" "}
+                        Don&apos;t have an account?{" "}
                         <Link href="/register">Sign Up</Link>
                     </p>
                 </div>
