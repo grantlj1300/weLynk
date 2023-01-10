@@ -5,9 +5,9 @@ import Navbar from "./Navbar";
 export default function Layout({ children, handleLogOut, user }) {
     return (
         <div>
-            <Navbar handleLogOut={handleLogOut} user={user} />
+            {user && <Navbar handleLogOut={handleLogOut} user={user} />}
             {children}
-            <Footer />
+            {user && <Footer />}
         </div>
     );
 }

@@ -1,6 +1,8 @@
 import dbConnect from "../../../lib/mongodb";
 import User from "../../../models/userModel";
 
+const bcrypt = require("bcryptjs");
+
 export default async function handler(req, res) {
     const { method } = req;
     await dbConnect();
@@ -10,9 +12,22 @@ export default async function handler(req, res) {
                 const user = await User.findOne({
                     username: req.body.username,
                 });
-                res.status(201).send(user);
+                if (!user) {
+                    res.status(404).send({ success: false, error: "username" });
+                } else {
+                    const match = await bcrypt.compare(
+                        req.body.password,
+                        user.password
+                    );
+                    if (match)
+                        res.status(200).send({ success: true, user: user });
+                    else
+                        res.status(403).send({
+                            success: false,
+                            error: "password",
+                        });
+                }
             } catch (error) {
-                console.log(error);
                 res.status(400).end();
             }
             break;

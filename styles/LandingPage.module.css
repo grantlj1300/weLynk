@@ -1,0 +1,51 @@
+.page {
+    display: flex;
+    flex-direction: column;
+}
+.header {
+    position: absolute;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 35px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 2;
+    color: white;
+}
+
+.rightHead {
+    display: flex;
+}
+
+.link, .link:hover, .link:visited, .link:active, .logout {
+    margin-right: 25px;
+    color: inherit;
+    text-decoration: none;
+}
+.imgWrap {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+}
+
+.headImg {
+    object-fit: cover;
+}
+.fade {
+    position: absolute;
+    bottom: 0px;  
+    width: 100%;
+    height: 200px;
+    background-image: linear-gradient(to bottom, 
+        rgba(255, 255, 255, 0), 
+        rgb(237, 237, 237)
+    100%);
+}
+
+.triContainer {
+    display: flex;
+    height: 400px;
+    align-items: center;
+    justify-content: space-evenly;
+}

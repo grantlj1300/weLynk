@@ -19,7 +19,7 @@ export default function Navbar({ handleLogOut, user }) {
                 </Link>
                 {user ? (
                     <div className={styles.logout} onClick={handleLogOut}>
-                        Logout
+                        Logout, {user.first}
                     </div>
                 ) : (
                     <Link href="/login" className={styles.link}>

@@ -33,6 +33,7 @@ export default function MyApp({ Component, pageProps }) {
         <LoadScript
             googleMapsApiKey={process.env.NEXT_PUBLIC_MAP_API_KEY}
             libraries={libraries}
+            loadingElement={<div />}
         >
             <RouteGuard user={user}>
                 <Layout handleLogOut={handleLogOut} user={user}>

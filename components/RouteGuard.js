@@ -18,7 +18,11 @@ export default function RouteGuard({ children, user }) {
     )
         router.push("/feed");
 
-    if (!user && !unprotected.includes(router.pathname)) return <Loading />; // a loading component that prevents the page from rendering
+    if (
+        (!user && !unprotected.includes(router.pathname)) ||
+        (user && unprotected.includes(router.pathname))
+    )
+        return <Loading />; // a loading component that prevents the page from rendering
 
     return children;
 }

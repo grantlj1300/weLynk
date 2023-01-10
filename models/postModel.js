@@ -1,6 +1,11 @@
-import { Schema, model, models } from "mongoose";
+import { Schema, model, models, ObjectId } from "mongoose";
 
 const postSchema = new Schema({
+    admin: {
+        type: ObjectId,
+        required: true,
+        ref: "User",
+    },
     title: {
         type: String,
         required: true,
