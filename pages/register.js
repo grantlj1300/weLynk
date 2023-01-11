@@ -3,6 +3,7 @@ import Head from "next/head";
 import { useState } from "react";
 import styles from "../styles/Register.module.css";
 import Image from "next/image";
+import { BiMapPin } from "react-icons/bi";
 
 export default function Register() {
     const [formData, setFormData] = useState({
@@ -35,6 +36,11 @@ export default function Register() {
         }
     }
 
+    function handleRegisterClick(e) {
+        e.preventDefault();
+        registerNewUser();
+    }
+
     return (
         <div className={styles.page}>
             <Head>
@@ -43,8 +49,9 @@ export default function Register() {
             <div className={styles.left}>
                 <div className={styles.blob} />
                 <div className={styles.leftInfo}>
-                    <Link href="/" className={styles.link}>
-                        Logo
+                    <Link href="/" className="logo">
+                        <BiMapPin size={25} />
+                        <div className="logoText">weLynk</div>
                     </Link>
                     <h1 className={styles.leftHeader}>Hello visitor,</h1>
                     <p className={styles.leftBody}>
@@ -53,7 +60,7 @@ export default function Register() {
                         interdum in.
                     </p>
                     <Image
-                        src="/assets/img/login-surf.svg"
+                        src="/assets/img/login-gameday.svg"
                         alt="surf"
                         width={350}
                         height={350}
@@ -62,10 +69,11 @@ export default function Register() {
                 </div>
             </div>
             <div className={styles.right}>
-                <div className={styles.form}>
+                <form className={styles.form}>
                     <h1>Create an account</h1>
                     <p>Hello new user blah blah blah</p>
                     <input
+                        className={styles.input}
                         type="text"
                         name="first"
                         placeholder="First"
@@ -73,6 +81,7 @@ export default function Register() {
                         onChange={handleChange}
                     />
                     <input
+                        className={styles.input}
                         type="text"
                         name="last"
                         placeholder="Last"
@@ -80,6 +89,7 @@ export default function Register() {
                         onChange={handleChange}
                     />
                     <input
+                        className={styles.input}
                         type="text"
                         name="username"
                         placeholder="Username"
@@ -87,6 +97,7 @@ export default function Register() {
                         onChange={handleChange}
                     />
                     <input
+                        className={styles.input}
                         type="text"
                         name="email"
                         placeholder="Email"
@@ -94,18 +105,24 @@ export default function Register() {
                         onChange={handleChange}
                     />
                     <input
+                        className={styles.input}
                         type="text"
                         name="password"
                         placeholder="Password"
                         value={formData.password}
                         onChange={handleChange}
                     />
-                    <button onClick={registerNewUser}>Sign Up</button>
+                    <input
+                        className={styles.submit}
+                        type="submit"
+                        value="Sign up"
+                        onClick={handleRegisterClick}
+                    />
                     <p>
                         Already have an account?{" "}
                         <Link href="/login">Login</Link>
                     </p>
-                </div>
+                </form>
             </div>
         </div>
     );

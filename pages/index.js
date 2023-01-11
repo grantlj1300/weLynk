@@ -2,6 +2,7 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "../styles/LandingPage.module.css";
+import { BiMapPin } from "react-icons/bi";
 
 export default function LandingPage() {
     return (
@@ -11,8 +12,9 @@ export default function LandingPage() {
             </Head>
             <nav className={styles.header}>
                 <div>
-                    <Link href="/" className={styles.link}>
-                        Logo
+                    <Link href="/" className="logo">
+                        <BiMapPin size={25} />
+                        <div className="logoText">weLynk</div>
                     </Link>
                 </div>
                 <div className={styles.rightHead}>

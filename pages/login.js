@@ -3,6 +3,7 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 import styles from "../styles/Login.module.css";
 import Image from "next/image";
+import { BiMapPin } from "react-icons/bi";
 
 export default function Login({ handleUserLogIn }) {
     const [formData, setFormData] = useState({
@@ -42,7 +43,8 @@ export default function Login({ handleUserLogIn }) {
         }
     }
 
-    function handleLogInClick() {
+    function handleLogInClick(e) {
+        e.preventDefault();
         logInUser();
     }
 
@@ -54,8 +56,9 @@ export default function Login({ handleUserLogIn }) {
             <div className={styles.left}>
                 <div className={styles.blob} />
                 <div className={styles.leftInfo}>
-                    <Link href="/" className={styles.link}>
-                        Logo
+                    <Link href="/" className="logo">
+                        <BiMapPin size={25} />
+                        <div className="logoText">weLynk</div>
                     </Link>
                     <h1 className={styles.leftHeader}>Hello visitor,</h1>
                     <p className={styles.leftBody}>
@@ -73,7 +76,7 @@ export default function Login({ handleUserLogIn }) {
                 </div>
             </div>
             <div className={styles.right}>
-                <div className={styles.form}>
+                <form className={styles.form}>
                     <h1>Log in</h1>
                     <p>Welcome back! Please enter your details.</p>
                     <input
@@ -92,17 +95,19 @@ export default function Login({ handleUserLogIn }) {
                         value={formData.password}
                         onChange={handleChange}
                     />
-                    <button
+                    <input
                         className={styles.submit}
+                        type="submit"
+                        value="Sign in"
                         onClick={handleLogInClick}
-                    >
-                        Sign In
-                    </button>
-                    <p>
+                    />
+                    <p className={styles.switch}>
                         Don&apos;t have an account?{" "}
-                        <Link href="/register">Sign Up</Link>
+                        <Link className={styles.signUp} href="/register">
+                            Sign Up
+                        </Link>
                     </p>
-                </div>
+                </form>
             </div>
         </div>
     );

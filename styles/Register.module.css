@@ -46,6 +46,7 @@
 .surfImg {
     position: absolute;
     width: 60%;
+    height: auto;
     bottom: 18%;
     right: 25%;
     z-index: 3;
@@ -71,6 +72,15 @@
 }
 
 .submit {
+    background-color: rgb(195, 74, 195);
+    color: white;
+    border: none;
+    border-radius: 20px;
     margin-top: 20px;
     font-size: 16pt;
+    padding: 13px;
+    cursor: pointer;
+}
+.submit:hover {
+    background-color: rgb(159, 58, 159);
 }

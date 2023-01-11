@@ -4,6 +4,8 @@
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid #ddd;
+    background: rgb(112,48,181);
+    color: white;
 }
 
 .rightHead {
