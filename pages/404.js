@@ -5,7 +5,7 @@ export default function NotFound() {
     return (
         <>
             <Head>
-                <title>MeetUp | Not Found</title>
+                <title>weLynk | Not Found</title>
             </Head>
             <div>
                 <h1>Uh Oh!</h1>

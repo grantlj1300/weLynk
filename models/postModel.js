@@ -1,8 +1,8 @@
-import { Schema, model, models, ObjectId } from "mongoose";
+import mongoose, { Schema, model, models } from "mongoose";
 
 const postSchema = new Schema({
     admin: {
-        type: ObjectId,
+        type: mongoose.Types.ObjectId,
         required: true,
         ref: "User",
     },

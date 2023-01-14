@@ -44,7 +44,7 @@ export default function Register() {
     return (
         <div className={styles.page}>
             <Head>
-                <title>MeetUp | Register</title>
+                <title>weLynk | Register</title>
             </Head>
             <div className={styles.left}>
                 <div className={styles.blob} />

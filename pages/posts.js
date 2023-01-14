@@ -41,7 +41,7 @@ export default function Posts() {
     return (
         <div className={styles.container}>
             <Head>
-                <title>MeetUp | Posts</title>
+                <title>weLynk | Posts</title>
             </Head>
             <PlaceSearch
                 idStyle={styles.searchBox}

@@ -9,7 +9,8 @@ import PhotoSelection from "./CreateForm/PhotoSelection";
 import Success from "./CreateForm/Success";
 import ProgressBar from "./CreateForm/ProgressBar";
 
-export default function CreatePost() {
+export default function CreatePost({ user }) {
+    console.log(user);
     const [formStep, setFormStep] = useState(1);
     const [formData, setFormData] = useState({
         title: "",

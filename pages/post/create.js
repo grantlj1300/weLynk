@@ -6,7 +6,7 @@ export default function Create() {
     return (
         <>
             <Head>
-                <title>MeetUp | Create Event</title>
+                <title>weLynk | Create Event</title>
             </Head>
             <CreatePost />
         </>

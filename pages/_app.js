@@ -28,7 +28,7 @@ export default function MyApp({ Component, pageProps }) {
         setUser(null);
         localStorage.clear();
     }
-
+    console.log(user);
     return (
         <LoadScript
             googleMapsApiKey={process.env.NEXT_PUBLIC_MAP_API_KEY}
@@ -40,6 +40,7 @@ export default function MyApp({ Component, pageProps }) {
                     <Component
                         {...pageProps}
                         handleUserLogIn={handleUserLogIn}
+                        user={user}
                     />
                 </Layout>
             </RouteGuard>

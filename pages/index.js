@@ -8,7 +8,7 @@ export default function LandingPage() {
     return (
         <div className={styles.page}>
             <Head>
-                <title>MeetUp | Home</title>
+                <title>weLynk | Home</title>
             </Head>
             <nav className={styles.header}>
                 <div>

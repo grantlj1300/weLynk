@@ -51,7 +51,7 @@ export default function Login({ handleUserLogIn }) {
     return (
         <div className={styles.page}>
             <Head>
-                <title>MeetUp | Login</title>
+                <title>weLynk | Login</title>
             </Head>
             <div className={styles.left}>
                 <div className={styles.blob} />

@@ -19,9 +19,10 @@ export default async function handler(req, res) {
                         req.body.password,
                         user.password
                     );
-                    if (match)
-                        res.status(200).send({ success: true, user: user });
-                    else
+                    if (match) {
+                        const { password, ...userObj } = user._doc;
+                        res.status(200).send({ success: true, user: userObj });
+                    } else
                         res.status(403).send({
                             success: false,
                             error: "password",
