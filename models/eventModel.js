@@ -1,8 +1,13 @@
 import mongoose, { Schema, model, models } from "mongoose";
 
-const postSchema = new Schema({
+const eventSchema = new Schema({
     admin: {
         type: mongoose.Types.ObjectId,
+        required: true,
+        ref: "User",
+    },
+    members: {
+        type: [mongoose.Types.ObjectId],
         required: true,
         ref: "User",
     },
@@ -48,4 +53,4 @@ const postSchema = new Schema({
     },
 });
 
-export default models.Post || model("Post", postSchema);
+export default models.Event || model("Event", eventSchema);

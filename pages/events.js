@@ -1,17 +1,17 @@
 import { useState, useRef, useEffect } from "react";
 import Head from "next/head";
 import MapWrapper from "../components/MapWrapper";
-import styles from "../styles/Posts.module.css";
+import styles from "../styles/Events.module.css";
 import PlaceSearch from "../components/PlaceSearch";
 
-export default function Posts() {
+export default function Events({ user }) {
     const [regionView, setRegionView] = useState(null);
     const [events, setEvents] = useState("loading");
     const [showSearch, setShowSearch] = useState(false);
 
     async function getEvents() {
         try {
-            const res = await fetch("/api/posts", {
+            const res = await fetch("/api/events", {
                 method: "GET",
             });
             const data = await res.json();
@@ -41,7 +41,7 @@ export default function Posts() {
     return (
         <div className={styles.container}>
             <Head>
-                <title>weLynk | Posts</title>
+                <title>weLynk | Events</title>
             </Head>
             <PlaceSearch
                 idStyle={styles.searchBox}
@@ -53,6 +53,7 @@ export default function Posts() {
                 regionView={regionView}
                 events={events}
                 setShowSearch={setShowSearch}
+                user={user}
             />
         </div>
     );

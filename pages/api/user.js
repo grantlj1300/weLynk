@@ -5,18 +5,24 @@ export default async function handler(req, res) {
     const { method } = req;
     await dbConnect();
     switch (method) {
-        case "GET":
+        case "POST":
             try {
-                const users = await User.find();
-                res.status(200).send(users);
+                const user = await User.findById(req.body.userId).select(
+                    "-password"
+                );
+                res.status(201).send(user);
             } catch (error) {
+                console.log(error);
                 res.status(400).end();
             }
             break;
-        case "POST":
+        case "PUT":
             try {
-                const newUser = await User.create(req.body);
-                res.status(201).send(newUser);
+                const { userId, newAttending } = req.body;
+                const user = await User.findByIdAndUpdate(userId, {
+                    attending: newAttending,
+                });
+                res.status(200).send(user);
             } catch (error) {
                 res.status(400).end();
             }

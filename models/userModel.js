@@ -1,4 +1,4 @@
-import { Schema, model, models } from "mongoose";
+import mongoose, { Schema, model, models } from "mongoose";
 
 const userSchema = new Schema({
     first: {
@@ -26,6 +26,12 @@ const userSchema = new Schema({
         required: true,
         trim: true,
     },
+    attending: [
+        {
+            type: mongoose.Types.ObjectId,
+            ref: "Event",
+        },
+    ],
 });
 
 export default models.User || model("User", userSchema);

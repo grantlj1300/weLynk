@@ -11,7 +11,7 @@ export default function LandingPage() {
                 <title>weLynk | Home</title>
             </Head>
             <nav className={styles.header}>
-                <div>
+                <div className={styles.logo}>
                     <Link href="/" className="logo">
                         <BiMapPin size={25} />
                         <div className="logoText">weLynk</div>

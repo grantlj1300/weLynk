@@ -52,6 +52,8 @@
 }
 
 .previewContent {
+    display: flex;
+    flex-direction: column;
     margin: 10px 15px;
 }
 
@@ -75,4 +77,20 @@
 .description {
     padding-top: 15px;
     color: rgb(145, 144, 144);
+}
+
+.joinButton {
+    background-color: rgb(195, 74, 195);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    margin-top: 20px;
+    font-size: 16pt;
+    padding: 13px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+}
+.joinButton:hover {
+    background-color: rgb(159, 58, 159);
 }

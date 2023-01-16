@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Image from "next/image";
-import styles from "../styles/CreatePost.module.css";
+import styles from "../styles/CreateEvent.module.css";
 import { AiTwotoneCalendar } from "react-icons/ai";
 import { IoLocationSharp } from "react-icons/io5";
 import EventDetails from "./CreateForm/EventDetails";
@@ -9,10 +9,11 @@ import PhotoSelection from "./CreateForm/PhotoSelection";
 import Success from "./CreateForm/Success";
 import ProgressBar from "./CreateForm/ProgressBar";
 
-export default function CreatePost({ user }) {
-    console.log(user);
+export default function CreateEvent({ user }) {
     const [formStep, setFormStep] = useState(1);
     const [formData, setFormData] = useState({
+        admin: user._id,
+        members: [user._id],
         title: "",
         photo: "",
         address: "",
@@ -113,6 +114,28 @@ export default function CreatePost({ user }) {
         await postEvent();
     }
 
+    async function joinEvent(eventId) {
+        try {
+            const prevAttending = user?.attending ? user.attending : [];
+            const reqBody = {
+                userId: user._id,
+                newAttending: [...prevAttending, eventId],
+            };
+            const res = await fetch("/api/user", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(reqBody),
+            });
+            const data = await res.json();
+            return data;
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
+    }
+
     async function postEvent() {
         try {
             const res = await fetch("/api/posts", {
@@ -123,7 +146,8 @@ export default function CreatePost({ user }) {
                 body: JSON.stringify(formData),
             });
             const data = await res.json();
-            return data;
+            const joined = await joinEvent(data._id);
+            return joined;
         } catch (error) {
             console.log(error);
         }

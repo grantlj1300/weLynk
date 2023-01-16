@@ -13,11 +13,11 @@ export default function Navbar({ handleLogOut, user }) {
                 </Link>
             </div>
             <div className={styles.rightHead}>
-                <Link href="/posts" className={styles.link}>
-                    View Posts
+                <Link href="/events" className={styles.link}>
+                    View Events
                 </Link>
-                <Link href="/post/create" className={styles.link}>
-                    Create Post
+                <Link href="/event/create" className={styles.link}>
+                    Create Event
                 </Link>
                 {user ? (
                     <div className={styles.logout} onClick={handleLogOut}>

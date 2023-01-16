@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../../styles/CreatePost.module.css";
+import styles from "../../styles/CreateEvent.module.css";
 import { MdNavigateNext } from "react-icons/md";
 
 export default function EventDetails({ nextStep, handleChange, formData }) {

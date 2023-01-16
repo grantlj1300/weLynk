@@ -10,17 +10,34 @@ export default function MyApp({ Component, pageProps }) {
     const [user, setUser] = useState(undefined);
 
     useEffect(() => {
-        const loggedInUser = localStorage.getItem("session");
-        if (loggedInUser) {
-            const foundUser = JSON.parse(loggedInUser);
-            setUser(foundUser);
-        } else {
+        const userSession = localStorage.getItem("session");
+        if (userSession && !user) {
+            const foundUserId = JSON.parse(userSession);
+            async function fetchUser(userId) {
+                try {
+                    const res = await fetch("/api/user", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({ userId: userId }),
+                    });
+                    const foundUser = await res.json();
+                    setUser(foundUser);
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+            fetchUser(foundUserId);
+        } else if (!userSession) {
+            console.log("user not here");
             setUser(null);
         }
+        // eslint-disable-next-line
     }, []);
 
     function handleUserLogIn(user) {
-        localStorage.setItem("session", JSON.stringify(user));
+        localStorage.setItem("session", JSON.stringify(user._id));
         setUser(user);
     }
 
@@ -28,7 +45,7 @@ export default function MyApp({ Component, pageProps }) {
         setUser(null);
         localStorage.clear();
     }
-    console.log(user);
+
     return (
         <LoadScript
             googleMapsApiKey={process.env.NEXT_PUBLIC_MAP_API_KEY}
@@ -41,6 +58,7 @@ export default function MyApp({ Component, pageProps }) {
                         {...pageProps}
                         handleUserLogIn={handleUserLogIn}
                         user={user}
+                        setUser={setUser}
                     />
                 </Layout>
             </RouteGuard>

@@ -10,7 +10,12 @@ import Style from "ol/style/Style";
 import Icon from "ol/style/Icon";
 import EventPreview from "./EventPreview";
 
-export default function MapWrapper({ regionView, events, setShowSearch }) {
+export default function MapWrapper({
+    regionView,
+    events,
+    setShowSearch,
+    user,
+}) {
     const [map, setMap] = useState();
     const [currentEvent, setCurrentEvent] = useState();
     const [markerSource, setMarkerSource] = useState();
@@ -169,8 +174,10 @@ export default function MapWrapper({ regionView, events, setShowSearch }) {
             )}
             <EventPreview
                 event={currentEvent}
+                setEvent={setCurrentEvent}
                 show={showPreview}
                 closeEventPreview={closeEventPreview}
+                user={user}
             />
         </div>
     );
