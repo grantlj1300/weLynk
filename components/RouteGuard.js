@@ -20,7 +20,8 @@ export default function RouteGuard({ children, user }) {
 
     if (
         (!user && !unprotected.includes(router.pathname)) ||
-        (user && unprotected.includes(router.pathname))
+        (user && unprotected.includes(router.pathname)) ||
+        user === undefined
     )
         return <Loading />; // a loading component that prevents the page from rendering
 

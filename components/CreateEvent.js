@@ -138,7 +138,7 @@ export default function CreateEvent({ user }) {
 
     async function postEvent() {
         try {
-            const res = await fetch("/api/posts", {
+            const res = await fetch("/api/events", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

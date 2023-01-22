@@ -84,10 +84,6 @@ export default function EventPreview({
         setUser(updatedUser);
     }
 
-    function visitEvent() {
-        return true;
-    }
-
     return (
         <div id={styles.infoBox} className={show ? styles.show : undefined}>
             <div className={styles.imageContainer}>
