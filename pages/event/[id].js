@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import io from "socket.io-client";
 import Loading from "../../components/Loading";
-
+import Pusher from "pusher-js";
+import axios from "axios";
 let socket;
 
 export default function Event({ eventId }) {
@@ -23,31 +24,48 @@ export default function Event({ eventId }) {
 
     useEffect(() => {
         getEvent();
-        fetch("/api/socket").then(() => {
-            if (socket) {
-                socket.off("receive-message");
-                socket.disconnect();
-            }
-            socket = io();
-            socket.emit("join", eventId);
-            socket.on("receive-message", (data) => {
-                setAllMessages((prev) => [...prev, data]);
-            });
+        const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY, {
+            cluster: "us3",
+        });
+        const channel = pusher.subscribe("chat");
+        channel.bind("chat-event", (data) => {
+            setAllMessages((prev) => [...prev, data]);
         });
         return () => {
-            if (socket) {
-                socket.off("receive-message");
-                socket.disconnect();
-            }
+            pusher.unsubscribe("chat");
         };
+        // fetch("/api/socket").then(() => {
+        //     if (socket) {
+        //         socket.off("receive-message");
+        //         socket.disconnect();
+        //     }
+        //     socket = io();
+        //     socket.emit("join", eventId);
+        //     socket.on("receive-message", (data) => {
+        //         setAllMessages((prev) => [...prev, data]);
+        //     });
+        // });
+        // return () => {
+        //     if (socket) {
+        //         socket.off("receive-message");
+        //         socket.disconnect();
+        //     }
+        // };
         // eslint-disable-next-line
     }, []);
 
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault();
-        socket.emit("send-message", {
-            message,
-            eventId,
+        // socket.emit("send-message", {
+        //     message,
+        //     eventId,
+        // });
+        await fetch("/api/pusher", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ message: message }),
         });
         setMessage("");
     }
