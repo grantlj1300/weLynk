@@ -1,14 +1,22 @@
-import React, { useEffect, useState } from "react";
-import io from "socket.io-client";
+import React, { useEffect, useRef, useState } from "react";
+import styles from "../../styles/Event.module.css";
 import Loading from "../../components/Loading";
 import Pusher from "pusher-js";
-import axios from "axios";
-let socket;
 
-export default function Event({ eventId }) {
+export default function Event({ eventId, user }) {
     const [event, setEvent] = useState("loading");
     const [message, setMessage] = useState("");
     const [allMessages, setAllMessages] = useState([]);
+    const chats = useRef(null);
+
+    useEffect(() => {
+        if (chats && chats.current) {
+            chats.current.addEventListener("DOMNodeInserted", (event) => {
+                const { currentTarget: target } = event;
+                target.scroll({ top: target.scrollHeight, behavior: "smooth" });
+            });
+        }
+    }, [allMessages]);
 
     async function getEvent() {
         try {
@@ -27,45 +35,28 @@ export default function Event({ eventId }) {
         const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY, {
             cluster: "us3",
         });
-        const channel = pusher.subscribe("chat");
+        const channel = pusher.subscribe(eventId);
         channel.bind("chat-event", (data) => {
             setAllMessages((prev) => [...prev, data]);
         });
         return () => {
-            pusher.unsubscribe("chat");
+            pusher.unsubscribe(eventId);
         };
-        // fetch("/api/socket").then(() => {
-        //     if (socket) {
-        //         socket.off("receive-message");
-        //         socket.disconnect();
-        //     }
-        //     socket = io();
-        //     socket.emit("join", eventId);
-        //     socket.on("receive-message", (data) => {
-        //         setAllMessages((prev) => [...prev, data]);
-        //     });
-        // });
-        // return () => {
-        //     if (socket) {
-        //         socket.off("receive-message");
-        //         socket.disconnect();
-        //     }
-        // };
         // eslint-disable-next-line
     }, []);
 
     async function handleSubmit(e) {
         e.preventDefault();
-        // socket.emit("send-message", {
-        //     message,
-        //     eventId,
-        // });
         await fetch("/api/pusher", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ message: message }),
+            body: JSON.stringify({
+                message: message,
+                room: eventId,
+                userId: user._id,
+            }),
         });
         setMessage("");
     }
@@ -75,21 +66,35 @@ export default function Event({ eventId }) {
     }
 
     const messages = allMessages.map((data, idx) => (
-        <div key={idx}>{data.message}</div>
+        <div
+            key={idx}
+            className={
+                user._id === data.userId
+                    ? styles.userMessage
+                    : styles.otherMessage
+            }
+        >
+            {data.message}
+        </div>
     ));
 
     return (
         <div>
-            <div>{messages}</div>
-            <form>
-                <input
-                    name="message"
-                    placeholder="Type your message"
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                />
-                <input type="submit" value="Send" onClick={handleSubmit} />
-            </form>
+            <div className={styles.chatContainer}>
+                <div className={styles.chatHeader}>Chat Header</div>
+                <div className={styles.chatMessageBox} ref={chats}>
+                    {messages}
+                </div>
+                <form className={styles.chatFooter}>
+                    <input
+                        name="message"
+                        placeholder="Type your message"
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                    />
+                    <input type="submit" value="Send" onClick={handleSubmit} />
+                </form>
+            </div>
         </div>
     );
 }

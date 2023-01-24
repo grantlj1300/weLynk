@@ -9,9 +9,10 @@ export const pusher = new Pusher({
 });
 
 export default async function handler(req, res) {
-    const { message } = req.body;
-    const response = await pusher.trigger("chat", "chat-event", {
+    const { message, userId, room } = req.body;
+    const response = await pusher.trigger(room, "chat-event", {
         message,
+        userId,
     });
 
     res.json({ message: "completed" });
