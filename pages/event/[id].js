@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "../../styles/Event.module.css";
+import { RiSendPlaneFill } from "react-icons/ri";
 import Loading from "../../components/Loading";
 import Pusher from "pusher-js";
 
@@ -47,13 +48,15 @@ export default function Event({ eventId, user }) {
 
     async function handleSubmit(e) {
         e.preventDefault();
+        const stripped = message.trim();
+        if (!stripped) return;
         await fetch("/api/pusher", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                message: message,
+                message: stripped,
                 room: eventId,
                 userId: user._id,
             }),
@@ -68,11 +71,12 @@ export default function Event({ eventId, user }) {
     const messages = allMessages.map((data, idx) => (
         <div
             key={idx}
-            className={
-                user._id === data.userId
-                    ? styles.userMessage
-                    : styles.otherMessage
-            }
+            className={`${styles.message} 
+                ${
+                    user._id === data.userId
+                        ? styles.userMessage
+                        : styles.otherMessage
+                }`}
         >
             {data.message}
         </div>
@@ -86,13 +90,25 @@ export default function Event({ eventId, user }) {
                     {messages}
                 </div>
                 <form className={styles.chatFooter}>
-                    <input
-                        name="message"
-                        placeholder="Type your message"
-                        value={message}
-                        onChange={(e) => setMessage(e.target.value)}
-                    />
-                    <input type="submit" value="Send" onClick={handleSubmit} />
+                    <div className={styles.inputContainer}>
+                        <input
+                            className={styles.chatInput}
+                            name="message"
+                            placeholder="Type your message..."
+                            value={message}
+                            onChange={(e) => setMessage(e.target.value)}
+                        ></input>
+                        <button
+                            className={styles.hide}
+                            type="submit"
+                            onClick={handleSubmit}
+                        >
+                            <RiSendPlaneFill
+                                size={14}
+                                className={styles.sendIcon}
+                            />
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>

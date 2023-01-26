@@ -16,7 +16,7 @@ export default function RouteGuard({ children, user }) {
         user &&
         unprotected.includes(router.pathname)
     )
-        router.push("/feed");
+        router.push("/profile");
 
     if (
         (!user && !unprotected.includes(router.pathname)) ||

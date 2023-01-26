@@ -1,0 +1,26 @@
+.page {
+    display: flex;
+}
+
+.left {
+    display: flex;
+    flex-direction: column;
+    margin: 25px;
+    height: 600px;
+    min-width: 350px;
+    box-shadow: 0px 10px 50px -7px rgba(158, 157, 157, 0.75);
+    border-radius: 25px;
+}
+
+.avatar {
+    align-self: center;
+    margin-top: 20px;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+}
+
+.right {
+    display: flex;
+    flex-direction: column;
+}
