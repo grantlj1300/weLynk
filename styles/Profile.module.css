@@ -1,5 +1,7 @@
 .page {
     display: flex;
+    margin-top: 25px;
+    align-items: center;
 }
 
 .left {
@@ -8,19 +10,40 @@
     margin: 25px;
     height: 600px;
     min-width: 350px;
+    max-width: 400px;
     box-shadow: 0px 10px 50px -7px rgba(158, 157, 157, 0.75);
     border-radius: 25px;
 }
 
+.cardHeader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    background: rgb(112,48,181);
+    background: radial-gradient(circle, rgba(145,84,209,1) 13%, rgba(112,48,181,1) 100%);
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+    padding: 20px;
+}
+
 .avatar {
-    align-self: center;
-    margin-top: 20px;
     width: 150px;
     height: 150px;
     border-radius: 50%;
 }
 
+.about {
+    margin: 10px 20px 0px 20px;
+}
+
 .right {
     display: flex;
     flex-direction: column;
+    overflow-x: hidden;
+}
+
+.carouselContainer {
+    position: relative;
+    width: 100%;
 }

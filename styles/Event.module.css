@@ -27,7 +27,7 @@
 }
 .chatMessageBox::-webkit-scrollbar {
     display: none;
-  }
+}
 
 .message {
     animation: fadeInAnimation 0.3s linear;
