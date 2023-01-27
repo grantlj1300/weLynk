@@ -4,7 +4,7 @@ import MapWrapper from "../components/MapWrapper";
 import styles from "../styles/Events.module.css";
 import PlaceSearch from "../components/PlaceSearch";
 
-export default function Events({ user }) {
+export default function Events({ user, setUser }) {
     const [regionView, setRegionView] = useState(null);
     const [events, setEvents] = useState("loading");
     const [showSearch, setShowSearch] = useState(false);
@@ -54,6 +54,7 @@ export default function Events({ user }) {
                 events={events}
                 setShowSearch={setShowSearch}
                 user={user}
+                setUser={setUser}
             />
         </div>
     );

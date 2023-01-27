@@ -15,7 +15,7 @@
     padding: 10px;
 }
 .item:first-child {
-    padding-left: 0px;
+    padding-left: 10px;
 }
 .item:last-child {
     padding-right: 20px;

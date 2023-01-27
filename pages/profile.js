@@ -2,7 +2,6 @@ import Image from "next/image";
 import React from "react";
 import styles from "../styles/Profile.module.css";
 import Carousel from "../components/Carousel";
-import CarouselCard from "../components/CarouselCard";
 
 export default function Profile({ user }) {
     return (
@@ -33,31 +32,18 @@ export default function Profile({ user }) {
             <div className={styles.right}>
                 <h1>Currently Attending</h1>
                 <div className={styles.carouselContainer}>
-                    <Carousel>
-                        <CarouselCard />
-                        <CarouselCard />
-                        <CarouselCard />
-                        <CarouselCard />
-                    </Carousel>
+                    <Carousel events={user.attending} />
                 </div>
                 <div>
                     <h1>Currently Hosting</h1>
                     <div className={styles.carouselContainer}>
-                        <Carousel>
-                            <CarouselCard />
-                            <CarouselCard />
-                        </Carousel>
+                        <Carousel events={user.attending} />
                     </div>
                 </div>
                 <div>
                     <h1>Archived Events</h1>
                     <div className={styles.carouselContainer}>
-                        <Carousel>
-                            <CarouselCard />
-                            <CarouselCard />
-                            <CarouselCard />
-                            <CarouselCard />
-                        </Carousel>
+                        <Carousel />
                     </div>
                 </div>
             </div>

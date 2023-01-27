@@ -15,6 +15,7 @@ export default function MapWrapper({
     events,
     setShowSearch,
     user,
+    setUser,
 }) {
     const [map, setMap] = useState();
     const [currentEvent, setCurrentEvent] = useState();
@@ -178,6 +179,7 @@ export default function MapWrapper({
                 show={showPreview}
                 closeEventPreview={closeEventPreview}
                 user={user}
+                setUser={setUser}
             />
         </div>
     );
