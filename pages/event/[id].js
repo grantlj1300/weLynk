@@ -59,6 +59,8 @@ export default function Event({ eventId, user }) {
                 message: stripped,
                 room: eventId,
                 userId: user._id,
+                first: user.first,
+                last: user.last,
             }),
         });
         setMessage("");
@@ -68,19 +70,23 @@ export default function Event({ eventId, user }) {
         return <Loading />;
     }
 
-    const messages = allMessages.map((data, idx) => (
-        <div
+    const messages = allMessages.map((data, idx) => {
+        const other = user._id !== data.userId
+        return <div
             key={idx}
-            className={`${styles.message} 
+            className={`${styles.messageContainer} 
                 ${
-                    user._id === data.userId
-                        ? styles.userMessage
+                    user._id === data.userId ?
+                          styles.userMessage
                         : styles.otherMessage
                 }`}
         >
-            {data.message}
+            {other && <div className={styles.messageSender}>
+                {data.first} {data.last}
+            </div>}
+            <div className={styles.messageText}>{data.message}</div>
         </div>
-    ));
+    });
 
     return (
         <div>

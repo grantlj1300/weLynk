@@ -11,6 +11,17 @@ export default function CarouselCard({ event }) {
                 </div>
             </div>
         );
+    } else if (event === "fetching") {
+        return (
+            <div className={`${styles.container} ${styles.fetching}`}>
+                <div className={styles.ellipsis}>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+        );
     }
 
     return (

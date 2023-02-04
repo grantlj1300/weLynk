@@ -1,9 +1,33 @@
 import Image from "next/image";
-import React from "react";
-import styles from "../styles/Profile.module.css";
-import Carousel from "../components/Carousel";
+import React, { useEffect, useState } from "react";
+import styles from "../../styles/Profile.module.css";
+import Carousel from "../../components/Carousel";
+import Loading from "../../components/Loading";
 
-export default function Profile({ user }) {
+export default function OtherProfile({ otherUserId, user }) {
+    const [otherUser, setOtherUser] = useState("loading");
+
+    async function getOtherUser() {
+        try {
+            const res = await fetch(`/api/user/${otherUserId}`, {
+                method: "GET",
+            });
+            const data = await res.json();
+            setOtherUser(data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    useEffect(() => {
+        getOtherUser();
+        // eslint-disable-next-line
+    }, []);
+
+    if (otherUser === "loading") {
+        return <Loading />;
+    }
+
     return (
         <div className={styles.page}>
             <div className={styles.left}>
@@ -16,9 +40,9 @@ export default function Profile({ user }) {
                         height={50}
                     />
                     <h3>
-                        {user.first} {user.last}
+                        {otherUser.first} {otherUser.last}
                     </h3>
-                    <h5>@{user.username}</h5>
+                    <h5>@{otherUser.username}</h5>
                 </div>
 
                 <p className={styles.about}>
@@ -32,12 +56,12 @@ export default function Profile({ user }) {
             <div className={styles.right}>
                 <h1>Currently Attending</h1>
                 <div className={styles.carouselContainer}>
-                    <Carousel events={user.attending} />
+                    <Carousel events={otherUser.attending} />
                 </div>
                 <div>
                     <h1>Currently Hosting</h1>
                     <div className={styles.carouselContainer}>
-                        <Carousel events={user.attending} />
+                        <Carousel events={otherUser.attending} />
                     </div>
                 </div>
                 <div>
@@ -49,4 +73,9 @@ export default function Profile({ user }) {
             </div>
         </div>
     );
+}
+
+export async function getServerSideProps(context) {
+    const { id } = context.params;
+    return { props: { otherUserId: id } };
 }

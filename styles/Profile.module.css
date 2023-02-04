@@ -47,3 +47,45 @@
     position: relative;
     width: 100%;
 }
+
+@media only screen and (max-width: 768px) {
+    .page {
+        flex-direction: column;
+        margin: 20px;
+    }
+    .left {
+        margin: 0px;
+        flex-direction: row;
+        max-width: none;
+        min-width: auto;
+        width: 100%;
+        height: fit-content;
+        box-shadow: none;
+        border-radius: 0px;
+    }
+    .cardHeader {
+        border-radius: 25px;
+    }
+    .right {
+        width: 100vw;
+        text-indent: 25px;
+        margin-top: 25px;
+    }
+}
+@media only screen and (max-width: 530px) {
+    .left {
+        flex-direction: column;
+        width: 100vw;
+        box-shadow: 0px 10px 50px -7px rgba(158, 157, 157, 0.75);
+        border-radius: 25px;
+    }
+    .cardHeader {
+        margin: 0px;
+        border-bottom-left-radius: 0px;
+        border-bottom-right-radius: 0px;
+    }
+    .about {
+        margin: 0px;
+        padding: 10px 20px 10px 20px;
+    }
+}

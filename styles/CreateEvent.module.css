@@ -157,11 +157,13 @@
     .formContainer {
         margin-bottom: 25px;
         height: fit-content;
+        min-width: auto;
         width: 100%;
     }
     .previewContainer {
         height: 80vh;
         width: 100%;
+        min-width: auto;
     }
 }
 
