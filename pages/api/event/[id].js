@@ -8,10 +8,24 @@ export default async function handler(req, res) {
     switch (method) {
         case "GET":
             try {
-                const event = await Event.findById(id);
+                const event = await Event.findById(id).populate(
+                    "messages",
+                    "-_id -__v -room"
+                );
                 res.status(201).send(event);
             } catch (error) {
                 console.log(error);
+                res.status(400).end();
+            }
+            break;
+        case "PUT":
+            try {
+                const { newMessages } = req.body;
+                const event = await Event.findByIdAndUpdate(id, {
+                    messages: newMessages,
+                });
+                res.status(200).send(event);
+            } catch (error) {
                 res.status(400).end();
             }
             break;

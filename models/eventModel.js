@@ -11,6 +11,11 @@ const eventSchema = new Schema({
         required: true,
         ref: "User",
     },
+    messages: {
+        type: [mongoose.Types.ObjectId],
+        required: true,
+        ref: "Message",
+    },
     title: {
         type: String,
         required: true,

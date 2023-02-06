@@ -19,18 +19,6 @@ export default function Event({ eventId, user }) {
         }
     }, [allMessages]);
 
-    async function getEvent() {
-        try {
-            const res = await fetch(`/api/event/${eventId}`, {
-                method: "GET",
-            });
-            const data = await res.json();
-            setEvent(data);
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
     useEffect(() => {
         getEvent();
         const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY, {
@@ -46,10 +34,70 @@ export default function Event({ eventId, user }) {
         // eslint-disable-next-line
     }, []);
 
+    async function getEvent() {
+        try {
+            const res = await fetch(`/api/event/${eventId}`, {
+                method: "GET",
+            });
+            const data = await res.json();
+            setEvent(data);
+            setAllMessages(data.messages)
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async function createMessage(message) {
+        try{
+            const res = await fetch("/api/message", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    message: message,
+                    room: eventId,
+                    userId: user._id,
+                    first: user.first,
+                    last: user.last,
+                }),
+            })
+            const data = await res.json()
+            return data
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    async function updateEvent(newMessage) {
+        try {
+            const prevMessages = event.messages ? event.messages : [];
+            const reqBody = {
+                newMessages: [...prevMessages, newMessage._id],
+            };
+            const res = await fetch(`/api/event/${eventId}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(reqBody),
+            });
+            const data = await res.json();
+            setEvent(data);
+            return data
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    
     async function handleSubmit(e) {
         e.preventDefault();
         const stripped = message.trim();
         if (!stripped) return;
+        const createdMessage = await createMessage(stripped)
+        if (!createdMessage) return
+        const updatedEvent = await updateEvent(createdMessage)
+        if(!updatedEvent) return
         await fetch("/api/pusher", {
             method: "POST",
             headers: {
@@ -76,9 +124,8 @@ export default function Event({ eventId, user }) {
             key={idx}
             className={`${styles.messageContainer} 
                 ${
-                    user._id === data.userId ?
-                          styles.userMessage
-                        : styles.otherMessage
+                    other ? styles.otherMessage
+                          : styles.userMessage
                 }`}
         >
             {other && <div className={styles.messageSender}>
