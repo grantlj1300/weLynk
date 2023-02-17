@@ -3,6 +3,9 @@ import styles from "../../styles/Event.module.css";
 import { RiSendPlaneFill } from "react-icons/ri";
 import Loading from "../../components/Loading";
 import Pusher from "pusher-js";
+import Image from "next/image";
+import { AiTwotoneCalendar } from "react-icons/ai";
+import { IoLocationSharp } from "react-icons/io5";
 
 export default function Event({ eventId, user }) {
     const [event, setEvent] = useState("loading");
@@ -33,7 +36,7 @@ export default function Event({ eventId, user }) {
         };
         // eslint-disable-next-line
     }, []);
-
+    console.log(event)
     async function getEvent() {
         try {
             const res = await fetch(`/api/event/${eventId}`, {
@@ -71,16 +74,12 @@ export default function Event({ eventId, user }) {
 
     async function updateEvent(newMessage) {
         try {
-            const prevMessages = event.messages ? event.messages : [];
-            const reqBody = {
-                newMessages: [...prevMessages, newMessage._id],
-            };
             const res = await fetch(`/api/event/${eventId}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(reqBody),
+                body: JSON.stringify({ messageId: newMessage._id }),
             });
             const data = await res.json();
             setEvent(data);
@@ -117,7 +116,7 @@ export default function Event({ eventId, user }) {
     if (event === "loading") {
         return <Loading />;
     }
-
+    console.log(event)
     const messages = allMessages.map((data, idx) => {
         const other = user._id !== data.userId
         return <div
@@ -135,10 +134,56 @@ export default function Event({ eventId, user }) {
         </div>
     });
 
+    function formatDate() {
+        const [year, month, day] = event.date.split("-");
+        return month + "/" + day + "/" + year;
+    }
+    function formatTime() {
+        let formattedTime = event.time.split(":");
+        const timeOfDay = formattedTime[0] < 12 ? " AM" : " PM";
+        const hours = formattedTime[0] % 12 || 12;
+        return hours + ":" + formattedTime[1] + timeOfDay;
+    }
+
     return (
-        <div>
+        <div className={styles.container}>
+            <div className={styles.eventContainer}>
+                <div className={styles.imageContainer}>
+                    <Image
+                        src={
+                            event?.photo
+                                ? event.photo
+                                : "/assets/img/img-not-available.jpg"
+                        }
+                        alt="event"
+                        fill={true}
+                        className={styles.image}
+                        sizes="100%"
+                    />
+                </div>
+                <div className={styles.previewContent}>
+                    <div className={styles.previewHeader}>
+                        <h1>{event.title}</h1>
+                        <h5 className={styles.subheader}>
+                            <AiTwotoneCalendar
+                                size={20}
+                                className={styles.bodyIcon}
+                            />
+                            {formatDate()} - {formatTime()}
+                        </h5>
+                        <h5 className={styles.subheader}>
+                            <IoLocationSharp
+                                size={20}
+                                className={styles.bodyIcon}
+                            />
+                            {event.address}
+                        </h5>
+                    </div>
+                    <p className={styles.description}>{event.description}</p>
+                </div>
+            </div>
             <div className={styles.chatContainer}>
-                <div className={styles.chatHeader}>Chat Header</div>
+                <div className={styles.chatHeader}>{event.title}</div>
                 <div className={styles.chatMessageBox} ref={chats}>
                     {messages}
                 </div>

@@ -1,16 +1,80 @@
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../../styles/Profile.module.css";
 import Carousel from "../../components/Carousel";
+import { AiOutlineSetting } from "react-icons/ai";
+import EditProfileModal from "../../components/EditProfileModal";
 
-export default function Profile({ user }) {
+export default function Profile({ user, setUser }) {
+    const [showEditProfileModal, setShowEditProfileModal] = useState(false);
+    const [attending, setAttending] = useState("fetching");
+    const [hosting, setHosting] = useState("fetching");
+    const [archived, setArchived] = useState("fetching");
+
+    useEffect(() => {
+        if (user.events) {
+            getEvents();
+        } else {
+            setAttending("none");
+            setHosting("none");
+            setArchived("none");
+        }
+        // eslint-disable-next-line
+    }, []);
+
+    function populateEvents(events) {
+        let [att, host, arch] = [[], [], []];
+        const currDate = new Date();
+        events.forEach((event) => {
+            const eventDate = new Date(event.date + "T" + event.time + ":00");
+            if (eventDate.getTime() < currDate.getTime()) arch.push(event);
+            else if (event.admin === user._id) host.push(event);
+            else att.push(event);
+        });
+        att.length > 0 ? setAttending(att) : setAttending("none");
+        host.length > 0 ? setHosting(host) : setHosting("none");
+        arch.length > 0 ? setArchived(arch) : setArchived("none");
+    }
+
+    async function getEvents() {
+        try {
+            const res = await fetch("/api/eventlist", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(user.events),
+            });
+            const result = await res.json();
+            populateEvents(result);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <div className={styles.page}>
+            {showEditProfileModal && (
+                <EditProfileModal
+                    closeModal={() => setShowEditProfileModal(false)}
+                    user={user}
+                    setUser={setUser}
+                />
+            )}
             <div className={styles.left}>
                 <div className={styles.cardHeader}>
+                    <AiOutlineSetting
+                        className={styles.setting}
+                        onClick={() => setShowEditProfileModal(true)}
+                        size={25}
+                    />
                     <Image
                         className={styles.avatar}
-                        src="/assets/img/default-avi.jpeg"
+                        src={
+                            user.avatar
+                                ? user.avatar
+                                : "/assets/img/default-avi.jpeg"
+                        }
                         alt="Avatar"
                         width={50}
                         height={50}
@@ -30,21 +94,17 @@ export default function Profile({ user }) {
                 </p>
             </div>
             <div className={styles.right}>
-                <h1>Currently Attending</h1>
                 <div className={styles.carouselContainer}>
-                    <Carousel events={user.attending} />
+                    <h1>Currently Attending</h1>
+                    <Carousel events={attending} />
                 </div>
-                <div>
+                <div className={styles.carouselContainer}>
                     <h1>Currently Hosting</h1>
-                    <div className={styles.carouselContainer}>
-                        <Carousel events={user.attending} />
-                    </div>
+                    <Carousel events={hosting} />
                 </div>
-                <div>
+                <div className={styles.carouselContainer}>
                     <h1>Archived Events</h1>
-                    <div className={styles.carouselContainer}>
-                        <Carousel />
-                    </div>
+                    <Carousel events={archived} />
                 </div>
             </div>
         </div>

@@ -16,7 +16,7 @@ export default function EventPreview({
     const [attending, setAttending] = useState(false);
 
     useEffect(() => {
-        if (event && user.attending && user.attending.includes(event._id))
+        if (event && user.events && user.events.includes(event._id))
             setAttending(true);
         else setAttending(false);
         // eslint-disable-next-line
@@ -36,10 +36,10 @@ export default function EventPreview({
     // Duplicated
     async function addEventToUser() {
         try {
-            const prevAttending = user?.attending ? user.attending : [];
+            const prevAttending = user?.events ? user.events : [];
             const reqBody = {
                 userId: user._id,
-                newAttending: [...prevAttending, event._id],
+                events: [...prevAttending, event._id],
             };
             const res = await fetch("/api/user", {
                 method: "PUT",

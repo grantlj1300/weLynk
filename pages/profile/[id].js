@@ -6,6 +6,50 @@ import Loading from "../../components/Loading";
 
 export default function OtherProfile({ otherUserId, user }) {
     const [otherUser, setOtherUser] = useState("loading");
+    const [attending, setAttending] = useState("fetching");
+    const [hosting, setHosting] = useState("fetching");
+    const [archived, setArchived] = useState("fetching");
+
+    useEffect(() => {
+        if (otherUser && otherUser.events) {
+            getEvents();
+        } else {
+            setAttending("none");
+            setHosting("none");
+            setArchived("none");
+        }
+        // eslint-disable-next-line
+    }, [otherUser]);
+
+    function populateEvents(events) {
+        let [att, host, arch] = [[], [], []];
+        const currDate = new Date();
+        events.forEach((event) => {
+            const eventDate = new Date(event.date + "T" + event.time + ":00");
+            if (eventDate.getTime() < currDate.getTime()) arch.push(event);
+            else if (event.admin === otherUser._id) host.push(event);
+            else att.push(event);
+        });
+        att.length > 0 ? setAttending(att) : setAttending("none");
+        host.length > 0 ? setHosting(host) : setHosting("none");
+        arch.length > 0 ? setArchived(arch) : setArchived("none");
+    }
+
+    async function getEvents() {
+        try {
+            const res = await fetch("/api/eventlist", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(otherUser.events),
+            });
+            const result = await res.json();
+            populateEvents(result);
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     async function getOtherUser() {
         try {
@@ -34,7 +78,11 @@ export default function OtherProfile({ otherUserId, user }) {
                 <div className={styles.cardHeader}>
                     <Image
                         className={styles.avatar}
-                        src="/assets/img/default-avi.jpeg"
+                        src={
+                            otherUser.avatar
+                                ? otherUser.avatar
+                                : "/assets/img/default-avi.jpeg"
+                        }
                         alt="Avatar"
                         width={50}
                         height={50}
@@ -54,21 +102,17 @@ export default function OtherProfile({ otherUserId, user }) {
                 </p>
             </div>
             <div className={styles.right}>
-                <h1>Currently Attending</h1>
                 <div className={styles.carouselContainer}>
-                    <Carousel events={otherUser.attending} />
+                    <h1>Currently Attending</h1>
+                    <Carousel events={attending} />
                 </div>
-                <div>
+                <div className={styles.carouselContainer}>
                     <h1>Currently Hosting</h1>
-                    <div className={styles.carouselContainer}>
-                        <Carousel events={otherUser.attending} />
-                    </div>
+                    <Carousel events={hosting} />
                 </div>
-                <div>
+                <div className={styles.carouselContainer}>
                     <h1>Archived Events</h1>
-                    <div className={styles.carouselContainer}>
-                        <Carousel />
-                    </div>
+                    <Carousel events={archived} />
                 </div>
             </div>
         </div>

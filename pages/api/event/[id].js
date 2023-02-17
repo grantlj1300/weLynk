@@ -8,10 +8,17 @@ export default async function handler(req, res) {
     switch (method) {
         case "GET":
             try {
-                const event = await Event.findById(id).populate(
-                    "messages",
-                    "-_id -__v -room"
-                );
+                const event = await Event.findById(id).populate([
+                    {
+                        path: "messages",
+                        select: "-_id -__v -room",
+                    },
+                    {
+                        path: "members",
+                        select: "_id username first last",
+                    },
+                ]);
+                // let results = await OrderModel.find().populate([{path: 'user', select: 'firstname'}, {path: 'meal', select: 'name'}]);
                 res.status(201).send(event);
             } catch (error) {
                 console.log(error);
@@ -20,10 +27,14 @@ export default async function handler(req, res) {
             break;
         case "PUT":
             try {
-                const { newMessages } = req.body;
-                const event = await Event.findByIdAndUpdate(id, {
-                    messages: newMessages,
-                });
+                const { messageId } = req.body;
+                const event = await Event.findByIdAndUpdate(
+                    id,
+                    {
+                        $push: { messages: messageId },
+                    },
+                    { new: true }
+                );
                 res.status(200).send(event);
             } catch (error) {
                 res.status(400).end();

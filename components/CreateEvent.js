@@ -116,10 +116,10 @@ export default function CreateEvent({ user }) {
 
     async function joinEvent(eventId) {
         try {
-            const prevAttending = user?.attending ? user.attending : [];
+            const prevAttending = user?.events ? user.events : [];
             const reqBody = {
                 userId: user._id,
-                newAttending: [...prevAttending, eventId],
+                events: [...prevAttending, eventId],
             };
             const res = await fetch("/api/user", {
                 method: "PUT",

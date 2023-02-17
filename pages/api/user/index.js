@@ -18,9 +18,9 @@ export default async function handler(req, res) {
             break;
         case "PUT":
             try {
-                const { userId, newAttending } = req.body;
-                const user = await User.findByIdAndUpdate(userId, {
-                    attending: newAttending,
+                const { userId } = req.body;
+                const user = await User.findByIdAndUpdate(userId, req.body, {
+                    new: true,
                 });
                 res.status(200).send(user);
             } catch (error) {

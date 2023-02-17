@@ -11,6 +11,10 @@ const userSchema = new Schema({
         required: true,
         trim: true,
     },
+    avatar: {
+        data: Buffer,
+        contentType: String,
+    },
     username: {
         type: String,
         required: true,
@@ -26,7 +30,7 @@ const userSchema = new Schema({
         required: true,
         trim: true,
     },
-    attending: [
+    events: [
         {
             type: mongoose.Types.ObjectId,
             ref: "Event",

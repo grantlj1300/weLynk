@@ -1,0 +1,88 @@
+.modalScreen {
+    margin: 0;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    top: 0%;
+    z-index: 101;
+    background-color: rgba(0, 0, 0, 0.25);
+    height: 100%;
+    width: 100%;
+}
+
+.header {
+    display: flex;
+    box-sizing: border-box;
+    height: 70px;
+    width: 50%;
+    padding: 0px 20px;
+    min-width: 500px;
+    background-color: rgb(112,48,181);
+    justify-content: space-between;
+    align-items: center;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    color: white;
+    font-size: 16pt;
+    font-weight: 600;
+}
+
+.button {
+    cursor: pointer;
+}
+
+.body {
+    overflow-y: scroll;
+    background-color: white;
+    height: 80%;
+    width: 50%;
+    min-width: 500px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.preview {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    margin: 10px;
+}
+.avatar {
+    border-radius: 50%;
+}
+
+.avatarOverlay {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    align-items: flex-end;
+    border-radius: 50%;
+    background-color: rgba(84, 83, 83, 0.373);
+}
+
+.leftIcon {
+    position: absolute;
+    color: white;
+    bottom: 18px;
+    left: 35px;
+    cursor: pointer;
+}
+
+.rightIcon {
+    position: absolute;
+    color: white;
+    bottom: 18px;
+    right: 35px;
+    cursor: pointer;
+}
+
+.cropRegion {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
