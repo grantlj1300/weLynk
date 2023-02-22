@@ -9,7 +9,17 @@ export default async function handler(req, res) {
     switch (method) {
         case "GET":
             try {
-                const events = await Event.find();
+                const { minLon, maxLon, minLat, maxLat } = req.query;
+                const events = await Event.find({
+                    location: {
+                        $geoWithin: {
+                            $box: [
+                                [minLon, minLat],
+                                [maxLon, maxLat],
+                            ],
+                        },
+                    },
+                });
                 res.status(201).send(events);
             } catch (error) {
                 console.log(error);

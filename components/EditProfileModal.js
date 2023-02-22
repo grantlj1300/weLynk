@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import styles from "../styles/EditProfileModal.module.css";
 import { FiCamera, FiTrash2 } from "react-icons/fi";
 import { AiOutlineCloseCircle, AiOutlineCheckCircle } from "react-icons/ai";
+import MiniMapWrapper from "./MiniMapWrapper";
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
 import Image from "next/image";
@@ -18,6 +19,9 @@ export default function EditProfileModal({ closeModal, user, setUser }) {
         first: user.first,
         last: user.last,
     });
+    const [userView, setUserView] = useState(
+        user.defaultRegion ? user.defaultRegion : null
+    );
 
     const onCrop = () => {
         const imageElement = cropperRef?.current;
@@ -53,6 +57,7 @@ export default function EditProfileModal({ closeModal, user, setUser }) {
                 first: nameForm.first,
                 last: nameForm.last,
                 avatar: croppedImg,
+                defaultRegion: userView,
             };
             const res = await fetch("/api/user", {
                 method: "PUT",
@@ -166,6 +171,10 @@ export default function EditProfileModal({ closeModal, user, setUser }) {
                         />
                     </div>
                 )}
+                <MiniMapWrapper
+                    regionView={userView}
+                    setUserView={setUserView}
+                />
             </div>
         </div>
     );

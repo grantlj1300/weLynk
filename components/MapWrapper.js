@@ -57,6 +57,13 @@ export default function MapWrapper({
             controls: [],
         });
         if (regionView) {
+            if (regionView.minLon > regionView.maxLon) {
+                if (regionView.minLon > 0) {
+                    regionView.minLon -= 360;
+                } else {
+                    regionView.maxLon += 360;
+                }
+            }
             const extent = transformExtent(
                 [
                     regionView.minLon,
@@ -100,13 +107,18 @@ export default function MapWrapper({
         }
         // eslint-disable-next-line
     }, [regionView]);
-
+    console.log(events);
     useEffect(() => {
         if (map) {
             markerSource.clear();
             const features = events.map((event) => {
                 const feature = new Feature({
-                    geometry: new Point(fromLonLat([event.lon, event.lat])),
+                    geometry: new Point(
+                        fromLonLat([
+                            event.location.coordinates[0],
+                            event.location.coordinates[1],
+                        ])
+                    ),
                     event: event,
                 });
                 feature.setId(event._id);

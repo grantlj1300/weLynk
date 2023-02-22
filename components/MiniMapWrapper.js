@@ -9,7 +9,12 @@ import { Point } from "ol/geom";
 import Style from "ol/style/Style";
 import Icon from "ol/style/Icon";
 
-export default function MiniMapWrapper({ regionView, pin, locationClick }) {
+export default function MiniMapWrapper({
+    regionView,
+    pin,
+    locationClick,
+    setUserView,
+}) {
     const [map, setMap] = useState();
     const markerSource = useRef();
     const mapElement = useRef();
@@ -46,14 +51,36 @@ export default function MiniMapWrapper({ regionView, pin, locationClick }) {
             }),
             controls: [],
         });
-        initialMap.on("click", handleMapClick);
+        if (regionView) {
+            if (regionView.minLon > regionView.maxLon) {
+                if (regionView.minLon > 0) {
+                    regionView.minLon -= 360;
+                } else {
+                    regionView.maxLon += 360;
+                }
+            }
+            const extent = transformExtent(
+                [
+                    regionView.minLon,
+                    regionView.minLat,
+                    regionView.maxLon,
+                    regionView.maxLat,
+                ],
+                "EPSG:4326",
+                "EPSG:3857"
+            );
+            initialMap.getView().fit(extent);
+        }
+        locationClick
+            ? initialMap.on("click", handleMapClick)
+            : initialMap.on("moveend", handleMapMove);
         mapRef.current = initialMap;
         setMap(initialMap);
         // eslint-disable-next-line
     }, []);
 
     useEffect(() => {
-        if (map && regionView) {
+        if (map && regionView && !setUserView) {
             const extent = transformExtent(
                 [
                     regionView.minLon,
@@ -75,11 +102,40 @@ export default function MiniMapWrapper({ regionView, pin, locationClick }) {
         locationClick(lon, lat);
     }
 
+    function handleMapMove(e) {
+        var [left, bottom, right, top] = transformExtent(
+            e.frameState.extent,
+            "EPSG:3857",
+            "EPSG:4326"
+        );
+        if (left <= -180) {
+            let wraps = Math.floor(left / -180);
+            left += (wraps + (wraps % 2)) * 180;
+        } else if (left >= 180) {
+            let wraps = Math.floor(left / 180);
+            left -= (wraps + (wraps % 2)) * 180;
+        }
+        if (right <= -180) {
+            let wraps = Math.floor(right / -180);
+            right += (wraps + (wraps % 2)) * 180;
+        } else if (right >= 180) {
+            let wraps = Math.floor(right / 180);
+            right -= (wraps + (wraps % 2)) * 180;
+        }
+        console.log(left, right);
+        setUserView({
+            minLon: left,
+            minLat: bottom,
+            maxLon: right,
+            maxLat: top,
+        });
+    }
+
     useEffect(() => {
-        if (markerSource && pin.lat && pin.lon) {
+        if (markerSource && pin && pin.length === 2) {
             markerSource.current.clear();
             const feature = new Feature({
-                geometry: new Point(fromLonLat([pin.lon, pin.lat])),
+                geometry: new Point(fromLonLat([pin[0], pin[1]])),
             });
             markerSource.current.addFeature(feature);
         }

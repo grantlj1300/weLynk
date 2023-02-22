@@ -36,6 +36,12 @@ const userSchema = new Schema({
             ref: "Event",
         },
     ],
+    defaultRegion: {
+        minLon: { type: String },
+        maxLat: { type: String },
+        maxLon: { type: String },
+        minLat: { type: String },
+    },
 });
 
 export default models.User || model("User", userSchema);

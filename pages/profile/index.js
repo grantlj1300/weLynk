@@ -51,7 +51,7 @@ export default function Profile({ user, setUser }) {
             console.log(error);
         }
     }
-
+    console.log(user);
     return (
         <div className={styles.page}>
             {showEditProfileModal && (
@@ -71,7 +71,7 @@ export default function Profile({ user, setUser }) {
                     <Image
                         className={styles.avatar}
                         src={
-                            user.avatar
+                            user.avatar?.length > 0
                                 ? user.avatar
                                 : "/assets/img/default-avi.jpeg"
                         }

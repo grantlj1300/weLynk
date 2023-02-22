@@ -9,7 +9,7 @@ import PhotoSelection from "./CreateForm/PhotoSelection";
 import Success from "./CreateForm/Success";
 import ProgressBar from "./CreateForm/ProgressBar";
 
-export default function CreateEvent({ user }) {
+export default function CreateEvent({ user, setUser }) {
     const [formStep, setFormStep] = useState(1);
     const [formData, setFormData] = useState({
         admin: user._id,
@@ -17,8 +17,7 @@ export default function CreateEvent({ user }) {
         title: "",
         photo: "",
         address: "",
-        lon: "",
-        lat: "",
+        location: { type: "Point", coordinates: [] },
         description: "",
         date: "",
         time: "",
@@ -96,8 +95,13 @@ export default function CreateEvent({ user }) {
         setFormData((prevData) => ({
             ...prevData,
             address: addressObject.formatted_address,
-            lon: addressObject.geometry.location.lng(),
-            lat: addressObject.geometry.location.lat(),
+            location: {
+                type: "Point",
+                coordinates: [
+                    addressObject.geometry.location.lng(),
+                    addressObject.geometry.location.lat(),
+                ],
+            },
         }));
     }
 
@@ -147,6 +151,8 @@ export default function CreateEvent({ user }) {
             });
             const data = await res.json();
             const joined = await joinEvent(data._id);
+            setUser(joined);
+            console.log(joined);
             return joined;
         } catch (error) {
             console.log(error);

@@ -31,15 +31,16 @@ const eventSchema = new Schema({
         required: true,
         trim: true,
     },
-    lon: {
-        type: String,
-        required: true,
-        trim: true,
-    },
-    lat: {
-        type: String,
-        required: true,
-        trim: true,
+    location: {
+        type: {
+            type: String,
+            enum: ["Point"],
+            required: true,
+        },
+        coordinates: {
+            type: [Number],
+            required: true,
+        },
     },
     description: {
         type: String,
@@ -57,5 +58,7 @@ const eventSchema = new Schema({
         trim: true,
     },
 });
+
+eventSchema.index({ location: "2dsphere" });
 
 export default models.Event || model("Event", eventSchema);

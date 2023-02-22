@@ -5,15 +5,24 @@ import styles from "../styles/Events.module.css";
 import PlaceSearch from "../components/PlaceSearch";
 
 export default function Events({ user, setUser }) {
-    const [regionView, setRegionView] = useState(null);
+    const [regionView, setRegionView] = useState(user.defaultRegion);
     const [events, setEvents] = useState("loading");
     const [showSearch, setShowSearch] = useState(false);
 
     async function getEvents() {
         try {
-            const res = await fetch("/api/events", {
-                method: "GET",
-            });
+            const res = await fetch(
+                "/api/events?" +
+                    new URLSearchParams({
+                        minLon: user.defaultRegion.minLon,
+                        maxLon: user.defaultRegion.maxLon,
+                        minLat: user.defaultRegion.minLat,
+                        maxLat: user.defaultRegion.maxLat,
+                    }),
+                {
+                    method: "GET",
+                }
+            );
             const data = await res.json();
             setEvents(data);
             setShowSearch(true);

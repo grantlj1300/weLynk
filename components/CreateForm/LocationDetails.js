@@ -33,8 +33,7 @@ export default function LocationDetails({
             if (res.results[0]) {
                 setFormData((prevData) => ({
                     ...prevData,
-                    lon: lon,
-                    lat: lat,
+                    location: { type: "Point", coordinates: [lon, lat] },
                 }));
                 const addressList = res.results.flatMap((location) =>
                     location.types.includes("plus_code")
@@ -64,8 +63,8 @@ export default function LocationDetails({
         ));
 
     function handleNext() {
-        const { address, lon, lat } = formData;
-        if (address && lon && lat) nextStep();
+        const { address, location } = formData;
+        if (address && location.coordinates.length == 2) nextStep();
     }
 
     return (
@@ -80,7 +79,7 @@ export default function LocationDetails({
             </label>
             <MiniMapWrapper
                 regionView={regionView}
-                pin={formData}
+                pin={formData.location.coordinates}
                 locationClick={locationClick}
             />
             <div className={styles.addressOptionsContainer}>
