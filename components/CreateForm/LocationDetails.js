@@ -72,7 +72,6 @@ export default function LocationDetails({
             <label className={styles.label}>
                 Search a Location:
                 <PlaceSearch
-                    idStyle={styles.searchBar}
                     handlePlaceSelect={selectPlace}
                     showSearch={true}
                 />

@@ -1,11 +1,13 @@
 import React, { useRef, useState } from "react";
 import { Autocomplete } from "@react-google-maps/api";
+import { IoMdRefresh } from "react-icons/io";
+import styles from "../styles/PlaceSearch.module.css";
 
 export default function PlaceSearch({
-    idStyle,
-    classStyle,
     handlePlaceSelect,
     showSearch,
+    refresh,
+    regionView,
 }) {
     const [query, setQuery] = useState("");
     const autoCompleteRef = useRef(null);
@@ -23,14 +25,26 @@ export default function PlaceSearch({
             onPlaceChanged={selectPlace}
             fields={["address_components", "formatted_address", "geometry"]}
         >
-            <input
-                id={idStyle}
-                className={showSearch ? classStyle : undefined}
-                ref={autoCompleteRef}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search a location"
-                value={query}
-            />
+            <div
+                className={`${styles.container} ${
+                    showSearch ? styles.show : ""
+                } ${refresh ? "" : styles.mini}`}
+            >
+                <input
+                    className={`${styles.search} ${refresh ? styles.main : ""}`}
+                    ref={autoCompleteRef}
+                    onChange={(e) => setQuery(e.target.value)}
+                    placeholder="Search a location"
+                    value={query}
+                />
+                {refresh && (
+                    <IoMdRefresh
+                        className={styles.refresh}
+                        size={25}
+                        onClick={() => refresh(regionView)}
+                    />
+                )}
+            </div>
         </Autocomplete>
     );
 }

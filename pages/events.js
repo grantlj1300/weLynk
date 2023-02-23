@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Head from "next/head";
 import MapWrapper from "../components/MapWrapper";
 import styles from "../styles/Events.module.css";
@@ -6,19 +6,14 @@ import PlaceSearch from "../components/PlaceSearch";
 
 export default function Events({ user, setUser }) {
     const [regionView, setRegionView] = useState(user.defaultRegion);
+    const [viewport, setViewport] = useState(user.defaultRegion);
     const [events, setEvents] = useState("loading");
     const [showSearch, setShowSearch] = useState(false);
 
-    async function getEvents() {
+    async function getEvents(coordinates) {
         try {
             const res = await fetch(
-                "/api/events?" +
-                    new URLSearchParams({
-                        minLon: user.defaultRegion.minLon,
-                        maxLon: user.defaultRegion.maxLon,
-                        minLat: user.defaultRegion.minLat,
-                        maxLat: user.defaultRegion.maxLat,
-                    }),
+                "/api/events?" + new URLSearchParams(coordinates),
                 {
                     method: "GET",
                 }
@@ -31,7 +26,7 @@ export default function Events({ user, setUser }) {
         }
     }
 
-    function handlePlaceSelect(addressObject) {
+    async function handlePlaceSelect(addressObject) {
         if (!addressObject.geometry) return;
         const newView = {
             maxLon: addressObject.geometry.viewport.getNorthEast().lng(),
@@ -39,11 +34,12 @@ export default function Events({ user, setUser }) {
             maxLat: addressObject.geometry.viewport.getNorthEast().lat(),
             minLat: addressObject.geometry.viewport.getSouthWest().lat(),
         };
+        await getEvents(newView);
         setRegionView(newView);
     }
 
     useEffect(() => {
-        getEvents();
+        getEvents(regionView);
         // eslint-disable-next-line
     }, []);
 
@@ -57,6 +53,7 @@ export default function Events({ user, setUser }) {
                 classStyle={styles.showBox}
                 handlePlaceSelect={handlePlaceSelect}
                 showSearch={showSearch}
+                refresh={() => getEvents(viewport)}
             />
             <MapWrapper
                 regionView={regionView}
@@ -64,6 +61,8 @@ export default function Events({ user, setUser }) {
                 setShowSearch={setShowSearch}
                 user={user}
                 setUser={setUser}
+                viewport={viewport}
+                setViewport={setViewport}
             />
         </div>
     );

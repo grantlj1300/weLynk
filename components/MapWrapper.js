@@ -12,6 +12,7 @@ import EventPreview from "./EventPreview";
 
 export default function MapWrapper({
     regionView,
+    setViewport,
     events,
     setShowSearch,
     user,
@@ -85,6 +86,7 @@ export default function MapWrapper({
         initialMap.addOverlay(overlay);
         initialMap.on("click", handleMapClick);
         initialMap.on("pointermove", handlePointerMove);
+        initialMap.on("moveend", handleMapMove);
         mapRef.current = initialMap;
         setMap(initialMap);
         // eslint-disable-next-line
@@ -107,7 +109,7 @@ export default function MapWrapper({
         }
         // eslint-disable-next-line
     }, [regionView]);
-    console.log(events);
+
     useEffect(() => {
         if (map) {
             markerSource.clear();
@@ -150,6 +152,34 @@ export default function MapWrapper({
             overlaySource.current.setPosition(undefined);
             e.map.getTargetElement().style.cursor = "";
         }
+    }
+
+    function handleMapMove(e) {
+        var [left, bottom, right, top] = transformExtent(
+            e.frameState.extent,
+            "EPSG:3857",
+            "EPSG:4326"
+        );
+        if (left <= -180) {
+            let wraps = Math.floor(left / -180);
+            left += (wraps + (wraps % 2)) * 180;
+        } else if (left >= 180) {
+            let wraps = Math.floor(left / 180);
+            left -= (wraps + (wraps % 2)) * 180;
+        }
+        if (right <= -180) {
+            let wraps = Math.floor(right / -180);
+            right += (wraps + (wraps % 2)) * 180;
+        } else if (right >= 180) {
+            let wraps = Math.floor(right / 180);
+            right -= (wraps + (wraps % 2)) * 180;
+        }
+        setViewport({
+            minLon: left,
+            minLat: bottom,
+            maxLon: right,
+            maxLat: top,
+        });
     }
 
     function handleMapClick(e) {
