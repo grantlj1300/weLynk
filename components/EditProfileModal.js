@@ -98,7 +98,7 @@ export default function EditProfileModal({ closeModal, user, setUser }) {
                     <Image
                         className={styles.avatar}
                         src={
-                            croppedImg
+                            croppedImg.length > 0
                                 ? croppedImg
                                 : "/assets/img/default-avi.jpeg"
                         }

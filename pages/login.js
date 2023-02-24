@@ -1,29 +1,36 @@
 import Link from "next/link";
 import Head from "next/head";
-import { useEffect, useState } from "react";
-import styles from "../styles/Login.module.css";
+import { useState } from "react";
+import styles from "../styles/Auth.module.css";
 import Image from "next/image";
 import { BiMapPin } from "react-icons/bi";
+import { RiEyeLine, RiEyeCloseLine } from "react-icons/ri";
 
 export default function Login({ handleUserLogIn }) {
     const [formData, setFormData] = useState({
         username: "",
         password: "",
     });
-    const [errors, setErrors] = useState();
-
-    useEffect(() => {
-        if (errors) {
-            console.log(errors);
-        }
-    }, [errors]);
+    const [errors, setErrors] = useState({
+        username: "",
+        password: "",
+    });
+    const [submitStatus, setSubmitStatus] = useState("none");
+    const [passwordView, setPasswordView] = useState("password");
 
     function handleChange(e) {
         const { name, value } = e.target;
+        if (errors[name]) {
+            setErrors((prev) => ({
+                ...prev,
+                [name]: "",
+            }));
+        }
         setFormData((prevData) => ({ ...prevData, [name]: value }));
     }
 
     async function logInUser() {
+        setSubmitStatus("submitting");
         try {
             const res = await fetch("/api/auth/login", {
                 method: "POST",
@@ -36,16 +43,62 @@ export default function Login({ handleUserLogIn }) {
             if (result.success) {
                 handleUserLogIn(result.user);
             } else {
-                setErrors(result.error);
+                Object.keys(result.errors).forEach((key) => {
+                    setErrors((prevData) => ({
+                        ...prevData,
+                        [key]: result.errors[key],
+                    }));
+                });
+                setSubmitStatus("none");
             }
         } catch (error) {
+            setSubmitStatus("none");
             console.log(error);
         }
     }
 
+    function checkFormData() {
+        const formErr = {};
+        if (formData.username.length === 0)
+            formErr.username = "Please enter your username";
+        if (formData.password.length === 0)
+            formErr.password = "Please enter your password";
+        if (Object.keys(formErr).length > 0) {
+            setErrors((prevErrors) => ({
+                ...prevErrors,
+                ...formErr,
+            }));
+            return false;
+        }
+        return true;
+    }
+
     function handleLogInClick(e) {
         e.preventDefault();
-        logInUser();
+        const formStatus = checkFormData();
+        if (formStatus) {
+            logInUser();
+        }
+    }
+
+    function renderSubmit() {
+        if (submitStatus === "none") {
+            return (
+                <input
+                    className={styles.submit}
+                    type="submit"
+                    value="Log in"
+                    onClick={handleLogInClick}
+                />
+            );
+        }
+        if (submitStatus === "submitting") {
+            return (
+                <div className={styles.submit}>
+                    <div className={styles.spin} />
+                </div>
+            );
+        }
     }
 
     return (
@@ -53,18 +106,18 @@ export default function Login({ handleUserLogIn }) {
             <Head>
                 <title>weLynk | Login</title>
             </Head>
+            <div className={styles.blob} />
+            <Link href="/" className={`${styles.logo} ${"logo"}`}>
+                <BiMapPin size={25} />
+                <div className="logoText">weLynk</div>
+            </Link>
             <div className={styles.left}>
-                <div className={styles.blob} />
                 <div className={styles.leftInfo}>
-                    <Link href="/" className="logo">
-                        <BiMapPin size={25} />
-                        <div className="logoText">weLynk</div>
-                    </Link>
-                    <h1 className={styles.leftHeader}>Hello visitor,</h1>
+                    <h1 className={styles.leftHeader}>Welcome back,</h1>
                     <p className={styles.leftBody}>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Praesent fringilla turpis ex, eget tristique libero
-                        interdum in.
+                        Continue your journey and make some new connections,
+                        link up with old friends, or find some new hobbies
+                        you&apos;d like to try!
                     </p>
                     <Image
                         src="/assets/img/login-surf.svg"
@@ -78,7 +131,9 @@ export default function Login({ handleUserLogIn }) {
             <div className={styles.right}>
                 <form className={styles.form}>
                     <h1>Log in</h1>
-                    <p>Welcome back! Please enter your details.</p>
+                    {errors.username && (
+                        <div className={styles.error}>{errors.username}</div>
+                    )}
                     <input
                         className={styles.input}
                         type="text"
@@ -87,23 +142,36 @@ export default function Login({ handleUserLogIn }) {
                         value={formData.username}
                         onChange={handleChange}
                     />
-                    <input
-                        className={styles.input}
-                        type="text"
-                        name="password"
-                        placeholder="Password"
-                        value={formData.password}
-                        onChange={handleChange}
-                    />
-                    <input
-                        className={styles.submit}
-                        type="submit"
-                        value="Sign in"
-                        onClick={handleLogInClick}
-                    />
-                    <p className={styles.switch}>
+                    {errors.password && (
+                        <div className={styles.error}>{errors.password}</div>
+                    )}
+                    <div className={styles.password}>
+                        <input
+                            className={styles.input}
+                            type={passwordView}
+                            name="password"
+                            placeholder="Password"
+                            value={formData.password}
+                            onChange={handleChange}
+                        />
+                        {passwordView === "password" ? (
+                            <RiEyeCloseLine
+                                className={styles.passwordIcon}
+                                size={25}
+                                onClick={() => setPasswordView("text")}
+                            />
+                        ) : (
+                            <RiEyeLine
+                                className={styles.passwordIcon}
+                                size={25}
+                                onClick={() => setPasswordView("password")}
+                            />
+                        )}
+                    </div>
+                    {renderSubmit()}
+                    <p className={styles.login}>
                         Don&apos;t have an account?{" "}
-                        <Link className={styles.signUp} href="/register">
+                        <Link className={styles.loginLink} href="/register">
                             Sign Up
                         </Link>
                     </p>

@@ -16,17 +16,12 @@ export default async function handler(req, res) {
                     ],
                 });
                 if (existingUser) {
-                    if (existingUser.email === req.body.email) {
-                        res.status(403).send({
-                            error: { email: "Email already exists" },
-                            success: false,
-                        });
-                    } else {
-                        res.status(403).send({
-                            error: { username: "Username already exists" },
-                            success: false,
-                        });
-                    }
+                    let errors = {};
+                    if (existingUser.email === req.body.email)
+                        errors.email = "Email already in use";
+                    if (existingUser.username === req.body.username)
+                        errors.username = "Username already in use";
+                    res.status(403).send({ errors: errors, success: false });
                 } else {
                     let userToAdd = req.body;
                     const hashedPassword = await bcrypt.hash(

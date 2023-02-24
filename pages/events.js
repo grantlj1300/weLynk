@@ -5,8 +5,12 @@ import styles from "../styles/Events.module.css";
 import PlaceSearch from "../components/PlaceSearch";
 
 export default function Events({ user, setUser }) {
-    const [regionView, setRegionView] = useState(user.defaultRegion);
-    const [viewport, setViewport] = useState(user.defaultRegion);
+    const [regionView, setRegionView] = useState(
+        user.defaultRegion ? user.defaultRegion : null
+    );
+    const [viewport, setViewport] = useState(
+        user.defaultRegion ? user.defaultRegion : null
+    );
     const [events, setEvents] = useState("loading");
     const [showSearch, setShowSearch] = useState(false);
 

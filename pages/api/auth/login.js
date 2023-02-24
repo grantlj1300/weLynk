@@ -13,7 +13,10 @@ export default async function handler(req, res) {
                     username: req.body.username,
                 });
                 if (!user) {
-                    res.status(404).send({ success: false, error: "username" });
+                    res.status(404).send({
+                        success: false,
+                        errors: { username: "Username not found" },
+                    });
                 } else {
                     const match = await bcrypt.compare(
                         req.body.password,
@@ -25,7 +28,7 @@ export default async function handler(req, res) {
                     } else
                         res.status(403).send({
                             success: false,
-                            error: "password",
+                            errors: { password: "Incorrect password" },
                         });
                 }
             } catch (error) {

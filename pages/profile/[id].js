@@ -3,12 +3,15 @@ import React, { useEffect, useState } from "react";
 import styles from "../../styles/Profile.module.css";
 import Carousel from "../../components/Carousel";
 import Loading from "../../components/Loading";
+import Head from "next/head";
+import { useRouter } from "next/router";
 
 export default function OtherProfile({ otherUserId, user }) {
     const [otherUser, setOtherUser] = useState("loading");
     const [attending, setAttending] = useState("fetching");
     const [hosting, setHosting] = useState("fetching");
     const [archived, setArchived] = useState("fetching");
+    const router = useRouter();
 
     useEffect(() => {
         if (otherUser && otherUser.events) {
@@ -60,6 +63,7 @@ export default function OtherProfile({ otherUserId, user }) {
             setOtherUser(data);
         } catch (error) {
             console.log(error);
+            router.push("/404");
         }
     }
 
@@ -74,7 +78,10 @@ export default function OtherProfile({ otherUserId, user }) {
 
     return (
         <div className={styles.page}>
-            <div className={styles.left}>
+            <Head>
+                <title>weLynk | {otherUser.username}</title>
+            </Head>
+            <div className={styles.user}>
                 <div className={styles.cardHeader}>
                     <Image
                         className={styles.avatar}

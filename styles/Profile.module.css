@@ -1,18 +1,14 @@
 .page {
     display: flex;
-    margin-top: 25px;
-    align-items: center;
+    flex-direction: column;
+    overflow-x: hidden;
 }
 
-.left {
+.user {
     display: flex;
-    flex-direction: column;
-    margin: 25px;
-    height: 600px;
-    min-width: 350px;
-    max-width: 400px;
     box-shadow: 0px 10px 50px -7px rgba(158, 157, 157, 0.75);
     border-radius: 25px;
+    margin: 25px 50px;
 }
 
 .cardHeader {
@@ -24,8 +20,8 @@
     background: rgb(112,48,181);
     background: radial-gradient(circle, rgba(145,84,209,1) 13%, rgba(112,48,181,1) 100%);
     border-top-left-radius: 25px;
-    border-top-right-radius: 25px;
-    padding: 20px;
+    border-bottom-left-radius: 25px;
+    padding: 50px;
 }
 
 .setting {
@@ -42,7 +38,7 @@
 }
 
 .about {
-    margin: 10px 20px 0px 20px;
+    padding: 20px;
 }
 
 .right {
@@ -55,45 +51,28 @@
     position: relative;
     width: 100%;
 }
+.carouselContainer > h1 {
+    color: black;
+    text-indent: 25px;
+}
 
 @media only screen and (max-width: 768px) {
-    .page {
-        flex-direction: column;
-        margin: 20px;
-    }
-    .left {
-        margin: 0px;
-        flex-direction: row;
-        max-width: none;
-        min-width: auto;
-        width: 100%;
-        height: fit-content;
-        box-shadow: none;
-        border-radius: 0px;
+    .user {
+       margin: 20px;
     }
     .cardHeader {
-        border-radius: 25px;
+        padding: 30px;
     }
     .right {
         width: 100vw;
-        text-indent: 25px;
-        margin-top: 25px;
     }
 }
 @media only screen and (max-width: 530px) {
-    .left {
+    .user {
         flex-direction: column;
-        width: 100vw;
-        box-shadow: 0px 10px 50px -7px rgba(158, 157, 157, 0.75);
-        border-radius: 25px;
     }
     .cardHeader {
-        margin: 0px;
         border-bottom-left-radius: 0px;
-        border-bottom-right-radius: 0px;
-    }
-    .about {
-        margin: 0px;
-        padding: 10px 20px 10px 20px;
+        border-top-right-radius: 25px;
     }
 }

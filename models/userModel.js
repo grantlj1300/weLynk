@@ -37,10 +37,19 @@ const userSchema = new Schema({
         },
     ],
     defaultRegion: {
-        minLon: { type: String },
-        maxLat: { type: String },
-        maxLon: { type: String },
-        minLat: { type: String },
+        type: {
+            minLon: { type: String },
+            maxLat: { type: String },
+            maxLon: { type: String },
+            minLat: { type: String },
+        },
+        required: true,
+        default: {
+            minLon: "-124.733",
+            maxLat: "49.5904",
+            maxLon: "-66.9548",
+            minLat: "24.9493",
+        },
     },
 });
 

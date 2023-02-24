@@ -30,7 +30,6 @@ export default function MyApp({ Component, pageProps }) {
             }
             fetchUser(foundUserId);
         } else if (!userSession) {
-            console.log("user not here");
             setUser(null);
         }
         // eslint-disable-next-line

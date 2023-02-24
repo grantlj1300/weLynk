@@ -4,6 +4,7 @@ import styles from "../../styles/Profile.module.css";
 import Carousel from "../../components/Carousel";
 import { AiOutlineSetting } from "react-icons/ai";
 import EditProfileModal from "../../components/EditProfileModal";
+import Head from "next/head";
 
 export default function Profile({ user, setUser }) {
     const [showEditProfileModal, setShowEditProfileModal] = useState(false);
@@ -51,9 +52,12 @@ export default function Profile({ user, setUser }) {
             console.log(error);
         }
     }
-    console.log(user);
+
     return (
         <div className={styles.page}>
+            <Head>
+                <title>weLynk | {user.username}</title>
+            </Head>
             {showEditProfileModal && (
                 <EditProfileModal
                     closeModal={() => setShowEditProfileModal(false)}
@@ -61,7 +65,7 @@ export default function Profile({ user, setUser }) {
                     setUser={setUser}
                 />
             )}
-            <div className={styles.left}>
+            <div className={styles.user}>
                 <div className={styles.cardHeader}>
                     <AiOutlineSetting
                         className={styles.setting}
@@ -95,16 +99,19 @@ export default function Profile({ user, setUser }) {
             </div>
             <div className={styles.right}>
                 <div className={styles.carouselContainer}>
-                    <h1>Currently Attending</h1>
-                    <Carousel events={attending} />
+                    <h1>Attending</h1>
+                    <Carousel
+                        events={attending}
+                        empty={"you aren't attending"}
+                    />
                 </div>
                 <div className={styles.carouselContainer}>
-                    <h1>Currently Hosting</h1>
-                    <Carousel events={hosting} />
+                    <h1>Hosting</h1>
+                    <Carousel events={hosting} empty={"you aren't hosting"} />
                 </div>
                 <div className={styles.carouselContainer}>
-                    <h1>Archived Events</h1>
-                    <Carousel events={archived} />
+                    <h1>Previous Events</h1>
+                    <Carousel events={archived} empty={"you haven't been to"} />
                 </div>
             </div>
         </div>

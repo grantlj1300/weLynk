@@ -1,0 +1,196 @@
+.page {
+    display: flex;
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    background-color: white;
+    overflow: hidden;
+}
+.blob {
+    position: absolute;
+    width: 2000px;
+    height: 2000px;
+    border-radius: 50%;
+    background: rgb(112,48,181);
+    background: radial-gradient(circle, rgb(119, 55, 187) 40%, rgb(211, 148, 216) 100%);
+    top: -10%;
+    right: 48%;
+    transform: translateY(-50%);
+}
+.logo{
+    position: absolute;
+    top: 35px;
+    left: 40px;
+}
+.left {
+    width: 55%;
+}
+
+.leftInfo {
+    position: relative;
+    color: white;
+    height: 100%;
+    z-index: 2;
+    padding: 50px;
+}
+.link, .link:hover, .link:visited, .link:active, .logout {
+    color: white;
+    text-decoration: none;
+}
+
+.leftHeader {
+    margin-top: 75px;
+}
+.leftBody {
+    width: 70%;
+    margin-top: 10px;
+}
+
+.surfImg {
+    position: absolute;
+    width: 60%;
+    height: auto;
+    bottom: 18%;
+    right: 25%;
+    z-index: 3;
+}
+
+.right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45%;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    width: 75%;
+}
+.form > h1 {
+    margin-bottom: 10px;
+}
+
+.error {
+    font-size: 12px;
+    color: rgb(229, 110, 110);
+}
+
+.input {
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    font-size: 16pt;
+    padding: 5px 8px;
+    width: 100%;
+}
+.input:focus {
+    outline: none;
+}
+
+.password {
+    position: relative;
+    width: 100%;
+}
+.password > input {
+    padding-right: 35px;
+}
+.passwordIcon {
+    position: absolute;
+    top: 6px;
+    right: 8px;
+}
+
+.submit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Nunito", sans-serif;
+    background-color: rgb(195, 74, 195);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    margin-top: 10px;
+    font-size: 16pt;
+    padding: 13px;
+    cursor: pointer;
+}
+.submit:hover {
+    background-color: rgb(159, 58, 159);
+}
+
+.spin {
+    z-index: 2;
+    height: 19px;
+    width: 19px;
+    animation: rotate 0.8s infinite linear;
+    border: 5px solid rgba(255, 255, 255, 0.729);
+    border-right-color: transparent;
+    border-radius: 50%;
+}
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.login {
+    margin-top: 15px;
+    align-self: center;
+    font-size: 14px;
+}
+.loginLink {
+    text-decoration: none;
+    font-weight: 700;
+    color: rgb(186, 0, 186);
+}
+
+@media only screen and (max-width: 800px) {
+    .page {
+        align-items: center;
+        justify-content: center;
+    }
+    .blob {
+        top: 0%;
+        right: 20%;
+    }
+    .left {
+        width: 0%;
+    }
+    .leftHeader, .leftBody, .surfImg {
+        visibility: collapse;
+    }
+    .right {
+        box-sizing: border-box;
+        padding: 40px;
+        min-width: 70%;
+        z-index: 10;
+        background-color: white;
+        border-radius: 50px;
+        box-shadow: 0px 10px 50px -7px rgba(74, 74, 74, 0.75);
+    }
+    .form {
+        width: 100%;
+    }
+}
+@media only screen and (max-width: 600px) {
+    .blob {
+        right: -30%;
+    }
+    .form > h1 {
+        font-size: 24px;
+    }
+    .right {
+        min-width: 90%;
+    }
+}
+@media only screen and (max-width: 400px) {
+    .form > h1 {
+        font-size: 22px;
+    }
+    .right {
+        min-width: 95%;
+    }
+}
