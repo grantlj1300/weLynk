@@ -21,6 +21,7 @@ export default function CreateEvent({ user, setUser }) {
         description: "",
         date: "",
         time: "",
+        eventType: "misc",
     });
     const [stepStyles, setStepStyles] = useState([
         `${styles.progressIconContainer} ${styles.completed}`,

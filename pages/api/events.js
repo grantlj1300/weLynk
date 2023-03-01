@@ -9,7 +9,10 @@ export default async function handler(req, res) {
     switch (method) {
         case "GET":
             try {
-                const { minLon, maxLon, minLat, maxLat } = req.query;
+                let { minLon, maxLon, minLat, maxLat } = req.query;
+                if (parseFloat(minLon) > parseFloat(maxLon)) {
+                    minLon -= 360;
+                }
                 const events = await Event.find({
                     location: {
                         $geoWithin: {

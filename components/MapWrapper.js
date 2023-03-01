@@ -6,9 +6,9 @@ import VectorSource from "ol/source/Vector";
 import { fromLonLat, transformExtent } from "ol/proj";
 import MapboxVector from "ol/layer/MapboxVector";
 import { Point } from "ol/geom";
-import Style from "ol/style/Style";
-import Icon from "ol/style/Icon";
+import { Style, Icon } from "ol/style";
 import EventPreview from "./EventPreview";
+import MapFilter from "./MapFilter";
 
 export default function MapWrapper({
     regionView,
@@ -17,6 +17,8 @@ export default function MapWrapper({
     setShowSearch,
     user,
     setUser,
+    showFilter,
+    closeFilter,
 }) {
     const [map, setMap] = useState();
     const [currentEvent, setCurrentEvent] = useState();
@@ -31,12 +33,6 @@ export default function MapWrapper({
         const markers = new VectorLayer({
             source: new VectorSource({
                 features: [],
-            }),
-            style: new Style({
-                image: new Icon({
-                    src: "https://docs.maptiler.com/openlayers/default-marker/marker-icon.png",
-                    anchor: [0.5, 1],
-                }),
             }),
         });
         setMarkerSource(markers.getSource());
@@ -80,7 +76,7 @@ export default function MapWrapper({
         const overlay = new Overlay({
             element: document.getElementById("popup"),
             positioning: "bottom-center",
-            offset: [0, -50],
+            offset: [0, -62],
         });
         overlaySource.current = overlay;
         initialMap.addOverlay(overlay);
@@ -123,6 +119,13 @@ export default function MapWrapper({
                     ),
                     event: event,
                 });
+                const iconStyle = new Style({
+                    image: new Icon({
+                        src: "/assets/icons/" + event.eventType + ".png",
+                        anchor: [0.5, 1],
+                    }),
+                });
+                feature.setStyle(iconStyle);
                 feature.setId(event._id);
                 return feature;
             });
@@ -145,7 +148,11 @@ export default function MapWrapper({
             const coord = hovered.getGeometry().getCoordinates();
             coord[0] += offset * 20037508.34 * 2;
             let container = document.getElementById("popup");
-            container.innerHTML = hovered.get("event").title;
+            container.innerHTML = `<div class="${
+                styles.tail
+            }"></div> <div class="${styles.borderTail}"></div> ${
+                hovered.get("event").title
+            }`;
             e.map.getTargetElement().style.cursor = "pointer";
             overlaySource.current.setPosition(coord);
         } else {
@@ -189,6 +196,7 @@ export default function MapWrapper({
                 return feature;
             }
         );
+        closeFilter();
         if (clicked instanceof Feature) {
             setCurrentEvent(clicked.get("event"));
             setShowSearch(false);
@@ -215,6 +223,11 @@ export default function MapWrapper({
                     <div className={styles.spinner} />
                 </div>
             )}
+            <MapFilter
+                show={showFilter}
+                closeFilter={closeFilter}
+                setShowSearch={setShowSearch}
+            />
             <EventPreview
                 event={currentEvent}
                 setEvent={setCurrentEvent}

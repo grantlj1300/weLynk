@@ -44,7 +44,7 @@
     border-top-right-radius: 0px;
     border-bottom-right-radius: 0px;
 }
-.refresh {
+.button {
     padding: 0px 10px;
     border-top-right-radius: inherit;
     border-bottom-right-radius: inherit;
@@ -53,8 +53,14 @@
     color: gray;
     background-color: rgb(255, 255, 255);
 }
-.refresh:active {
-    background-color: rgb(220, 220, 220);
+.button:hover {
+    background-color: rgb(246, 246, 246);
+}
+.button:active {
+    background-color: rgb(235, 235, 235);
+}
+.filter {
+    border-radius: 0px;
 }
 
 @media only screen and (max-width: 600px) {

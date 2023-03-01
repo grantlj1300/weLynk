@@ -1,13 +1,16 @@
 import React, { useRef, useState } from "react";
 import { Autocomplete } from "@react-google-maps/api";
 import { IoMdRefresh } from "react-icons/io";
+import { BsFilterLeft } from "react-icons/bs";
 import styles from "../styles/PlaceSearch.module.css";
 
 export default function PlaceSearch({
     handlePlaceSelect,
     showSearch,
+    setShowSearch,
     refresh,
     regionView,
+    filter,
 }) {
     const [query, setQuery] = useState("");
     const autoCompleteRef = useRef(null);
@@ -37,9 +40,19 @@ export default function PlaceSearch({
                     placeholder="Search a location"
                     value={query}
                 />
+                {filter && (
+                    <BsFilterLeft
+                        className={`${styles.button} ${styles.filter}`}
+                        size={30}
+                        onClick={() => {
+                            filter();
+                            setShowSearch(false);
+                        }}
+                    />
+                )}
                 {refresh && (
                     <IoMdRefresh
-                        className={styles.refresh}
+                        className={styles.button}
                         size={25}
                         onClick={() => refresh(regionView)}
                     />

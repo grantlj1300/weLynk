@@ -1,33 +1,35 @@
-#infoBox {
+.container {
     display: flex;
+    box-sizing: border-box;
     flex-direction: column;
     position: absolute;
-    right: 0;
+    left: 0;
     z-index: 1;
     background-color: rgb(255, 255, 255);
     height: inherit;
     width: 0;
-    box-shadow: -15px 0px 17px -7px rgba(158, 157, 157, 0.75);
-    border-radius: 25px 0px 0px 25px;
+    box-shadow: 15px 0px 17px -7px rgba(158, 157, 157, 0.75);
+    border-radius: 0px 25px 25px 0px;
     overflow-x: hidden;
     visibility: hidden;
     transition: 0.3s;
     max-width: 450px;
+    padding: 5px 5px 0px 20px;
 }
 
-#infoBox.show {
+.container.show {
     visibility: visible;
-    width: 60%;
+    width: 40%;
     max-width: 450px;
 }
 
 @media only screen and (max-width: 600px) {
-    #infoBox {
+    .container {
         height: 0;
         bottom: 0;
         width: 100%;
     }
-    #infoBox.show {
+    .container.show {
         border-radius: 25px 25px 0px 0px;
         height: 60%;
         width: 100%;
@@ -36,10 +38,10 @@
 }
 
 .closeIcon {
-    position: absolute;
     z-index: 1;
     margin: 10px;
-    color: white;
+    align-self: flex-end;
+    color: rgb(112,48,181);
     cursor: pointer;
 }
 .imageContainer {

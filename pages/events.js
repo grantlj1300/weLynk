@@ -13,6 +13,7 @@ export default function Events({ user, setUser }) {
     );
     const [events, setEvents] = useState("loading");
     const [showSearch, setShowSearch] = useState(false);
+    const [showFilter, setShowFilter] = useState(false);
 
     async function getEvents(coordinates) {
         try {
@@ -57,7 +58,9 @@ export default function Events({ user, setUser }) {
                 classStyle={styles.showBox}
                 handlePlaceSelect={handlePlaceSelect}
                 showSearch={showSearch}
+                setShowSearch={setShowSearch}
                 refresh={() => getEvents(viewport)}
+                filter={() => setShowFilter(true)}
             />
             <MapWrapper
                 regionView={regionView}
@@ -67,6 +70,8 @@ export default function Events({ user, setUser }) {
                 setUser={setUser}
                 viewport={viewport}
                 setViewport={setViewport}
+                showFilter={showFilter}
+                closeFilter={() => setShowFilter(false)}
             />
         </div>
     );
