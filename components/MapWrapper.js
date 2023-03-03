@@ -18,7 +18,10 @@ export default function MapWrapper({
     user,
     setUser,
     showFilter,
-    closeFilter,
+    setShowFilter,
+    filterEvents,
+    filter,
+    setFilter,
 }) {
     const [map, setMap] = useState();
     const [currentEvent, setCurrentEvent] = useState();
@@ -196,7 +199,7 @@ export default function MapWrapper({
                 return feature;
             }
         );
-        closeFilter();
+        setShowFilter(false);
         if (clicked instanceof Feature) {
             setCurrentEvent(clicked.get("event"));
             setShowSearch(false);
@@ -225,8 +228,11 @@ export default function MapWrapper({
             )}
             <MapFilter
                 show={showFilter}
-                closeFilter={closeFilter}
+                setShowFilter={setShowFilter}
                 setShowSearch={setShowSearch}
+                filterEvents={filterEvents}
+                filter={filter}
+                setFilter={setFilter}
             />
             <EventPreview
                 event={currentEvent}

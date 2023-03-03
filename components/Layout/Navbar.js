@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React, { useState } from "react";
-import styles from "../styles/Navbar.module.css";
+import styles from "../../styles/Navbar.module.css";
 import { BiMapPin } from "react-icons/bi";
 
 export default function Navbar({ handleLogOut, user }) {

@@ -14,11 +14,15 @@ export default function Events({ user, setUser }) {
     const [events, setEvents] = useState("loading");
     const [showSearch, setShowSearch] = useState(false);
     const [showFilter, setShowFilter] = useState(false);
+    const [filter, setFilter] = useState("all");
+    const [activeFilter, setActiveFilter] = useState(filter);
 
     async function getEvents(coordinates) {
+        const params = { ...coordinates, filter: filter };
+        setActiveFilter(filter);
         try {
             const res = await fetch(
-                "/api/events?" + new URLSearchParams(coordinates),
+                "/api/events?" + new URLSearchParams(params),
                 {
                     method: "GET",
                 }
@@ -60,7 +64,10 @@ export default function Events({ user, setUser }) {
                 showSearch={showSearch}
                 setShowSearch={setShowSearch}
                 refresh={() => getEvents(viewport)}
-                filter={() => setShowFilter(true)}
+                filter={() => {
+                    setFilter(activeFilter);
+                    setShowFilter(true);
+                }}
             />
             <MapWrapper
                 regionView={regionView}
@@ -71,7 +78,10 @@ export default function Events({ user, setUser }) {
                 viewport={viewport}
                 setViewport={setViewport}
                 showFilter={showFilter}
-                closeFilter={() => setShowFilter(false)}
+                setShowFilter={setShowFilter}
+                filterEvents={() => getEvents(viewport)}
+                filter={filter}
+                setFilter={setFilter}
             />
         </div>
     );

@@ -2,7 +2,6 @@
     display: flex;
     flex-direction: column;
     position: absolute;
-    right: 0;
     z-index: 1;
     background-color: rgb(255, 255, 255);
     height: inherit;
@@ -11,26 +10,28 @@
     border-radius: 25px 0px 0px 25px;
     overflow-x: hidden;
     visibility: hidden;
-    transition: 0.3s;
     max-width: 450px;
+    width: 60%;
+    right: -40%;
+    transition: right 0.3s, visibility 0.3s;
 }
 
 #infoBox.show {
     visibility: visible;
-    width: 60%;
-    max-width: 450px;
+    right: 0;
 }
 
 @media only screen and (max-width: 600px) {
     #infoBox {
-        height: 0;
-        bottom: 0;
+        height: 60%;
+        right: auto;
+        transition: bottom 0.3s, visibility 0.3s;
+        bottom: -60%;
         width: 100%;
+        border-radius: 25px 25px 0px 0px;
     }
     #infoBox.show {
-        border-radius: 25px 25px 0px 0px;
-        height: 60%;
-        width: 100%;
+        bottom: 0;
         max-width: none;
     }
 }

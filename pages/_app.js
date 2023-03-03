@@ -1,8 +1,9 @@
-import Layout from "../components/Layout";
+import Layout from "../components/Layout/Layout";
 import RouteGuard from "../components/RouteGuard";
 import "../styles/globals.css";
 import { LoadScript } from "@react-google-maps/api";
 import { useEffect, useState } from "react";
+import Head from "next/head";
 
 const libraries = ["places"];
 
@@ -46,21 +47,30 @@ export default function MyApp({ Component, pageProps }) {
     }
 
     return (
-        <LoadScript
-            googleMapsApiKey={process.env.NEXT_PUBLIC_MAP_API_KEY}
-            libraries={libraries}
-            loadingElement={<div />}
-        >
-            <RouteGuard user={user}>
-                <Layout handleLogOut={handleLogOut} user={user}>
-                    <Component
-                        {...pageProps}
-                        handleUserLogIn={handleUserLogIn}
-                        user={user}
-                        setUser={setUser}
-                    />
-                </Layout>
-            </RouteGuard>
-        </LoadScript>
+        <>
+            <Head>
+                <meta
+                    name="description"
+                    content="weLynk is a social platform that allows you to create and join events based on your interests. From sports to music, food to travel, and everything in between, weLynk connects people who share common passions and hobbies. Start planning your next hangout today!"
+                />
+                <link rel="icon" href="/assets/img/logo.png" />
+            </Head>
+            <LoadScript
+                googleMapsApiKey={process.env.NEXT_PUBLIC_MAP_API_KEY}
+                libraries={libraries}
+                loadingElement={<div />}
+            >
+                <RouteGuard user={user}>
+                    <Layout handleLogOut={handleLogOut} user={user}>
+                        <Component
+                            {...pageProps}
+                            handleUserLogIn={handleUserLogIn}
+                            user={user}
+                            setUser={setUser}
+                        />
+                    </Layout>
+                </RouteGuard>
+            </LoadScript>
+        </>
     );
 }

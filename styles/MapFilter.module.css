@@ -3,87 +3,67 @@
     box-sizing: border-box;
     flex-direction: column;
     position: absolute;
-    left: 0;
+    width: 40%;
+    max-width: 450px;
+    height: inherit;
+    padding: 5px 20px 0px 20px;
+    left: -40%;
+    transition: left 0.3s, visibility 0.3s;
     z-index: 1;
     background-color: rgb(255, 255, 255);
-    height: inherit;
-    width: 0;
     box-shadow: 15px 0px 17px -7px rgba(158, 157, 157, 0.75);
     border-radius: 0px 25px 25px 0px;
     overflow-x: hidden;
     visibility: hidden;
-    transition: 0.3s;
-    max-width: 450px;
-    padding: 5px 5px 0px 20px;
 }
 
 .container.show {
     visibility: visible;
-    width: 40%;
-    max-width: 450px;
+    left: 0;
 }
 
 @media only screen and (max-width: 600px) {
     .container {
-        height: 0;
-        bottom: 0;
+        height: 60%;
+        left: auto;
+        transition: bottom 0.3s, visibility 0.3s;
+        bottom: -60%;
         width: 100%;
+        border-radius: 25px 25px 0px 0px;
     }
     .container.show {
-        border-radius: 25px 25px 0px 0px;
-        height: 60%;
-        width: 100%;
+        bottom: 0;
         max-width: none;
+    }
+    .closeIcon {
+        rotate: -90deg;
     }
 }
 
 .closeIcon {
     z-index: 1;
-    margin: 10px;
+    margin: 10px 0px 0px 10px;
     align-self: flex-end;
     color: rgb(112,48,181);
     cursor: pointer;
 }
-.imageContainer {
-    position: relative;
-    width: 100%;
-    height: 45%;
-    border-bottom: 4px solid rgba(180, 90, 180, 0.633);
-}
 
-.image {
-    object-fit: cover;
-}
-
-.previewContent {
+.form {
     display: flex;
     flex-direction: column;
-    margin: 10px 15px;
 }
-
-.previewHeader {
-    padding-bottom: 10px;
-    border-bottom: 1px solid rgba(167, 166, 166, 0.558);
+.option {
+    margin: 5px 10px 0px 0px;
 }
-
-.bodyIcon {
-    color: rgba(180, 90, 180, 0.633);
-    margin: 0px 10px 3px 0px;
+.optionCheck {
+    margin-right: 5px;
 }
-
-.subheader {
+.checkContainer {
     display: flex;
-    align-items: center;
-    padding-top: 5px;
-    color: rgba(82, 82, 82, 0.558);
+    flex-wrap: wrap;
 }
 
-.description {
-    padding-top: 15px;
-    color: rgb(145, 144, 144);
-}
-
-.joinButton {
+.submit {
     background-color: rgb(195, 74, 195);
     color: white;
     border: none;
@@ -95,6 +75,6 @@
     text-align: center;
     text-decoration: none;
 }
-.joinButton:hover {
+.submit:hover {
     background-color: rgb(159, 58, 159);
 }

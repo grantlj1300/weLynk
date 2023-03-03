@@ -2,35 +2,62 @@ import React, { useEffect, useState } from "react";
 import styles from "../styles/MapFilter.module.css";
 import { AiOutlineDoubleLeft } from "react-icons/ai";
 
-export default function EventPreview({ show, closeFilter, setShowSearch }) {
-    const [checkedTypes, setCheckedTypes] = useState([]);
-    const eventTypes = [
-        { name: "misc", label: "Miscellaneous" },
-        { name: "sports", label: "Sports & Athletics" },
-        { name: "outdoors", label: "Outdoors & Adventures" },
-        { name: "arts", label: "Arts & Crafts" },
-        { name: "music", label: "Music & Concerts" },
-        { name: "games", label: "Fun & Games" },
-        { name: "food", label: "Food & Drink" },
-        { name: "party", label: "Parties & Celebrations" },
-        { name: "health", label: "Health & Wellness" },
-        { name: "network", label: "Business & Networking" },
-        { name: "volunteer", label: "Charity & Volunteering" },
-    ];
+export default function EventPreview({
+    show,
+    setShowFilter,
+    setShowSearch,
+    filterEvents,
+    setFilter,
+    filter,
+}) {
+    const checkedTypes = {
+        misc: "Miscellaneous",
+        sports: "Sports & Athletics",
+        outdoors: "Outdoors & Adventures",
+        arts: "Arts & Crafts",
+        music: "Music & Concerts",
+        games: "Fun & Games",
+        food: "Food & Drink",
+        party: "Parties & Celebrations",
+        health: "Health & Wellness",
+        network: "Business & Networking",
+        volunteer: "Charity & Volunteering",
+    };
 
-    const eventCheckboxes = eventTypes.map(({ name, label }) => (
-        <Checkbox
-            key={name}
-            label={label}
-            value={false}
-            onChange={handleChange}
-        />
-    ));
+    const eventCheckboxes = Object.entries(checkedTypes).map(
+        ([name, label]) => {
+            return (
+                <label key={name} className={styles.option}>
+                    <input
+                        className={styles.optionCheck}
+                        type="checkbox"
+                        checked={filter.includes(name)}
+                        name={name}
+                        onChange={handleCheckboxClick}
+                    />
+                    {label}
+                </label>
+            );
+        }
+    );
 
-    function handleChange(e) {
-        console.log(e.target.checked);
-        return;
+    function handleCheckboxClick(e) {
+        const { name, checked } = e.target;
+        if (filter === "all") setFilter("");
+        if (checked) setFilter((prev) => [...prev, name]);
+        else setFilter((prev) => prev.filter((type) => type !== name));
     }
+
+    function handleRadioClick() {
+        setFilter("all");
+    }
+
+    async function handleFilter(e) {
+        e.preventDefault();
+        await filterEvents();
+        setShowFilter(false);
+    }
+
     return (
         <div
             className={`${styles.container} ${show ? styles.show : undefined}`}
@@ -39,21 +66,26 @@ export default function EventPreview({ show, closeFilter, setShowSearch }) {
                 className={styles.closeIcon}
                 size={25}
                 onClick={() => {
-                    closeFilter();
+                    setShowFilter(false);
                     setShowSearch(true);
                 }}
             />
-            <h2>Filter by type:</h2>
-            {eventCheckboxes}
+            <form className={styles.form}>
+                <h2>Filter by type:</h2>
+                <label className={styles.option}>
+                    <input
+                        className={styles.optionCheck}
+                        type="radio"
+                        checked={filter === "all"}
+                        onChange={handleRadioClick}
+                    />
+                    All
+                </label>
+                <div className={styles.checkContainer}>{eventCheckboxes}</div>
+                <button className={styles.submit} onClick={handleFilter}>
+                    Filter Events
+                </button>
+            </form>
         </div>
     );
 }
-
-const Checkbox = ({ label, value, onChange }) => {
-    return (
-        <label>
-            <input type="checkbox" checked={value} onChange={onChange} />
-            {label}
-        </label>
-    );
-};

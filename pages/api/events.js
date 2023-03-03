@@ -9,11 +9,17 @@ export default async function handler(req, res) {
     switch (method) {
         case "GET":
             try {
-                let { minLon, maxLon, minLat, maxLat } = req.query;
+                let { minLon, maxLon, minLat, maxLat, filter } = req.query;
+                let filterQuery = {};
+
+                if (filter !== "all") {
+                    const eventTypes = filter.split(",");
+                    filterQuery = { eventType: { $in: eventTypes } };
+                }
                 if (parseFloat(minLon) > parseFloat(maxLon)) {
                     minLon -= 360;
                 }
-                const events = await Event.find({
+                const locationQuery = {
                     location: {
                         $geoWithin: {
                             $box: [
@@ -22,6 +28,9 @@ export default async function handler(req, res) {
                             ],
                         },
                     },
+                };
+                const events = await Event.find({
+                    $and: [filterQuery, locationQuery],
                 });
                 res.status(201).send(events);
             } catch (error) {
