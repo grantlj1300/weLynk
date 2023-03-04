@@ -9,12 +9,16 @@ export default async function handler(req, res) {
     switch (method) {
         case "GET":
             try {
-                let { minLon, maxLon, minLat, maxLat, filter } = req.query;
+                let { minLon, maxLon, minLat, maxLat, filter, keywords } =
+                    req.query;
                 let filterQuery = {};
-
+                let keywordQuery = {};
                 if (filter !== "all") {
                     const eventTypes = filter.split(",");
                     filterQuery = { eventType: { $in: eventTypes } };
+                }
+                if (keywords.length > 0) {
+                    keywordQuery = { $text: { $search: keywords } };
                 }
                 if (parseFloat(minLon) > parseFloat(maxLon)) {
                     minLon -= 360;
@@ -30,7 +34,7 @@ export default async function handler(req, res) {
                     },
                 };
                 const events = await Event.find({
-                    $and: [filterQuery, locationQuery],
+                    $and: [filterQuery, keywordQuery, locationQuery],
                 });
                 res.status(201).send(events);
             } catch (error) {

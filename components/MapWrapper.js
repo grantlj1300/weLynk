@@ -22,6 +22,8 @@ export default function MapWrapper({
     filterEvents,
     filter,
     setFilter,
+    keywords,
+    setKeywords,
 }) {
     const [map, setMap] = useState();
     const [currentEvent, setCurrentEvent] = useState();
@@ -233,6 +235,8 @@ export default function MapWrapper({
                 filterEvents={filterEvents}
                 filter={filter}
                 setFilter={setFilter}
+                keywords={keywords}
+                setKeywords={setKeywords}
             />
             <EventPreview
                 event={currentEvent}

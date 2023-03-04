@@ -15,6 +15,12 @@
     border-radius: 0px 25px 25px 0px;
     overflow-x: hidden;
     visibility: hidden;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.container::-webkit-scrollbar {
+    display: none;
 }
 
 .container.show {
@@ -43,6 +49,7 @@
 .closeIcon {
     z-index: 1;
     margin: 10px 0px 0px 10px;
+    position: absolute;
     align-self: flex-end;
     color: rgb(112,48,181);
     cursor: pointer;
@@ -51,16 +58,80 @@
 .form {
     display: flex;
     flex-direction: column;
+    margin-top: 10px;
+}
+.line {
+    height: 2px;
+    background-image: linear-gradient(135deg,rgb(180, 90, 180) 0%,rgba(180, 90, 180, 0) 100%);
+    margin: 5px 0px 15px 0px;
 }
 .option {
-    margin: 5px 10px 0px 0px;
+    margin: 0px 15px 10px 0px;
+    cursor: pointer;
 }
 .optionCheck {
+    cursor: pointer;
     margin-right: 5px;
+    accent-color: rgb(195, 74, 195);
 }
 .checkContainer {
     display: flex;
     flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+
+.add {
+    display: flex;
+    align-items: center;
+    background-color: rgb(232, 232, 232);
+    color: rgb(71, 71, 71);
+    padding: 0px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 15px;
+    height: 30px;
+}
+.add:hover {
+    background-color: rgb(211, 210, 210);
+}
+.addButton {
+    vertical-align: bottom;
+    padding: 0px 5px 2px 0px;
+}
+.input {
+    display: flex;
+    align-items: center;
+    border: 1px solid rgb(232, 232, 232);
+    border-radius: 20px;
+    overflow: hidden;
+    margin: 0px 15px 10px 0px;
+    width: 40%;
+    max-width: 180px;
+    min-width: 150px;
+    height: 30px;
+}
+.inputField {
+    box-sizing: border-box;
+    height: 100%;
+    padding: 0px 10px;
+    font-size: 15px;
+    border: none;
+    text-overflow: ellipsis;
+    width: 90%;
+}
+.inputField:focus {
+    outline: none;
+}
+.deleteButton {
+    vertical-align: bottom;
+    padding: 5px 8px;
+    background-color: rgb(232, 232, 232);
+    color: rgb(71, 71, 71);
+    cursor: pointer;
+    height: 100%;
+}
+.deleteButton:hover {
+    background-color: rgb(211, 210, 210);
 }
 
 .submit {

@@ -1,0 +1,9 @@
+.container {
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    display: none;
+}
+.container.show {
+    display: flex;
+}

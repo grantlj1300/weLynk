@@ -62,3 +62,10 @@ footer {
         transform: rotate(360deg);
     }
 }
+
+/* Google Autocomplete Styling */
+.pac-container {
+    box-shadow: none;
+    margin-top: -1px;
+
+}

@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import Image from "next/image";
-import styles from "../styles/CreateEvent.module.css";
+import styles from "../../styles/CreateEvent.module.css";
 import { AiTwotoneCalendar } from "react-icons/ai";
 import { IoLocationSharp } from "react-icons/io5";
-import EventDetails from "./CreateForm/EventDetails";
-import LocationDetails from "./CreateForm/LocationDetails";
-import PhotoSelection from "./CreateForm/PhotoSelection";
-import Success from "./CreateForm/Success";
-import ProgressBar from "./CreateForm/ProgressBar";
+import EventDetails from "./EventDetails";
+import LocationDetails from "./LocationDetails";
+import PhotoSelection from "./PhotoSelection";
+import Success from "./Success";
+import ProgressBar from "./ProgressBar";
 
 export default function CreateEvent({ user, setUser }) {
     const [formStep, setFormStep] = useState(1);

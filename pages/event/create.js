@@ -1,6 +1,6 @@
 import React from "react";
 import Head from "next/head";
-import CreateEvent from "../../components/CreateEvent";
+import CreateEvent from "../../components/CreateForm/CreateEvent";
 
 export default function Create({ user, setUser }) {
     return (

@@ -16,10 +16,21 @@ export default function Events({ user, setUser }) {
     const [showFilter, setShowFilter] = useState(false);
     const [filter, setFilter] = useState("all");
     const [activeFilter, setActiveFilter] = useState(filter);
+    const [keywords, setKeywords] = useState([]);
+    const [activeKeywords, setActiveKeywords] = useState(keywords);
 
     async function getEvents(coordinates) {
-        const params = { ...coordinates, filter: filter };
+        const keywordStr = keywords
+            .map((keyword) => {
+                if (keyword.includes(" ")) {
+                    return `\"${keyword}\"`;
+                }
+                return keyword;
+            })
+            .join(" ");
+        const params = { ...coordinates, filter: filter, keywords: keywordStr };
         setActiveFilter(filter);
+        setActiveKeywords(keywords);
         try {
             const res = await fetch(
                 "/api/events?" + new URLSearchParams(params),
@@ -66,6 +77,7 @@ export default function Events({ user, setUser }) {
                 refresh={() => getEvents(viewport)}
                 filter={() => {
                     setFilter(activeFilter);
+                    setKeywords(activeKeywords);
                     setShowFilter(true);
                 }}
             />
@@ -82,6 +94,8 @@ export default function Events({ user, setUser }) {
                 filterEvents={() => getEvents(viewport)}
                 filter={filter}
                 setFilter={setFilter}
+                keywords={keywords}
+                setKeywords={setKeywords}
             />
         </div>
     );

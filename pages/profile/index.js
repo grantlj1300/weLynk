@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import styles from "../../styles/Profile.module.css";
 import Carousel from "../../components/Carousel";
 import { AiOutlineSetting } from "react-icons/ai";
-import EditProfileModal from "../../components/EditProfileModal";
+import EditProfileModal from "../../components/EditProfile/EditProfileModal";
 import Head from "next/head";
 
 export default function Profile({ user, setUser }) {

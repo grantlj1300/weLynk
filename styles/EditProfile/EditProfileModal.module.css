@@ -34,6 +34,8 @@
 }
 
 .body {
+    display: flex;
+    flex-direction: column;
     overflow-y: scroll;
     background-color: white;
     height: 80%;
@@ -43,46 +45,37 @@
     border-bottom-right-radius: 20px;
 }
 
-.preview {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-    margin: 10px;
-}
-.avatar {
-    border-radius: 50%;
-}
-
-.avatarOverlay {
+.tabNameContainer {
     display: flex;
     justify-content: center;
-    position: absolute;
-    width: 150px;
-    height: 150px;
-    align-items: flex-end;
-    border-radius: 50%;
-    background-color: rgba(84, 83, 83, 0.373);
+    width: 100%;
+    margin: 15px;
+    color: rgb(236, 136, 236);
+    font-size: 13px;
 }
-
-.leftIcon {
-    position: absolute;
-    color: white;
-    bottom: 18px;
-    left: 35px;
+.tabName {
+    margin: 0px 30px 0px 30px;
+}
+.tabName:hover {
+    color: rgb(218, 105, 218);
     cursor: pointer;
 }
-
-.rightIcon {
-    position: absolute;
-    color: white;
-    bottom: 18px;
-    right: 35px;
-    cursor: pointer;
+.tabName::after {
+    content: '';
+    display: block;
+    border-bottom: solid 3px rgb(175, 51, 175);  
+    transform: scaleX(0);  
+    transition: transform 0.2s ease-in-out;
 }
-
-.cropRegion {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 10px;
+.activeTab {
+    transition: color 0.5s;
+    display: inline-block;
+    color: rgb(175, 51, 175);
+}
+.activeTab::after {
+    transform: scaleX(1);
+}
+.activeTab:hover {
+    color: rgb(175, 51, 175);
+    cursor: default;
 }

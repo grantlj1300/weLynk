@@ -64,5 +64,6 @@ const eventSchema = new Schema({
 });
 
 eventSchema.index({ location: "2dsphere" });
+eventSchema.index({ title: "text", description: "text" });
 
 export default models.Event || model("Event", eventSchema);

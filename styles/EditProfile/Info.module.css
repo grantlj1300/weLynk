@@ -1,0 +1,41 @@
+.container {
+    display: none;
+    flex-direction: column;
+    position: relative;
+    align-self: center;
+    width: 80%;
+}
+.container.show {
+    display: flex;
+}
+
+.infoNamesContainer {
+    display: flex;
+    flex-wrap: wrap;
+}
+.infoBioContainer {
+    
+}
+.label {
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+    font-size: 24px;
+}
+.input {
+    font-size: 16pt;
+    padding: 5px 8px;
+}
+.input:focus {
+    outline: none;
+}
+.inputBio {
+    resize: none;
+    width: 100%;
+    font-size: 14pt;
+    font-family: "Nunito", sans-serif;
+    padding: 5px 8px;
+}
+.inputBio:focus {
+    outline: none;
+}
