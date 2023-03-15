@@ -61,8 +61,7 @@ export default function Event({ eventId, user }) {
                     message: message,
                     room: eventId,
                     userId: user._id,
-                    first: user.first,
-                    last: user.last,
+                    username: user.username,
                 }),
             })
             const data = await res.json()
@@ -106,8 +105,7 @@ export default function Event({ eventId, user }) {
                 message: stripped,
                 room: eventId,
                 userId: user._id,
-                first: user.first,
-                last: user.last,
+                username: user.username,
             }),
         });
         setMessage("");
@@ -128,7 +126,7 @@ export default function Event({ eventId, user }) {
                 }`}
         >
             {other && <div className={styles.messageSender}>
-                {data.first} {data.last}
+                {data.username}
             </div>}
             <div className={styles.messageText}>{data.message}</div>
         </div>

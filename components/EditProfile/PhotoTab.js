@@ -10,6 +10,7 @@ export default function PhotoTab({ croppedImg, setCroppedImg, active }) {
     const inputFile = useRef(null);
     const [showFileSelector, setShowFileSelector] = useState(false);
     const [srcImg, setSrcImg] = useState();
+    const [crop, setCrop] = useState({ height: 400, width: 400 });
 
     function openFileSelector() {
         inputFile.current.click();
@@ -31,6 +32,14 @@ export default function PhotoTab({ croppedImg, setCroppedImg, active }) {
         const imageElement = cropperRef?.current;
         const cropper = imageElement?.cropper;
         setCroppedImg(cropper.getCroppedCanvas().toDataURL());
+    }
+
+    function getDimensions() {
+        if (screen.width < 530) {
+            setCrop({ height: 250, width: 250 });
+        } else {
+            setCrop({ height: 400, width: 400 });
+        }
     }
 
     return (
@@ -59,7 +68,10 @@ export default function PhotoTab({ croppedImg, setCroppedImg, active }) {
                 <FiCamera
                     className={styles.leftIcon}
                     size={30}
-                    onClick={openFileSelector}
+                    onClick={() => {
+                        getDimensions();
+                        openFileSelector();
+                    }}
                 />
                 <FiTrash2
                     className={styles.rightIcon}
@@ -78,7 +90,7 @@ export default function PhotoTab({ croppedImg, setCroppedImg, active }) {
                 <div className={styles.cropRegion}>
                     <Cropper
                         src={srcImg}
-                        style={{ height: 400, width: 400 }}
+                        style={{ height: crop.height, width: crop.width }}
                         initialAspectRatio={1}
                         aspectRatio={1}
                         guides={false}

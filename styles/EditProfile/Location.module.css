@@ -1,9 +1,20 @@
 .container {
     flex-direction: column;
-    align-items: center;
     position: relative;
     display: none;
+    padding: 10px 0px 20px 0px;
 }
 .container.show {
     display: flex;
+}
+
+.textContainer {
+    display: flex;
+    flex-direction: column;
+    margin: 0px 20px 40px 30px;
+}
+
+.prompt {
+    color: rgb(148, 148, 148);
+    font-size: 10pt;
 }

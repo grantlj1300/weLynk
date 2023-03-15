@@ -83,18 +83,12 @@ export default function Profile({ user, setUser }) {
                         width={50}
                         height={50}
                     />
-                    <h3>
-                        {user.first} {user.last}
-                    </h3>
+                    <h3>{user.name}</h3>
                     <h5>@{user.username}</h5>
                 </div>
 
                 <p className={styles.about}>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Pellentesque non varius arcu. Nullam a semper nibh.
-                    Curabitur semper, nibh sit amet imperdiet convallis, nisl
-                    mauris laoreet orci, quis semper eros quam sit amet sapien.
-                    Sed volutpat purus lorem, in consectetur libero sodales nec.
+                    {user.bio ? user.bio : "No bio yet!"}
                 </p>
             </div>
             <div className={styles.right}>

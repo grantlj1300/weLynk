@@ -9,16 +9,14 @@ import { RiEyeLine, RiEyeCloseLine } from "react-icons/ri";
 
 export default function Register() {
     const [formData, setFormData] = useState({
-        first: "",
-        last: "",
+        name: "",
         username: "",
         email: "",
         password: "",
     });
     const [submitStatus, setSubmitStatus] = useState("none");
     const [errors, setErrors] = useState({
-        first: "",
-        last: "",
+        name: "",
         username: "",
         email: "",
         password: "",
@@ -70,16 +68,11 @@ export default function Register() {
 
     function checkFormData() {
         const usernameRegex = /^(?=.*[a-zA-Z])[a-zA-Z0-9_]*$/;
-        const nameRegex = /^[a-zA-Z]+$/;
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         const formErr = {};
-        if (formData.first.length === 0)
-            formErr.first = "First name is required";
-        else if (!nameRegex.test(formData.first))
-            formErr.first = "First name can only contain letters";
-        if (formData.last.length === 0) formErr.last = "Last name is required";
-        else if (!nameRegex.test(formData.last))
-            formErr.last = "Last name can only contain letters";
+        setFormData((prev) => ({ ...prev, name: prev.name.trim() }));
+        if (formData.name.length === 0)
+            formErr.name = "Display name is required";
         if (formData.username.length < 3)
             formErr.username = "Username must be at least 3 characters";
         else if (!usernameRegex.test(formData.username))
@@ -160,28 +153,16 @@ export default function Register() {
             <div className={styles.right}>
                 <form className={styles.form}>
                     <h1>Create an account</h1>
-                    {errors.first && (
-                        <div className={styles.error}>{errors.first}</div>
+                    {errors.name && (
+                        <div className={styles.error}>{errors.name}</div>
                     )}
                     <input
                         className={styles.input}
                         type="text"
-                        name="first"
-                        maxLength={15}
-                        placeholder="First name"
-                        value={formData.first}
-                        onChange={handleChange}
-                    />
-                    {errors.last && (
-                        <div className={styles.error}>{errors.last}</div>
-                    )}
-                    <input
-                        className={styles.input}
-                        type="text"
-                        name="last"
-                        maxLength={15}
-                        placeholder="Last name"
-                        value={formData.last}
+                        name="name"
+                        maxLength={25}
+                        placeholder="Display name"
+                        value={formData.name}
                         onChange={handleChange}
                     />
                     {errors.username && (

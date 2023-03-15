@@ -1,47 +1,57 @@
 import React, { useState } from "react";
 import styles from "../../styles/EditProfile/Info.module.css";
 
-export default function InfoTab({ infoForm, setInfoForm, active }) {
+export default function InfoTab({
+    infoForm,
+    setInfoForm,
+    errors,
+    setErrors,
+    active,
+}) {
     function handleChange(e) {
         const { name, value } = e.target;
+        if (errors[name]) {
+            setErrors((prev) => ({
+                ...prev,
+                [name]: "",
+            }));
+        }
         setInfoForm((prevData) => ({ ...prevData, [name]: value }));
     }
+
     return (
         <div className={`${styles.container} ${active ? styles.show : ""}`}>
-            <div className={styles.infoNamesContainer}>
+            <div className={styles.miniBlock}>
                 <label className={styles.label}>
-                    First
+                    Display Name
+                    {errors.name && (
+                        <div className={styles.error}>{errors.name}</div>
+                    )}
                     <input
                         className={styles.input}
-                        name="first"
-                        value={infoForm.first}
+                        name="name"
+                        value={infoForm.name}
                         onChange={handleChange}
-                        placeholder="First"
-                        maxLength={20}
-                    />
-                </label>
-                <label className={styles.label}>
-                    Last
-                    <input
-                        className={styles.input}
-                        name="last"
-                        value={infoForm.last}
-                        onChange={handleChange}
-                        placeholder="Last"
+                        placeholder="Name"
                         maxLength={20}
                     />
                 </label>
             </div>
-            <label className={styles.label}>
-                Email
-                <input
-                    className={styles.input}
-                    name="email"
-                    value={infoForm.email}
-                    onChange={handleChange}
-                    placeholder="Email"
-                />
-            </label>
+            <div className={styles.miniBlock}>
+                <label className={styles.label}>
+                    Email
+                    {errors.email && (
+                        <div className={styles.error}>{errors.email}</div>
+                    )}
+                    <input
+                        className={styles.input}
+                        name="email"
+                        value={infoForm.email}
+                        onChange={handleChange}
+                        placeholder="Email"
+                    />
+                </label>
+            </div>
             <label className={styles.label}>Bio</label>
             <textarea
                 name="bio"

@@ -16,12 +16,7 @@ const messageSchema = new Schema({
         required: true,
         trim: true,
     },
-    first: {
-        type: String,
-        required: true,
-        trim: true,
-    },
-    last: {
+    username: {
         type: String,
         required: true,
         trim: true,

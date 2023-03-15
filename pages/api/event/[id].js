@@ -15,7 +15,7 @@ export default async function handler(req, res) {
                     },
                     {
                         path: "members",
-                        select: "_id username first last",
+                        select: "_id username name",
                     },
                 ]);
                 // let results = await OrderModel.find().populate([{path: 'user', select: 'firstname'}, {path: 'meal', select: 'name'}]);

@@ -66,6 +66,8 @@
     margin: 5px 0px 15px 0px;
 }
 .option {
+    display: flex;
+    align-items: center;
     margin: 0px 15px 10px 0px;
     cursor: pointer;
 }

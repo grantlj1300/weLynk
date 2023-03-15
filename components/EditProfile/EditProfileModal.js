@@ -10,22 +10,26 @@ export default function EditProfileModal({ closeModal, user, setUser }) {
         user?.avatar ? user.avatar : ""
     );
     const [infoForm, setInfoForm] = useState({
-        first: user.first,
-        last: user.last,
+        name: user.name,
         email: user.email,
         bio: user.bio,
+    });
+    const [errors, setErrors] = useState({
+        name: "",
+        email: "",
+        bio: "",
     });
     const [userView, setUserView] = useState(
         user.defaultRegion ? user.defaultRegion : null
     );
     const [activeTab, setActiveTab] = useState("info");
-
     async function updateUser() {
         try {
             const reqBody = {
                 userId: user._id,
-                first: infoForm.first,
-                last: infoForm.last,
+                name: infoForm.name,
+                email: infoForm.email,
+                bio: infoForm.bio,
                 avatar: croppedImg,
                 defaultRegion: userView,
             };
@@ -45,6 +49,33 @@ export default function EditProfileModal({ closeModal, user, setUser }) {
         }
     }
 
+    function checkFormData() {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const formErr = {};
+        setInfoForm((prev) => ({ ...prev, name: prev.name.trim() }));
+        if (infoForm.name.length === 0)
+            formErr.name = "Display name is required";
+        if (infoForm.email.length === 0) formErr.email = "Email is required";
+        else if (!emailRegex.test(infoForm.email))
+            formErr.email = "Please enter a valid email";
+        if (Object.keys(formErr).length > 0) {
+            setErrors((prevErrors) => ({
+                ...prevErrors,
+                ...formErr,
+            }));
+            return false;
+        }
+        return true;
+    }
+
+    async function handleSubmit() {
+        const formStatus = checkFormData();
+        if (formStatus) {
+            await updateUser();
+            closeModal();
+        }
+    }
+
     return (
         <div className={styles.modalScreen}>
             <div className={styles.header}>
@@ -57,10 +88,7 @@ export default function EditProfileModal({ closeModal, user, setUser }) {
                 <AiOutlineCheckCircle
                     className={styles.button}
                     size={35}
-                    onClick={async () => {
-                        await updateUser();
-                        closeModal();
-                    }}
+                    onClick={handleSubmit}
                 />
             </div>
             <div className={styles.body}>
@@ -93,6 +121,8 @@ export default function EditProfileModal({ closeModal, user, setUser }) {
                 <InfoTab
                     infoForm={infoForm}
                     setInfoForm={setInfoForm}
+                    errors={errors}
+                    setErrors={setErrors}
                     active={activeTab === "info"}
                 />
                 <PhotoTab

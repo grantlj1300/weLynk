@@ -1,12 +1,7 @@
 import mongoose, { Schema, model, models } from "mongoose";
 
 const userSchema = new Schema({
-    first: {
-        type: String,
-        required: true,
-        trim: true,
-    },
-    last: {
+    name: {
         type: String,
         required: true,
         trim: true,
@@ -28,6 +23,10 @@ const userSchema = new Schema({
     password: {
         type: String,
         required: true,
+        trim: true,
+    },
+    bio: {
+        type: String,
         trim: true,
     },
     events: [
