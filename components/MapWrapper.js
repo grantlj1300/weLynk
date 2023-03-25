@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { AiOutlineDoubleRight } from "react-icons/ai";
 import styles from "../styles/MapWrapper.module.css";
 import { Map, View, Feature, Overlay } from "ol";
 import VectorLayer from "ol/layer/Vector";
@@ -9,12 +10,12 @@ import { Point } from "ol/geom";
 import { Style, Icon } from "ol/style";
 import EventPreview from "./EventPreview";
 import MapFilter from "./MapFilter";
+import EventList from "./EventList";
 
 export default function MapWrapper({
     regionView,
     setViewport,
     events,
-    setShowSearch,
     user,
     setUser,
     showFilter,
@@ -24,11 +25,14 @@ export default function MapWrapper({
     setFilter,
     keywords,
     setKeywords,
+    showList,
+    setShowList,
+    showPreview,
+    setShowPreview,
 }) {
     const [map, setMap] = useState();
     const [currentEvent, setCurrentEvent] = useState();
     const [markerSource, setMarkerSource] = useState();
-    const [showPreview, setShowPreview] = useState(false);
     const overlaySource = useRef();
     const mapElement = useRef();
     const mapRef = useRef();
@@ -204,9 +208,9 @@ export default function MapWrapper({
         setShowFilter(false);
         if (clicked instanceof Feature) {
             setCurrentEvent(clicked.get("event"));
-            setShowSearch(false);
             setShowPreview(true);
         } else {
+            setShowList(false);
             closeEventPreview();
         }
     }
@@ -217,7 +221,6 @@ export default function MapWrapper({
         setTimeout(() => {
             if (currentEvent === prevEvent) setCurrentEvent(null);
         }, 300);
-        setShowSearch(true);
     }
 
     return (
@@ -228,10 +231,23 @@ export default function MapWrapper({
                     <div className={styles.spinner} />
                 </div>
             )}
+            {events !== "loading" && (
+                <EventList
+                    events={events}
+                    show={showList}
+                    setShowList={setShowList}
+                />
+            )}
+            {!showList && (
+                <AiOutlineDoubleRight
+                    size={30}
+                    className={styles.openList}
+                    onClick={() => setShowList(true)}
+                />
+            )}
             <MapFilter
                 show={showFilter}
                 setShowFilter={setShowFilter}
-                setShowSearch={setShowSearch}
                 filterEvents={filterEvents}
                 filter={filter}
                 setFilter={setFilter}

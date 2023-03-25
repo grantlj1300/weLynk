@@ -7,7 +7,6 @@ import styles from "../styles/PlaceSearch.module.css";
 export default function PlaceSearch({
     handlePlaceSelect,
     showSearch,
-    setShowSearch,
     refresh,
     regionView,
     filter,
@@ -44,10 +43,7 @@ export default function PlaceSearch({
                     <BsFilterLeft
                         className={`${styles.button} ${styles.filter}`}
                         size={30}
-                        onClick={() => {
-                            filter();
-                            setShowSearch(false);
-                        }}
+                        onClick={() => filter()}
                     />
                 )}
                 {refresh && (

@@ -12,8 +12,9 @@ export default function Events({ user, setUser }) {
         user.defaultRegion ? user.defaultRegion : null
     );
     const [events, setEvents] = useState("loading");
-    const [showSearch, setShowSearch] = useState(false);
     const [showFilter, setShowFilter] = useState(false);
+    const [showPreview, setShowPreview] = useState(false);
+    const [showList, setShowList] = useState(false);
     const [filter, setFilter] = useState("all");
     const [activeFilter, setActiveFilter] = useState(filter);
     const [keywords, setKeywords] = useState([]);
@@ -40,7 +41,6 @@ export default function Events({ user, setUser }) {
             );
             const data = await res.json();
             setEvents(data);
-            setShowSearch(true);
         } catch (error) {
             console.log(error);
         }
@@ -72,8 +72,7 @@ export default function Events({ user, setUser }) {
                 idStyle={styles.searchBox}
                 classStyle={styles.showBox}
                 handlePlaceSelect={handlePlaceSelect}
-                showSearch={showSearch}
-                setShowSearch={setShowSearch}
+                showSearch={!showFilter && !showList && !showPreview}
                 refresh={() => getEvents(viewport)}
                 filter={() => {
                     setFilter(activeFilter);
@@ -84,18 +83,21 @@ export default function Events({ user, setUser }) {
             <MapWrapper
                 regionView={regionView}
                 events={events}
-                setShowSearch={setShowSearch}
                 user={user}
                 setUser={setUser}
                 viewport={viewport}
                 setViewport={setViewport}
                 showFilter={showFilter}
                 setShowFilter={setShowFilter}
+                showList={showList}
+                setShowList={setShowList}
                 filterEvents={() => getEvents(viewport)}
                 filter={filter}
                 setFilter={setFilter}
                 keywords={keywords}
                 setKeywords={setKeywords}
+                showPreview={showPreview}
+                setShowPreview={setShowPreview}
             />
         </div>
     );

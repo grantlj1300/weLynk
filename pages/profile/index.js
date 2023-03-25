@@ -94,6 +94,7 @@ export default function Profile({ user, setUser }) {
             <div className={styles.right}>
                 <div className={styles.carouselContainer}>
                     <h1>Attending</h1>
+                    <div className={styles.line} />
                     <Carousel
                         events={attending}
                         empty={"you aren't attending"}
@@ -101,10 +102,12 @@ export default function Profile({ user, setUser }) {
                 </div>
                 <div className={styles.carouselContainer}>
                     <h1>Hosting</h1>
+                    <div className={styles.line} />
                     <Carousel events={hosting} empty={"you aren't hosting"} />
                 </div>
                 <div className={styles.carouselContainer}>
                     <h1>Previous Events</h1>
+                    <div className={styles.line} />
                     <Carousel events={archived} empty={"you haven't been to"} />
                 </div>
             </div>

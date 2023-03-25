@@ -3,15 +3,7 @@ import React from "react";
 import styles from "../styles/CarouselCard.module.css";
 
 export default function CarouselCard({ event }) {
-    if (!event) {
-        return (
-            <div className={styles.container}>
-                <div className={styles.info}>
-                    <h1>No Events!</h1>
-                </div>
-            </div>
-        );
-    } else if (event === "fetching") {
+    if (event === "fetching") {
         return (
             <div className={`${styles.container} ${styles.fetching}`}>
                 <div className={styles.ellipsis}>
@@ -22,6 +14,17 @@ export default function CarouselCard({ event }) {
                 </div>
             </div>
         );
+    }
+
+    function formatDate() {
+        const [year, month, day] = event.date.split("-");
+        return month + "/" + day + "/" + year;
+    }
+    function formatTime() {
+        let formattedTime = event.time.split(":");
+        const timeOfDay = formattedTime[0] < 12 ? " AM" : " PM";
+        const hours = formattedTime[0] % 12 || 12;
+        return hours + ":" + formattedTime[1] + timeOfDay;
     }
 
     return (
@@ -38,7 +41,12 @@ export default function CarouselCard({ event }) {
                 sizes="100%"
             />
             <div className={styles.info}>
-                <h1>{event.title}</h1>
+                <h1 className={styles.title}>{event.title}</h1>
+
+                <div className={styles.bodyText}>{event.address}</div>
+                <div className={styles.bodyText}>
+                    {formatDate()} - {formatTime()}
+                </div>
             </div>
         </div>
     );

@@ -6,7 +6,7 @@ import Loading from "../../components/Loading";
 import Head from "next/head";
 import { useRouter } from "next/router";
 
-export default function OtherProfile({ otherUserId, user }) {
+export default function OtherProfile({ otherUsername, user }) {
     const [otherUser, setOtherUser] = useState("loading");
     const [attending, setAttending] = useState("fetching");
     const [hosting, setHosting] = useState("fetching");
@@ -56,7 +56,7 @@ export default function OtherProfile({ otherUserId, user }) {
 
     async function getOtherUser() {
         try {
-            const res = await fetch(`/api/user/${otherUserId}`, {
+            const res = await fetch(`/api/user/${otherUsername}`, {
                 method: "GET",
             });
             const data = await res.json();
@@ -104,16 +104,28 @@ export default function OtherProfile({ otherUserId, user }) {
             </div>
             <div className={styles.right}>
                 <div className={styles.carouselContainer}>
-                    <h1>Currently Attending</h1>
-                    <Carousel events={attending} />
+                    <h1>Attending</h1>
+                    <div className={styles.line} />
+                    <Carousel
+                        events={attending}
+                        empty={`@${otherUser.username} isn't attending`}
+                    />
                 </div>
                 <div className={styles.carouselContainer}>
-                    <h1>Currently Hosting</h1>
-                    <Carousel events={hosting} />
+                    <h1>Hosting</h1>
+                    <div className={styles.line} />
+                    <Carousel
+                        events={hosting}
+                        empty={`@${otherUser.username} isn't hosting`}
+                    />
                 </div>
                 <div className={styles.carouselContainer}>
-                    <h1>Archived Events</h1>
-                    <Carousel events={archived} />
+                    <h1>Previous Events</h1>
+                    <div className={styles.line} />
+                    <Carousel
+                        events={archived}
+                        empty={`@${otherUser.username} hasn't been to`}
+                    />
                 </div>
             </div>
         </div>
@@ -121,6 +133,6 @@ export default function OtherProfile({ otherUserId, user }) {
 }
 
 export async function getServerSideProps(context) {
-    const { id } = context.params;
-    return { props: { otherUserId: id } };
+    const { username } = context.params;
+    return { props: { otherUsername: username } };
 }

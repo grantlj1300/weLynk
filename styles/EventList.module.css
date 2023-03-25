@@ -1,0 +1,66 @@
+.container {
+    display: flex;
+    box-sizing: border-box;
+    flex-direction: column;
+    position: absolute;
+    width: 40%;
+    max-width: 450px;
+    height: inherit;
+    left: -40%;
+    transition: left 0.3s, visibility 0.3s;
+    z-index: 2;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 15px 0px 17px -7px rgba(158, 157, 157, 0.75);
+    border-radius: 0px 25px 25px 0px;
+    overflow-x: hidden;
+    visibility: hidden;
+}
+
+.container.show {
+    visibility: visible;
+    left: 0;
+}
+
+.closeIcon {
+    z-index: 1;
+    margin: 10px 10px 10px 10px;
+    align-self: flex-end;
+    color: rgb(112,48,181);
+    cursor: pointer;
+}
+
+.eventCards {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow-y: scroll;
+    border-top: 1px solid rgba(167, 166, 166, 0.558);
+}
+
+.event {
+    display: flex;
+    flex-direction: column;
+    height: 45%;
+    min-height: 300px;
+    border-bottom: 1px solid rgba(167, 166, 166, 0.558);
+    cursor: pointer;
+}
+.event:hover {
+    background-color: rgb(247, 247, 247);
+}
+
+
+.imageContainer {
+    position: relative;
+    width: 100%;
+    height: 60%;
+    border-bottom: 4px solid rgba(180, 90, 180, 0.633);
+}
+
+.image {
+    object-fit: cover;
+}
+
+.body {
+    margin: 10px 10px;
+}

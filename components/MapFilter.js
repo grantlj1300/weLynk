@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styles from "../styles/MapFilter.module.css";
 import { AiOutlineDoubleLeft, AiOutlinePlusCircle } from "react-icons/ai";
 import { IoTrashOutline } from "react-icons/io5";
@@ -6,7 +6,6 @@ import { IoTrashOutline } from "react-icons/io5";
 export default function EventPreview({
     show,
     setShowFilter,
-    setShowSearch,
     filterEvents,
     setFilter,
     filter,
@@ -99,10 +98,7 @@ export default function EventPreview({
             <AiOutlineDoubleLeft
                 className={styles.closeIcon}
                 size={25}
-                onClick={() => {
-                    setShowFilter(false);
-                    setShowSearch(true);
-                }}
+                onClick={() => setShowFilter(false)}
             />
             <form className={styles.form}>
                 <h2>Filter by type:</h2>

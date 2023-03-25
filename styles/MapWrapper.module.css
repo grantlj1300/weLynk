@@ -41,6 +41,19 @@
     }
 }
 
+.openList {
+    position: absolute;
+    z-index: 1;
+    background-color: white;
+    border: 1px solid rgba(160, 160, 160, 0.615);
+    color: rgb(112,48,181);
+    cursor: pointer;
+    height: 50px;
+    margin-top: 15px;
+    padding: 0px 8px 0px 4px;
+    border-radius: 0px 40px 40px 0px;
+}
+
 .popup {
     display: flex;
     justify-content: center;

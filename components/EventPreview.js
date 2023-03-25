@@ -123,23 +123,27 @@ export default function EventPreview({
                             {event.address}
                         </h5>
                     </div>
-                    <p className={styles.description}>{event.description}</p>
+                    <div className={styles.bodyContainer}>
+                        <p className={styles.description}>
+                            {event.description}
+                        </p>
 
-                    {attending ? (
-                        <Link
-                            href={`/event/${event._id}`}
-                            className={styles.joinButton}
-                        >
-                            Visit Event Page
-                        </Link>
-                    ) : (
-                        <button
-                            className={styles.joinButton}
-                            onClick={handleEventJoin}
-                        >
-                            Join Event
-                        </button>
-                    )}
+                        {attending ? (
+                            <Link
+                                href={`/event/${event._id}`}
+                                className={styles.joinButton}
+                            >
+                                Visit Event Page
+                            </Link>
+                        ) : (
+                            <button
+                                className={styles.joinButton}
+                                onClick={handleEventJoin}
+                            >
+                                Join Event
+                            </button>
+                        )}
+                    </div>
                 </div>
             )}
         </div>
