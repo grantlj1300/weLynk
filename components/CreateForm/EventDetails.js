@@ -7,6 +7,7 @@ export default function EventDetails({ nextStep, handleChange, formData }) {
         const { title, date, time, description } = formData;
         if (title && date && time && description) nextStep();
     }
+
     return (
         <div className={styles.formBody}>
             <label className={styles.label}>Event Name:</label>
@@ -60,6 +61,7 @@ export default function EventDetails({ nextStep, handleChange, formData }) {
                 style={{ resize: "none" }}
                 value={formData.description}
                 onChange={handleChange}
+                className={`${styles.input} ${styles.descInput}`}
             />
             <div className={styles.buttonContainer}>
                 <div style={{ width: 150 }} />

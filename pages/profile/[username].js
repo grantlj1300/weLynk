@@ -72,6 +72,9 @@ export default function OtherProfile({ otherUsername, user }) {
         // eslint-disable-next-line
     }, []);
 
+    if (otherUsername === user.username) {
+        router.push("/profile");
+    }
     if (otherUser === "loading") {
         return <Loading />;
     }

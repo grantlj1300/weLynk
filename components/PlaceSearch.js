@@ -20,7 +20,7 @@ export default function PlaceSearch({
         setQuery(query);
         handlePlaceSelect(addressObject);
     }
-
+    console.log(autoCompleteRef.current);
     return (
         <Autocomplete
             onLoad={(ref) => (autoCompleteRef.current = ref)}
@@ -30,7 +30,9 @@ export default function PlaceSearch({
             <div
                 className={`${styles.container} ${
                     showSearch ? styles.show : ""
-                } ${refresh ? "" : styles.mini}`}
+                } ${refresh ? "" : styles.mini} ${
+                    query.length > 0 ? styles.dropdown : ""
+                }`}
             >
                 <input
                     className={`${styles.search} ${refresh ? styles.main : ""}`}

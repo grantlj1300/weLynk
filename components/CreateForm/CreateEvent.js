@@ -196,21 +196,25 @@ export default function CreateEvent({ user, setUser }) {
                     <div className={styles.previewContent}>
                         <div className={styles.previewHeader}>
                             <h1>{formData.title || "Event Title"}</h1>
-                            <h5 className={styles.subheader}>
+                            <div className={styles.subline}>
                                 <AiTwotoneCalendar
                                     size={20}
                                     className={styles.bodyIcon}
                                 />
-                                {formData.date ? formatDate() : "Date"} -{" "}
-                                {formData.time ? formatTime() : "Time"}
-                            </h5>
-                            <h5 className={styles.subheader}>
+                                <h5 className={styles.subheader}>
+                                    {formData.date ? formatDate() : "Date"} -{" "}
+                                    {formData.time ? formatTime() : "Time"}
+                                </h5>
+                            </div>
+                            <div className={styles.subline}>
                                 <IoLocationSharp
                                     size={20}
                                     className={styles.bodyIcon}
                                 />
-                                {formData.address || "Address"}
-                            </h5>
+                                <h5 className={styles.subheader}>
+                                    {formData.address || "Address"}
+                                </h5>
+                            </div>
                         </div>
                         <p className={styles.description}>
                             {formData.description || "Description"}

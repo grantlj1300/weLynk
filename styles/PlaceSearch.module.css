@@ -9,11 +9,17 @@
     height: 50px;
     width: 0;
     margin-top: 15px;
-    border-radius: 40px;
-    transition: 0.3s;
+    border-radius: 30px;
+    transition: width 0.3s, height 0.3s, visibility 0.3s;
     border: 1px solid rgba(160, 160, 160, 0.615);
     visibility: hidden;
+    overflow: hidden;
 }
+.dropdown {
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
 .mini {
     border-radius: 0px;
     transform: none;
@@ -36,7 +42,8 @@
     border: none;
     border-radius: 40px;
     padding-left: 20px;
-    width: 100%;
+    padding-right: 90px;
+    position: relative;
 }
 .search:focus {
     outline: none
@@ -46,6 +53,8 @@
     border-bottom-right-radius: 0px;
 }
 .button {
+    position: absolute;
+    right: 0;
     padding: 0px 10px;
     border-top-right-radius: inherit;
     border-bottom-right-radius: inherit;
@@ -61,10 +70,11 @@
     background-color: rgb(235, 235, 235);
 }
 .filter {
+    right: 40px;
     border-radius: 0px;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 750px) {
     .container {
         width: 80%;
         height: 0px;

@@ -2,6 +2,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import styles from "../../styles/Navbar.module.css";
 import { BiMapPin } from "react-icons/bi";
+import SearchBar from "../SearchBar";
 
 export default function Navbar({ handleLogOut, user }) {
     const [showMenu, setShowMenu] = useState(false);
@@ -18,6 +19,7 @@ export default function Navbar({ handleLogOut, user }) {
                     <div className="logoText">weLynk</div>
                 </Link>
             </div>
+            <SearchBar />
             <div
                 className={styles.hamburgerIconContainer}
                 onClick={() => setShowMenu((prev) => !prev)}

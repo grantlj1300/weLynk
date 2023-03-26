@@ -60,6 +60,10 @@
 .description {
     padding-top: 15px;
     color: rgb(145, 144, 144);
+    height: 220px;
+    padding-right: 5px;
+    white-space: pre-line;
+    overflow-y: scroll;
 }
 
 

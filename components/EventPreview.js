@@ -108,20 +108,24 @@ export default function EventPreview({
                 <div className={styles.previewContent}>
                     <div className={styles.previewHeader}>
                         <h1>{event.title}</h1>
-                        <h5 className={styles.subheader}>
+                        <div className={styles.subline}>
                             <AiTwotoneCalendar
                                 size={20}
                                 className={styles.bodyIcon}
                             />
-                            {formatDate()} - {formatTime()}
-                        </h5>
-                        <h5 className={styles.subheader}>
+                            <h5 className={styles.subheader}>
+                                {formatDate()} - {formatTime()}
+                            </h5>
+                        </div>
+                        <div className={styles.subline}>
                             <IoLocationSharp
                                 size={20}
                                 className={styles.bodyIcon}
                             />
-                            {event.address}
-                        </h5>
+                            <h5 className={styles.subheader}>
+                                {event.address}
+                            </h5>
+                        </div>
                     </div>
                     <div className={styles.bodyContainer}>
                         <p className={styles.description}>

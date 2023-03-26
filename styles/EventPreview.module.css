@@ -21,21 +21,6 @@
     right: 0;
 }
 
-@media only screen and (max-width: 600px) {
-    #infoBox {
-        height: 60%;
-        right: auto;
-        transition: bottom 0.3s, visibility 0.3s;
-        bottom: -60%;
-        width: 100%;
-        border-radius: 25px 25px 0px 0px;
-    }
-    #infoBox.show {
-        bottom: 0;
-        max-width: none;
-    }
-}
-
 .closeIcon {
     position: absolute;
     z-index: 1;
@@ -66,16 +51,27 @@
     border-bottom: 1px solid rgba(167, 166, 166, 0.558);
 }
 
+.previewHeader > h1 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .bodyIcon {
     color: rgba(180, 90, 180, 0.633);
     margin: 0px 10px 3px 0px;
+    min-width: 20px;
 }
-
-.subheader {
+.subline {
     display: flex;
     align-items: center;
     padding-top: 5px;
+}
+.subheader {
     color: rgba(82, 82, 82, 0.558);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .bodyContainer {
@@ -87,7 +83,10 @@
 }
 
 .description {
+    height: 170px;
     color: rgb(145, 144, 144);
+    padding-right: 5px;
+    white-space: pre-line;
     overflow-y: scroll;
 }
 
@@ -105,4 +104,31 @@
 }
 .joinButton:hover {
     background-color: rgb(159, 58, 159);
+}
+
+@media only screen and (max-width: 600px) {
+    #infoBox {
+        height: 60%;
+        right: auto;
+        transition: bottom 0.3s, visibility 0.3s;
+        bottom: -60%;
+        width: 100%;
+        border-radius: 25px 25px 0px 0px;
+    }
+    #infoBox.show {
+        bottom: 0;
+        max-width: none;
+    }
+    .previewHeader > h1 {
+        font-size: 16pt;
+    }
+    .description {
+        height: 60px;
+        font-size: 11pt;        
+    }
+    .joinButton {
+        margin-top: 10px;
+        font-size: 14pt;
+        padding: 10px;
+    }
 }

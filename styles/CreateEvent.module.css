@@ -29,6 +29,7 @@
 
 .label {
     font-weight: 700;
+    margin: 5px 0px;
 }
 
 .input {
@@ -37,6 +38,16 @@
     margin: 5px 0px 5px 0px;
     border: none;
     border-bottom: 1px solid rgba(94, 94, 94, 0.437);
+    font-family: "Nunito", sans-serif;
+}
+.input:focus {
+    outline: none;
+}
+.descInput {
+    box-sizing: border-box;
+    height: auto;
+    border: 1px solid rgba(94, 94, 94, 0.437);
+    padding: 5px;
 }
 
 .progressBarContainer {
@@ -65,7 +76,7 @@
 
 .progressIconContainer.completed {
     z-index: 1;
-    border: 3px solid rgb(57, 162, 51);
+    border: 3px solid rgb(189, 150, 232);
 }
 
 .progressIcon {
@@ -76,7 +87,7 @@
     margin-top: 20px;
     width: 100%;
     height: 4px;
-    background: linear-gradient(to right, rgb(57, 162, 51) 50%, rgb(200, 200, 200) 50%);
+    background: linear-gradient(to right, rgb(189, 150, 232) 50%, rgb(200, 200, 200) 50%);
     background-size: 200% 100%;
     background-position: right bottom;
     transition: all 0.8s ease-out;
@@ -89,10 +100,15 @@
 .formBody {
     display: flex;
     flex-direction: column;
+    position: relative;
+    height: 100%;
     margin-top: 25px;
 }
 
 .buttonContainer {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
     margin-top: 25px;
     display: flex;
     justify-content: space-between;
@@ -105,6 +121,9 @@
     cursor: pointer;
     border: 1px solid rgba(180, 90, 180, 0.633);
     border-radius: 15px;
+}
+.button:hover {
+    background: rgba(255, 231, 255, 0.633);
 }
 
 #searchBar {
@@ -134,7 +153,7 @@
 .cropArea {
     display: flex;
     justify-content: center;
-    margin-bottom: 10px;
+    margin-top: 50px;
 }
 
 .previewContainer {
@@ -172,6 +191,7 @@
     position: relative;
     width: 100%;
     height: 45%;
+    min-height: 45%;
     border-bottom: 4px solid rgba(180, 90, 180, 0.633);
 }
 
@@ -189,20 +209,40 @@
     padding-bottom: 10px;
     border-bottom: 1px solid rgba(167, 166, 166, 0.558);
 }
+.previewHeader > h1 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
 .bodyIcon {
     color: rgba(180, 90, 180, 0.633);
     margin: 0px 10px 3px 0px;
+    min-width: 20px;
 }
-
-.subheader {
+.subline {
     display: flex;
     align-items: center;
     padding-top: 5px;
+}
+.subheader {
     color: rgba(82, 82, 82, 0.558);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .description {
+    height: 170px;
     padding-top: 15px;
     color: rgb(145, 144, 144);
+    white-space: pre-line;
+    overflow-y: scroll;
+}
+
+.success {
+    align-items: center;
+    justify-content: center;
+    color: rgb(170, 105, 240);
+    text-align: center;
 }

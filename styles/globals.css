@@ -10,7 +10,9 @@ body {
     color: #333;
     font-family: "Nunito", sans-serif;
 }
-
+input:focus {
+    outline: none;
+}
 .logo {
     display: flex;
     align-items: center;
