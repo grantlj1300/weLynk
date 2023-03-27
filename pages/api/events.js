@@ -33,8 +33,11 @@ export default async function handler(req, res) {
                         },
                     },
                 };
+                const dateQuery = {
+                    date: { $gte: new Date().toISOString().split("T")[0] },
+                };
                 const events = await Event.find({
-                    $and: [filterQuery, keywordQuery, locationQuery],
+                    $and: [filterQuery, keywordQuery, locationQuery, dateQuery],
                 });
                 res.status(201).send(events);
             } catch (error) {

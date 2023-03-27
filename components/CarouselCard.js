@@ -1,6 +1,7 @@
 import Image from "next/image";
 import React from "react";
 import styles from "../styles/CarouselCard.module.css";
+import { formatDate, formatTime } from "../lib/utils/utils.js";
 
 export default function CarouselCard({ event }) {
     if (event === "fetching") {
@@ -14,17 +15,6 @@ export default function CarouselCard({ event }) {
                 </div>
             </div>
         );
-    }
-
-    function formatDate() {
-        const [year, month, day] = event.date.split("-");
-        return month + "/" + day + "/" + year;
-    }
-    function formatTime() {
-        let formattedTime = event.time.split(":");
-        const timeOfDay = formattedTime[0] < 12 ? " AM" : " PM";
-        const hours = formattedTime[0] % 12 || 12;
-        return hours + ":" + formattedTime[1] + timeOfDay;
     }
 
     return (
@@ -45,7 +35,7 @@ export default function CarouselCard({ event }) {
 
                 <div className={styles.bodyText}>{event.address}</div>
                 <div className={styles.bodyText}>
-                    {formatDate()} - {formatTime()}
+                    {formatDate(event.date)} - {formatTime(event.time)}
                 </div>
             </div>
         </div>

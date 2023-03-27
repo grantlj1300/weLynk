@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import { formatDate, formatTime } from "../lib/utils/utils.js";
 import styles from "../styles/EventPreview.module.css";
 import { AiOutlineClose, AiTwotoneCalendar } from "react-icons/ai";
 import { IoLocationSharp } from "react-icons/io5";
@@ -21,17 +22,6 @@ export default function EventPreview({
         else setAttending(false);
         // eslint-disable-next-line
     }, [event]);
-
-    function formatDate() {
-        const [year, month, day] = event.date.split("-");
-        return month + "/" + day + "/" + year;
-    }
-    function formatTime() {
-        let formattedTime = event.time.split(":");
-        const timeOfDay = formattedTime[0] < 12 ? " AM" : " PM";
-        const hours = formattedTime[0] % 12 || 12;
-        return hours + ":" + formattedTime[1] + timeOfDay;
-    }
 
     // Duplicated
     async function addEventToUser() {
@@ -114,7 +104,8 @@ export default function EventPreview({
                                 className={styles.bodyIcon}
                             />
                             <h5 className={styles.subheader}>
-                                {formatDate()} - {formatTime()}
+                                {formatDate(event.date)} -{" "}
+                                {formatTime(event.time)}
                             </h5>
                         </div>
                         <div className={styles.subline}>

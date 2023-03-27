@@ -84,3 +84,15 @@
     border-right: 11px solid transparent;
     border-top: 11px solid black;
 }
+
+@media only screen and (max-width: 768px) {
+    .openList {
+        rotate: 90deg;
+        width: 25px;
+        height: 35px;
+        right: 0px;
+        margin-top: 0px;
+        padding: 0px 8px 0px 4px;
+        border-radius: 0px 40px 40px 0px;
+    }
+}

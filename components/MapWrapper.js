@@ -236,6 +236,9 @@ export default function MapWrapper({
                     events={events}
                     show={showList}
                     setShowList={setShowList}
+                    selected={currentEvent}
+                    setSelected={setCurrentEvent}
+                    setShowPreview={setShowPreview}
                 />
             )}
             {!showList && (

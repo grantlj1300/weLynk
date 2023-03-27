@@ -3,24 +3,36 @@ import styles from "../styles/EventList.module.css";
 import { AiOutlineDoubleLeft } from "react-icons/ai";
 import Image from "next/image";
 
-export default function EventList({ events, show, setShowList }) {
-    console.log(events);
-
+export default function EventList({
+    events,
+    show,
+    setShowList,
+    selected,
+    setSelected,
+    setShowPreview,
+}) {
     const eventCards = events?.map((event, idx) => (
-        <div className={styles.event} key={idx}>
-            <div className={styles.imageContainer}>
-                <Image
-                    src={
-                        event?.photo
-                            ? event.photo
-                            : "/assets/img/img-not-available.jpg"
-                    }
-                    alt="event"
-                    fill={true}
-                    className={styles.image}
-                    sizes="100%"
-                />
-            </div>
+        <div
+            className={`${styles.event} ${
+                event._id === selected?._id ? styles.active : ""
+            }`}
+            key={idx}
+            onClick={() => {
+                setSelected(event);
+                setShowPreview(true);
+            }}
+        >
+            <Image
+                src={
+                    event?.photo
+                        ? event.photo
+                        : "/assets/img/img-not-available.jpg"
+                }
+                alt="event"
+                fill={true}
+                className={styles.image}
+                sizes="100%"
+            />
             <div className={styles.body}>
                 <h2>{event.title}</h2>
             </div>

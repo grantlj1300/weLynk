@@ -1,11 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "../../styles/Event.module.css";
 import { RiSendPlaneFill } from "react-icons/ri";
+import { formatDate, formatTime } from "../../lib/utils/utils.js";
 import Loading from "../../components/Loading";
 import Pusher from "pusher-js";
 import Image from "next/image";
 import { AiTwotoneCalendar } from "react-icons/ai";
 import { IoLocationSharp } from "react-icons/io5";
+import Head from "next/head";
 
 export default function Event({ eventId, user }) {
     const [event, setEvent] = useState("loading");
@@ -36,7 +38,7 @@ export default function Event({ eventId, user }) {
         };
         // eslint-disable-next-line
     }, []);
-    console.log(event)
+    console.log(event);
     async function getEvent() {
         try {
             const res = await fetch(`/api/event/${eventId}`, {
@@ -44,14 +46,14 @@ export default function Event({ eventId, user }) {
             });
             const data = await res.json();
             setEvent(data);
-            setAllMessages(data.messages)
+            setAllMessages(data.messages);
         } catch (error) {
             console.log(error);
         }
     }
 
     async function createMessage(message) {
-        try{
+        try {
             const res = await fetch("/api/message", {
                 method: "POST",
                 headers: {
@@ -63,11 +65,11 @@ export default function Event({ eventId, user }) {
                     userId: user._id,
                     username: user.username,
                 }),
-            })
-            const data = await res.json()
-            return data
+            });
+            const data = await res.json();
+            return data;
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
     }
 
@@ -82,20 +84,20 @@ export default function Event({ eventId, user }) {
             });
             const data = await res.json();
             setEvent(data);
-            return data
+            return data;
         } catch (error) {
             console.log(error);
         }
     }
-    
+
     async function handleSubmit(e) {
         e.preventDefault();
         const stripped = message.trim();
         if (!stripped) return;
-        const createdMessage = await createMessage(stripped)
-        if (!createdMessage) return
-        const updatedEvent = await updateEvent(createdMessage)
-        if(!updatedEvent) return
+        const createdMessage = await createMessage(stripped);
+        if (!createdMessage) return;
+        const updatedEvent = await updateEvent(createdMessage);
+        if (!updatedEvent) return;
         await fetch("/api/pusher", {
             method: "POST",
             headers: {
@@ -114,37 +116,28 @@ export default function Event({ eventId, user }) {
     if (event === "loading") {
         return <Loading />;
     }
-    console.log(event)
+    console.log(event);
     const messages = allMessages.map((data, idx) => {
-        const other = user._id !== data.userId
-        return <div
-            key={idx}
-            className={`${styles.messageContainer} 
-                ${
-                    other ? styles.otherMessage
-                          : styles.userMessage
-                }`}
-        >
-            {other && <div className={styles.messageSender}>
-                {data.username}
-            </div>}
-            <div className={styles.messageText}>{data.message}</div>
-        </div>
+        const other = user._id !== data.userId;
+        return (
+            <div
+                key={idx}
+                className={`${styles.messageContainer} 
+                ${other ? styles.otherMessage : styles.userMessage}`}
+            >
+                {other && (
+                    <div className={styles.messageSender}>{data.username}</div>
+                )}
+                <div className={styles.messageText}>{data.message}</div>
+            </div>
+        );
     });
-
-    function formatDate() {
-        const [year, month, day] = event.date.split("-");
-        return month + "/" + day + "/" + year;
-    }
-    function formatTime() {
-        let formattedTime = event.time.split(":");
-        const timeOfDay = formattedTime[0] < 12 ? " AM" : " PM";
-        const hours = formattedTime[0] % 12 || 12;
-        return hours + ":" + formattedTime[1] + timeOfDay;
-    }
 
     return (
         <div className={styles.container}>
+            <Head>
+                <title>weLynk | {event.title}</title>
+            </Head>
             <div className={styles.eventContainer}>
                 <div className={styles.imageContainer}>
                     <Image
@@ -167,7 +160,7 @@ export default function Event({ eventId, user }) {
                                 size={20}
                                 className={styles.bodyIcon}
                             />
-                            {formatDate()} - {formatTime()}
+                            {formatDate(event.date)} - {formatTime(event.time)}
                         </h5>
                         <h5 className={styles.subheader}>
                             <IoLocationSharp

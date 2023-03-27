@@ -3,6 +3,7 @@ import Image from "next/image";
 import styles from "../../styles/CreateEvent.module.css";
 import { AiTwotoneCalendar } from "react-icons/ai";
 import { IoLocationSharp } from "react-icons/io5";
+import { formatDate, formatTime } from "../../lib/utils/utils.js";
 import EventDetails from "./EventDetails";
 import LocationDetails from "./LocationDetails";
 import PhotoSelection from "./PhotoSelection";
@@ -160,17 +161,6 @@ export default function CreateEvent({ user, setUser }) {
         }
     }
 
-    function formatDate() {
-        const [year, month, day] = formData.date.split("-");
-        return month + "/" + day + "/" + year;
-    }
-    function formatTime() {
-        let formattedTime = formData.time.split(":");
-        const timeOfDay = formattedTime[0] < 12 ? " AM" : " PM";
-        const hours = formattedTime[0] % 12 || 12;
-        return hours + ":" + formattedTime[1] + timeOfDay;
-    }
-
     return (
         <div className={styles.container}>
             <h1>Build Your Event</h1>
@@ -202,8 +192,13 @@ export default function CreateEvent({ user, setUser }) {
                                     className={styles.bodyIcon}
                                 />
                                 <h5 className={styles.subheader}>
-                                    {formData.date ? formatDate() : "Date"} -{" "}
-                                    {formData.time ? formatTime() : "Time"}
+                                    {formData.date
+                                        ? formatDate(formData.date)
+                                        : "Date"}{" "}
+                                    -{" "}
+                                    {formData.time
+                                        ? formatTime(formData.time)
+                                        : "Time"}
                                 </h5>
                             </div>
                             <div className={styles.subline}>

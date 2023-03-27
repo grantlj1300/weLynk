@@ -64,6 +64,9 @@
 }
 
 @media only screen and (max-width: 768px) {
+    .headerContainer {
+        padding: 0px 25px 0px 10px;
+    }
     .show.headerContainer {
         z-index: 3;
         position: sticky;

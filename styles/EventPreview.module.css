@@ -11,7 +11,7 @@
     overflow-x: hidden;
     visibility: hidden;
     max-width: 450px;
-    width: 60%;
+    width: 50%;
     right: -40%;
     transition: right 0.3s, visibility 0.3s;
 }
@@ -106,7 +106,7 @@
     background-color: rgb(159, 58, 159);
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 768px) {
     #infoBox {
         height: 60%;
         right: auto;
@@ -114,10 +114,10 @@
         bottom: -60%;
         width: 100%;
         border-radius: 25px 25px 0px 0px;
+        max-width: none;
     }
     #infoBox.show {
         bottom: 0;
-        max-width: none;
     }
     .previewHeader > h1 {
         font-size: 16pt;
