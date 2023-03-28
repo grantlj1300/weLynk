@@ -5,8 +5,9 @@ import Carousel from "../../components/Carousel";
 import Loading from "../../components/Loading";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import FriendButton from "../../components/FriendButton";
 
-export default function OtherProfile({ otherUsername, user }) {
+export default function OtherProfile({ otherUsername, user, setUser }) {
     const [otherUser, setOtherUser] = useState("loading");
     const [attending, setAttending] = useState("fetching");
     const [hosting, setHosting] = useState("fetching");
@@ -99,10 +100,15 @@ export default function OtherProfile({ otherUsername, user }) {
                     />
                     <h3>{otherUser.name}</h3>
                     <h5>@{otherUser.username}</h5>
+                    <FriendButton
+                        user={user}
+                        setUser={setUser}
+                        otherUser={otherUser}
+                    />
                 </div>
 
                 <p className={styles.about}>
-                    {user.bio ? user.bio : "No bio yet!"}
+                    {otherUser.bio ? otherUser.bio : "No bio yet!"}
                 </p>
             </div>
             <div className={styles.right}>

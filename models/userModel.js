@@ -36,6 +36,7 @@ const userSchema = new Schema({
         },
     ],
     defaultRegion: {
+        _id: false,
         type: {
             minLon: { type: String },
             maxLat: { type: String },
@@ -49,6 +50,24 @@ const userSchema = new Schema({
             maxLon: "-66.9548",
             minLat: "24.9493",
         },
+    },
+    friends: {
+        type: [
+            {
+                _id: false,
+                user: {
+                    type: mongoose.Types.ObjectId,
+                    ref: "User",
+                    required: true,
+                },
+                status: {
+                    type: Number,
+                    required: true,
+                },
+            },
+        ],
+        required: true,
+        default: [],
     },
 });
 
