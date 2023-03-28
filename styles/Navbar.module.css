@@ -7,7 +7,10 @@
     background: rgb(112,48,181);
     color: white;
 }
-
+.right {
+    display: flex;
+    align-items: center;
+}
 .navLinksContainer {
     display: flex;
 }
@@ -27,6 +30,7 @@
     display: none;
     height: 30px;
     width: 30px;
+    margin-left: 10px;
     cursor: pointer;
     flex-direction: column;
     justify-content: center;
@@ -65,7 +69,7 @@
 
 @media only screen and (max-width: 768px) {
     .headerContainer {
-        padding: 0px 25px 0px 10px;
+        padding: 0px 15px 0px 10px;
     }
     .show.headerContainer {
         z-index: 3;

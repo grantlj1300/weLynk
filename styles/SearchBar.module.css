@@ -1,20 +1,73 @@
+.iconContainer {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    border-radius: 10px 0px 0px 10px;
+}
+.icon {
+    width: 30px;
+    height: 22px;
+    color: white;
+    cursor: pointer;
+}
+.show > .iconContainer {
+    background-color: white;
+}
+.show > .iconContainer > .icon {
+    cursor: default;
+    color: gray;
+}
+
 .container {
+    display: flex;
+    align-items: center;
     position: relative;
+    height: 35px;
 }
 
 .input {
-    padding: 5px 10px;
     font-family: "Nunito", sans-serif;
     font-size: 14pt;
+    height: 35px;
+    box-sizing: border-box;
+    width: 0px;
+    visibility: hidden;
+    transition: width 0.3s, visibility 0.3s;
+    border-radius: 0px 10px 10px 0px;
+}
+.show > .input {
+    padding: 5px;
+    visibility: visible;
     border: none;
-    border-radius: 10px;
+    width: 250px;
 }
 .active {
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
 }
+@media only screen and (max-width: 530px) {
+    .input {
+        font-size: 12pt;
+    }
+    .show > .input {
+        width: 170px;
+    }
+}
+@media only screen and (max-width: 375px) {
+    .input {
+        font-size: 11pt;
+    }
+    .show > .input {
+        width: 150px;
+    }
+    .icon {
+        width: 25px;
+        height: 18px;
+    }
+}
 
 .rowContainer {
+    top: 100%;
     display: flex;
     flex-direction: column;
     z-index: 5;

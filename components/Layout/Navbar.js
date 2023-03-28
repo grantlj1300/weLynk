@@ -6,47 +6,48 @@ import SearchBar from "../SearchBar";
 
 export default function Navbar({ handleLogOut, user }) {
     const [showMenu, setShowMenu] = useState(false);
-
     return (
-        <nav
-            className={`${styles.headerContainer} ${
-                showMenu ? styles.show : styles.hide
-            }`}
-        >
+        <nav className={styles.headerContainer}>
             <div>
                 <Link href="/" className="logo">
                     <BiMapPin size={25} />
                     <div className="logoText">weLynk</div>
                 </Link>
             </div>
-            <SearchBar />
             <div
-                className={styles.hamburgerIconContainer}
-                onClick={() => setShowMenu((prev) => !prev)}
+                className={`${styles.right} ${
+                    showMenu ? styles.show : styles.hide
+                }`}
             >
-                <div className={styles.hamburgerIcon} />
-            </div>
-            <div className={styles.mask} />
-            <div className={styles.navLinksContainer}>
-                <Link
-                    href="/events"
-                    className={styles.link}
-                    onClick={() => setShowMenu(false)}
+                <SearchBar />
+                <div
+                    className={styles.hamburgerIconContainer}
+                    onClick={() => setShowMenu((prev) => !prev)}
                 >
-                    View Events
-                </Link>
-                <Link
-                    href="/event/create"
-                    className={styles.link}
-                    onClick={() => setShowMenu(false)}
-                >
-                    Create Event
-                </Link>
-                {user && (
-                    <div className={styles.link} onClick={handleLogOut}>
-                        Log Out
-                    </div>
-                )}
+                    <div className={styles.hamburgerIcon} />
+                </div>
+                <div className={styles.mask} />
+                <div className={styles.navLinksContainer}>
+                    <Link
+                        href="/events"
+                        className={styles.link}
+                        onClick={() => setShowMenu(false)}
+                    >
+                        View Events
+                    </Link>
+                    <Link
+                        href="/event/create"
+                        className={styles.link}
+                        onClick={() => setShowMenu(false)}
+                    >
+                        Create Event
+                    </Link>
+                    {user && (
+                        <div className={styles.link} onClick={handleLogOut}>
+                            Log Out
+                        </div>
+                    )}
+                </div>
             </div>
         </nav>
     );

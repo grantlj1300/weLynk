@@ -2,13 +2,15 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 import styles from "../styles/SearchBar.module.css";
+import { AiOutlineSearch } from "react-icons/ai";
 
 export default function SearchBar() {
     const [query, setQuery] = useState("");
     const [timer, setTimer] = useState(null);
     const [results, setResults] = useState([]);
+    const [showSearch, setShowSearch] = useState(false);
     const closeSearchRef = useRef();
-
+    console.log(showSearch);
     const useOutsideClick = (ref, callback) => {
         const handleClick = (e) => {
             if (ref.current && !ref.current.contains(e.target)) {
@@ -58,6 +60,7 @@ export default function SearchBar() {
     function handleClearSearch() {
         setQuery("");
         setResults([]);
+        setShowSearch(false);
     }
 
     const userList = results.map((result, i) => (
@@ -86,7 +89,20 @@ export default function SearchBar() {
     ));
 
     return (
-        <div ref={closeSearchRef} className={styles.container}>
+        <div
+            ref={closeSearchRef}
+            className={`${styles.container} ${showSearch ? styles.show : ""}`}
+        >
+            <div
+                className={`${styles.iconContainer} ${
+                    results.length > 0 ? styles.active : ""
+                }`}
+            >
+                <AiOutlineSearch
+                    className={styles.icon}
+                    onClick={() => setShowSearch(true)}
+                />
+            </div>
             <input
                 className={`${styles.input} ${
                     results.length > 0 ? styles.active : ""
