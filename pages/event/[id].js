@@ -8,6 +8,7 @@ import Image from "next/image";
 import { AiTwotoneCalendar } from "react-icons/ai";
 import { IoLocationSharp } from "react-icons/io5";
 import Head from "next/head";
+import Link from "next/link";
 
 export default function Event({ eventId, user }) {
     const [event, setEvent] = useState("loading");
@@ -126,7 +127,7 @@ export default function Event({ eventId, user }) {
                 ${other ? styles.otherMessage : styles.userMessage}`}
             >
                 {other && (
-                    <div className={styles.messageSender}>{data.username}</div>
+                    <div className={styles.messageSender}>@{data.username}</div>
                 )}
                 <div className={styles.messageText}>{data.message}</div>
             </div>
@@ -171,6 +172,20 @@ export default function Event({ eventId, user }) {
                         </h5>
                     </div>
                     <p className={styles.description}>{event.description}</p>
+                    <div className={styles.buttonRow}>
+                        {user._id === event.admin ? (
+                            <Link
+                                href={`/event/edit/${event._id}`}
+                                className={styles.button}
+                            >
+                                Edit Event
+                            </Link>
+                        ) : (
+                            <button className={styles.button}>
+                                Leave Event
+                            </button>
+                        )}
+                    </div>
                 </div>
             </div>
             <div className={styles.chatContainer}>

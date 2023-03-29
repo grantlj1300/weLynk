@@ -10,20 +10,26 @@ import PhotoSelection from "./PhotoSelection";
 import Success from "./Success";
 import ProgressBar from "./ProgressBar";
 
-export default function CreateEvent({ user, setUser }) {
+export default function CreateEvent({ user, event, submitForm, deleteEvent }) {
     const [formStep, setFormStep] = useState(1);
-    const [formData, setFormData] = useState({
-        admin: user._id,
-        members: [user._id],
-        title: "",
-        photo: "",
-        address: "",
-        location: { type: "Point", coordinates: [] },
-        description: "",
-        date: "",
-        time: "",
-        eventType: "misc",
-    });
+    const [formData, setFormData] = useState(
+        event
+            ? event
+            : {
+                  admin: user._id,
+                  members: [user._id],
+                  title: "",
+                  photo: "",
+                  address: "",
+                  location: { type: "Point", coordinates: [] },
+                  description: "",
+                  date: "",
+                  time: "",
+                  eventType: "misc",
+              }
+    );
+    const [deleting, setDeleting] = useState(false);
+    console.log(formData);
     const [stepStyles, setStepStyles] = useState([
         `${styles.progressIconContainer} ${styles.completed}`,
         `${styles.progressIconContainer}`,
@@ -83,8 +89,9 @@ export default function CreateEvent({ user, setUser }) {
                     <PhotoSelection
                         prevStep={prevStep}
                         nextStep={nextStep}
+                        image={formData.photo}
                         handlePhotoCrop={handlePhotoCrop}
-                        postEvent={postEvent}
+                        submitForm={() => submitForm(formData)}
                     />
                 );
             case 4:
@@ -114,56 +121,31 @@ export default function CreateEvent({ user, setUser }) {
         }));
     }
 
-    async function handleSubmit(e) {
-        e.preventDefault();
-        if (!formData.address || !formData.lon || !formData.lat) return;
-        await postEvent();
-    }
-
-    async function joinEvent(eventId) {
-        try {
-            const prevAttending = user?.events ? user.events : [];
-            const reqBody = {
-                userId: user._id,
-                events: [...prevAttending, eventId],
-            };
-            const res = await fetch("/api/user", {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(reqBody),
-            });
-            const data = await res.json();
-            return data;
-        } catch (error) {
-            console.log(error);
-            return false;
-        }
-    }
-
-    async function postEvent() {
-        try {
-            const res = await fetch("/api/events", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(formData),
-            });
-            const data = await res.json();
-            const joined = await joinEvent(data._id);
-            setUser(joined);
-            console.log(joined);
-            return joined;
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
     return (
         <div className={styles.container}>
             <h1>Build Your Event</h1>
+            {event &&
+                (deleting ? (
+                    <div className={styles.confirmRow}>
+                        Are you sure?
+                        <button className={styles.prompt} onClick={deleteEvent}>
+                            Yes
+                        </button>
+                        <button
+                            className={styles.prompt}
+                            onClick={() => setDeleting(false)}
+                        >
+                            No
+                        </button>
+                    </div>
+                ) : (
+                    <button
+                        className={styles.delete}
+                        onClick={() => setDeleting(true)}
+                    >
+                        Delete Event
+                    </button>
+                ))}
             <div className={styles.body}>
                 <div className={styles.formContainer}>
                     <ProgressBar step={formStep} stepStyles={stepStyles} />

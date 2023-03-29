@@ -13,6 +13,9 @@ body {
 input:focus {
     outline: none;
 }
+button {
+    font-family: "Nunito", sans-serif;
+}
 .logo {
     display: flex;
     align-items: center;

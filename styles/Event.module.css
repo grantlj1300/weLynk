@@ -23,6 +23,28 @@
     }
 }
 
+.buttonRow {
+    display: flex;
+    justify-content: center;
+}
+.button {
+    background-color: rgb(195, 74, 195);
+    color: white;
+    border: none;
+    border-radius: 15px;
+    margin-top: 5px;
+    font-size: 13pt;
+    padding: 10px;
+    cursor: pointer;
+    text-decoration: none;
+}
+.button:hover {
+    background-color: rgb(159, 58, 159);
+}
+.button:active {
+    background-color: rgb(137, 43, 137);
+}
+
 .imageContainer {
     position: relative;
     width: 100%;
@@ -192,6 +214,9 @@
     border: none;
     background: none;
 }
+.hide:focus {
+    outline: none;
+}
 
 .sendIcon {
     color: white;
@@ -202,6 +227,9 @@
     vertical-align: bottom;
     margin: 3px 3px 3px 0px;
     cursor: pointer;
+}
+.sendIcon:hover {
+    background: rgb(186, 1, 186);
 }
 .sendIcon:active {
     background: rgb(153, 2, 153);

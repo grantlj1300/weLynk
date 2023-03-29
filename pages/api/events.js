@@ -56,11 +56,19 @@ export default async function handler(req, res) {
             break;
         case "PUT":
             try {
-                const { eventId, newMembers } = req.body;
-                const event = await Event.findByIdAndUpdate(eventId, {
-                    members: newMembers,
-                });
+                const { eventId, updated } = req.body;
+                const event = await Event.findByIdAndUpdate(eventId, updated);
+                console.log(updated);
                 res.status(200).send(event);
+            } catch (error) {
+                res.status(400).end();
+            }
+            break;
+        case "DELETE":
+            try {
+                const { id } = req.body;
+                // const event = await Event.findByIdAndUpdate(eventId, updated);
+                // res.status(200).send(event);
             } catch (error) {
                 res.status(400).end();
             }

@@ -49,6 +49,7 @@ export default function MyApp({ Component, pageProps }) {
     return (
         <>
             <Head>
+                <title>weLynk</title>
                 <meta
                     name="description"
                     content="weLynk is a social platform that allows you to create and join events based on your interests. From sports to music, food to travel, and everything in between, weLynk connects people who share common passions and hobbies. Start planning your next hangout today!"

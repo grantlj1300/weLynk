@@ -8,9 +8,10 @@ export default function PhotoSelection({
     prevStep,
     nextStep,
     handlePhotoCrop,
-    postEvent,
+    submitForm,
+    image,
 }) {
-    const [srcImg, setSrcImg] = useState();
+    const [srcImg, setSrcImg] = useState(image);
     const [croppedImg, setCroppedImg] = useState();
     const cropperRef = useRef(null);
 
@@ -28,7 +29,7 @@ export default function PhotoSelection({
     //     }
     // }
 
-    async function submitForm() {
+    async function imageCheck() {
         const buffer = Buffer.from(
             croppedImg.substring(croppedImg.indexOf(",") + 1),
             "base64"
@@ -37,7 +38,7 @@ export default function PhotoSelection({
             console.log("Too Large!");
             return;
         }
-        postEvent().then((res) => {
+        submitForm().then((res) => {
             if (res) {
                 nextStep();
             }
@@ -114,7 +115,7 @@ export default function PhotoSelection({
                 />
                 <MdNavigateNext
                     className={styles.button}
-                    onClick={submitForm}
+                    onClick={imageCheck}
                     size={35}
                 />
             </div>

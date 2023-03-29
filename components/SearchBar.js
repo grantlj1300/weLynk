@@ -10,7 +10,7 @@ export default function SearchBar() {
     const [results, setResults] = useState([]);
     const [showSearch, setShowSearch] = useState(false);
     const closeSearchRef = useRef();
-    console.log(showSearch);
+
     const useOutsideClick = (ref, callback) => {
         const handleClick = (e) => {
             if (ref.current && !ref.current.contains(e.target)) {

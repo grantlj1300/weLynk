@@ -51,7 +51,9 @@ export default function EventPreview({
             const prevMembers = event?.members ? event.members : [];
             const reqBody = {
                 eventId: event._id,
-                newMembers: [...prevMembers, user._id],
+                updated: {
+                    members: [...prevMembers, user._id],
+                },
             };
             const res = await fetch("/api/events", {
                 method: "PUT",
