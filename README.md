@@ -14,6 +14,4 @@ weLynk is built using [Next.js](https://nextjs.org) with the data being stored i
 ## Getting Started
 To use weLynk, you will need to create an account. Once you're signed in, you can browse events, create and post events, and connect with other users.
 ## Current Status
-weLynk is currently still under development. More features will be continuously rolled out and existing features will be improved.template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+weLynk is currently still under development. More features will be continuously rolled out and existing features will be improved.
