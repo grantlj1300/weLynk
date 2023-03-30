@@ -1,5 +1,7 @@
 import dbConnect from "../../lib/mongodb";
 import Event from "../../models/eventModel";
+import Message from "../../models/messageModel";
+import User from "../../models/userModel";
 
 export const config = { api: { bodyParser: { sizeLimit: "2mb" } } };
 
@@ -66,9 +68,26 @@ export default async function handler(req, res) {
             break;
         case "DELETE":
             try {
-                const { id } = req.body;
-                // const event = await Event.findByIdAndUpdate(eventId, updated);
-                // res.status(200).send(event);
+                const { eventId, members, messages } = req.body;
+
+                // Remove the event ID from all attending users' "events" arrays
+                await Promise.all(
+                    members.map(async (member) => {
+                        await User.findByIdAndUpdate(member._id, {
+                            $pull: { events: eventId },
+                        });
+                    })
+                );
+
+                // Delete all messages associated with the event
+                await Message.deleteMany({
+                    _id: { $in: messages.map((message) => message._id) },
+                });
+
+                // Delete the event itself
+                await Event.findByIdAndDelete(eventId);
+
+                res.status(200).end();
             } catch (error) {
                 res.status(400).end();
             }

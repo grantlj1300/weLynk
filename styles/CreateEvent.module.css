@@ -28,14 +28,16 @@
     align-items: center;
     width: 250px;
     justify-content: space-evenly;
+    font-size: 13pt;
+    margin-top: 5px;
 }
 .prompt {
     background-color: rgb(195, 74, 195);
     color: white;
     border: none;
-    border-radius: 10px;
-    font-size: 11pt;
-    padding: 7px;
+    border-radius: 15px;
+    font-size: 13pt;
+    padding: 10px 15px;
     cursor: pointer;
     text-decoration: none;
 }

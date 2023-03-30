@@ -11,7 +11,7 @@ export default async function handler(req, res) {
                 const event = await Event.findById(id).populate([
                     {
                         path: "messages",
-                        select: "-_id -__v -room",
+                        select: "-__v -room",
                     },
                     {
                         path: "members",

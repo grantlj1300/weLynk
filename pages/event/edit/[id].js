@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import CreateEvent from "../../../components/CreateForm/CreateEvent";
 import Loading from "../../../components/Loading";
+import { useRouter } from "next/router";
 
 export default function EditEvent({ user, eventId }) {
     const [event, setEvent] = useState("loading");
+    const router = useRouter();
 
     useEffect(() => {
         getEvent();
@@ -47,15 +49,21 @@ export default function EditEvent({ user, eventId }) {
 
     async function deleteEvent() {
         try {
+            const reqBody = {
+                eventId: event._id,
+                members: event.members,
+                messages: event.messages,
+            };
             const res = await fetch("/api/events", {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ id: eventId }),
+                body: JSON.stringify(reqBody),
             });
-            const data = await res.json();
-            return data;
+            if (res.status === 200) {
+                router.push("/profile");
+            }
         } catch (error) {
             console.log(error);
         }
@@ -70,7 +78,12 @@ export default function EditEvent({ user, eventId }) {
             <Head>
                 <title>weLynk | Edit Event</title>
             </Head>
-            <CreateEvent user={user} submitForm={updateEvent} event={event} />
+            <CreateEvent
+                user={user}
+                submitForm={updateEvent}
+                event={event}
+                deleteEvent={deleteEvent}
+            />
         </>
     );
 }

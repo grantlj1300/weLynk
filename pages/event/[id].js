@@ -9,12 +9,14 @@ import { AiTwotoneCalendar } from "react-icons/ai";
 import { IoLocationSharp } from "react-icons/io5";
 import Head from "next/head";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
-export default function Event({ eventId, user }) {
+export default function Event({ eventId, user, setUser }) {
     const [event, setEvent] = useState("loading");
     const [message, setMessage] = useState("");
     const [allMessages, setAllMessages] = useState([]);
     const chats = useRef(null);
+    const router = useRouter();
 
     useEffect(() => {
         if (chats && chats.current) {
@@ -39,7 +41,7 @@ export default function Event({ eventId, user }) {
         };
         // eslint-disable-next-line
     }, []);
-    console.log(event);
+
     async function getEvent() {
         try {
             const res = await fetch(`/api/event/${eventId}`, {
@@ -91,6 +93,56 @@ export default function Event({ eventId, user }) {
         }
     }
 
+    async function removeUserFromEvent() {
+        try {
+            const reqBody = {
+                eventId: eventId,
+                updated: {
+                    members: event.members.filter(
+                        (userObj) => userObj._id !== user._id
+                    ),
+                },
+            };
+            const res = await fetch("/api/events", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(reqBody),
+            });
+            const data = await res.json();
+            return data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async function removeEventFromUser() {
+        try {
+            const reqBody = {
+                userId: user._id,
+                events: user.events.filter((id) => id !== event._id),
+            };
+            const res = await fetch("/api/user", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(reqBody),
+            });
+            const data = await res.json();
+            setUser(data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async function leaveEvent() {
+        await removeUserFromEvent();
+        await removeEventFromUser();
+        router.push("/profile");
+    }
+
     async function handleSubmit(e) {
         e.preventDefault();
         const stripped = message.trim();
@@ -117,7 +169,7 @@ export default function Event({ eventId, user }) {
     if (event === "loading") {
         return <Loading />;
     }
-    console.log(event);
+
     const messages = allMessages.map((data, idx) => {
         const other = user._id !== data.userId;
         return (
@@ -181,7 +233,10 @@ export default function Event({ eventId, user }) {
                                 Edit Event
                             </Link>
                         ) : (
-                            <button className={styles.button}>
+                            <button
+                                className={styles.button}
+                                onClick={leaveEvent}
+                            >
                                 Leave Event
                             </button>
                         )}
