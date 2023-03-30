@@ -29,7 +29,6 @@ export default function CreateEvent({ user, event, submitForm, deleteEvent }) {
               }
     );
     const [deleting, setDeleting] = useState(false);
-    console.log(formData);
     const [stepStyles, setStepStyles] = useState([
         `${styles.progressIconContainer} ${styles.completed}`,
         `${styles.progressIconContainer}`,

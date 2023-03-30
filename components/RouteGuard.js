@@ -10,7 +10,7 @@ export default function RouteGuard({ children, user }) {
         user === null &&
         !unprotected.includes(router.pathname)
     )
-        router.push("/");
+        router.push("/login");
     else if (
         typeof window !== "undefined" &&
         user &&
