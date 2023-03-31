@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../../styles/CreateEvent.module.css";
+import styles from "../../styles/BuildEvent.module.css";
 
 export default function Success() {
     return (

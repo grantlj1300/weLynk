@@ -90,6 +90,7 @@
 .password {
     position: relative;
     width: 100%;
+    margin-bottom: 10px;
 }
 .password > input {
     padding-right: 35px;
@@ -98,42 +99,6 @@
     position: absolute;
     top: 6px;
     right: 8px;
-}
-
-.submit {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: "Nunito", sans-serif;
-    background-color: rgb(195, 74, 195);
-    color: white;
-    border: none;
-    border-radius: 20px;
-    margin-top: 10px;
-    font-size: 16pt;
-    padding: 13px;
-    cursor: pointer;
-}
-.submit:hover {
-    background-color: rgb(159, 58, 159);
-}
-
-.spin {
-    z-index: 2;
-    height: 19px;
-    width: 19px;
-    animation: rotate 0.8s infinite linear;
-    border: 5px solid rgba(255, 255, 255, 0.729);
-    border-right-color: transparent;
-    border-radius: 50%;
-}
-@keyframes rotate {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
 }
 
 .login {

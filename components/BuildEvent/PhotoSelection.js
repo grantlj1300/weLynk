@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
-import styles from "../../styles/CreateEvent.module.css";
+import styles from "../../styles/BuildEvent.module.css";
 import { MdNavigateBefore, MdNavigateNext } from "react-icons/md";
 
 export default function PhotoSelection({

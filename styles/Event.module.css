@@ -28,22 +28,10 @@
     justify-content: center;
 }
 .button {
-    background-color: rgb(195, 74, 195);
-    color: white;
-    border: none;
-    border-radius: 15px;
-    margin-top: 5px;
-    font-size: 13pt;
-    padding: 10px;
-    cursor: pointer;
-    text-decoration: none;
+    margin-top: 7px;
+    width: 100%;
 }
-.button:hover {
-    background-color: rgb(159, 58, 159);
-}
-.button:active {
-    background-color: rgb(137, 43, 137);
-}
+
 
 .imageContainer {
     position: relative;
@@ -194,6 +182,7 @@
 
 .inputContainer {
     display: flex;
+    align-items: center;
     background-color: white;
     border: 1px solid rgba(0, 0, 0, 0.15);
     border-radius: 20px;
@@ -210,30 +199,21 @@
     outline: none;
 }
 
-.hide {
+.sendButton {
+    height: 34px;
+    width: 34px;
     border: none;
-    background: none;
+    border-radius: 17px;
+    margin-right: 3px;
 }
-.hide:focus {
-    outline: none;
-}
+
 
 .sendIcon {
     color: white;
-    background: rgba(150, 3, 150, 0.66);
-    border-radius: 50%;
     padding: 10px;
     overflow: visible;
-    vertical-align: bottom;
-    margin: 3px 3px 3px 0px;
-    cursor: pointer;
 }
-.sendIcon:hover {
-    background: rgb(186, 1, 186);
-}
-.sendIcon:active {
-    background: rgb(153, 2, 153);
-}
+
 
 @media only screen and (max-width: 768px) {
     .chatContainer {

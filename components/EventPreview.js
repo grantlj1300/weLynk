@@ -4,7 +4,7 @@ import { formatDate, formatTime } from "../lib/utils/utils.js";
 import styles from "../styles/EventPreview.module.css";
 import { AiOutlineClose, AiTwotoneCalendar } from "react-icons/ai";
 import { IoLocationSharp } from "react-icons/io5";
-import Link from "next/link";
+import Link from "next/link.js";
 
 export default function EventPreview({
     event,
@@ -15,6 +15,7 @@ export default function EventPreview({
     setUser,
 }) {
     const [attending, setAttending] = useState(false);
+    const [joining, setJoining] = useState(false);
 
     useEffect(() => {
         if (event && user.events && user.events.includes(event._id))
@@ -70,10 +71,35 @@ export default function EventPreview({
     }
 
     async function handleEventJoin() {
+        setJoining(true);
         const updatedEvent = await addUserToEvent();
         const updatedUser = await addEventToUser();
         setEvent(updatedEvent);
         setUser(updatedUser);
+        setJoining(false);
+    }
+
+    function renderButton() {
+        if (attending)
+            return (
+                <button className={styles.button}>
+                    <Link href={`/event/${event._id}`} className="link">
+                        Visit Event Page
+                    </Link>
+                </button>
+            );
+        else if (joining)
+            return (
+                <button className={styles.button}>
+                    <div className="spin" />
+                </button>
+            );
+        else
+            return (
+                <button className={styles.button} onClick={handleEventJoin}>
+                    Join Event
+                </button>
+            );
     }
 
     return (
@@ -124,22 +150,7 @@ export default function EventPreview({
                         <p className={styles.description}>
                             {event.description}
                         </p>
-
-                        {attending ? (
-                            <Link
-                                href={`/event/${event._id}`}
-                                className={styles.joinButton}
-                            >
-                                Visit Event Page
-                            </Link>
-                        ) : (
-                            <button
-                                className={styles.joinButton}
-                                onClick={handleEventJoin}
-                            >
-                                Join Event
-                            </button>
-                        )}
+                        {renderButton()}
                     </div>
                 </div>
             )}

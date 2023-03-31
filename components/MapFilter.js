@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "../styles/MapFilter.module.css";
 import { AiOutlineDoubleLeft, AiOutlinePlusCircle } from "react-icons/ai";
 import { IoTrashOutline } from "react-icons/io5";
@@ -12,6 +12,7 @@ export default function EventPreview({
     keywords,
     setKeywords,
 }) {
+    const [filtering, setFiltering] = useState(false);
     const checkedTypes = {
         misc: "Miscellaneous",
         sports: "Sports & Athletics",
@@ -86,9 +87,11 @@ export default function EventPreview({
 
     async function handleFilter(e) {
         e.preventDefault();
+        setFiltering(true);
         setKeywords(keywords.filter((keyword) => keyword !== ""));
         await filterEvents();
         setShowFilter(false);
+        setFiltering(false);
     }
 
     return (
@@ -127,9 +130,13 @@ export default function EventPreview({
                         </div>
                     )}
                 </div>
-                <button className={styles.submit} onClick={handleFilter}>
-                    Filter Events
-                </button>
+                {filtering ? (
+                    <button>
+                        <div className="spin" />
+                    </button>
+                ) : (
+                    <button onClick={handleFilter}>Filter Events</button>
+                )}
             </form>
         </div>
     );

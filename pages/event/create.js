@@ -1,6 +1,6 @@
 import React from "react";
 import Head from "next/head";
-import CreateEvent from "../../components/CreateForm/CreateEvent";
+import BuildEvent from "../../components/BuildEvent/BuildEvent";
 
 export default function Create({ user, setUser }) {
     async function joinEvent(eventId) {
@@ -49,7 +49,7 @@ export default function Create({ user, setUser }) {
             <Head>
                 <title>weLynk | Create Event</title>
             </Head>
-            <CreateEvent user={user} submitForm={postEvent} />
+            <BuildEvent user={user} submitForm={postEvent} />
         </>
     );
 }

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from "../../styles/CreateEvent.module.css";
+import styles from "../../styles/BuildEvent.module.css";
 import PlaceSearch from "../PlaceSearch";
 import MiniMapWrapper from "../MiniMapWrapper";
 import { MdNavigateBefore, MdNavigateNext } from "react-icons/md";

@@ -47,7 +47,7 @@
 }
 
 .previewHeader {
-    padding-bottom: 10px;
+    padding-bottom: 5px;
     border-bottom: 1px solid rgba(167, 166, 166, 0.558);
 }
 
@@ -79,39 +79,23 @@
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
-    padding: 15px 0px;
+    padding: 15px 0px 0px 0px;
 }
 
 .description {
-    height: 170px;
+    height: 185px;
     color: rgb(145, 144, 144);
     padding-right: 5px;
     white-space: pre-line;
     overflow-y: scroll;
 }
 
-.joinButton {
-    background-color: rgb(195, 74, 195);
-    color: white;
-    border: none;
-    border-radius: 20px;
-    margin-top: 20px;
-    font-size: 16pt;
-    padding: 13px;
-    cursor: pointer;
-    text-align: center;
-    text-decoration: none;
-}
-.joinButton:hover {
-    background-color: rgb(159, 58, 159);
-}
-
 @media only screen and (max-width: 768px) {
     #infoBox {
-        height: 60%;
+        height: 50%;
         right: auto;
         transition: bottom 0.3s, visibility 0.3s;
-        bottom: -60%;
+        bottom: -50%;
         width: 100%;
         border-radius: 25px 25px 0px 0px;
         max-width: none;
@@ -123,12 +107,12 @@
         font-size: 16pt;
     }
     .description {
-        height: 60px;
+        height: 45px;
         font-size: 11pt;        
     }
-    .joinButton {
-        margin-top: 10px;
-        font-size: 14pt;
-        padding: 10px;
+    .button {
+        margin-top: 8px;
+        font-size: 16pt;
+        padding: 6px;
     }
 }

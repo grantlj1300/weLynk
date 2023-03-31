@@ -226,12 +226,14 @@ export default function Event({ eventId, user, setUser }) {
                     <p className={styles.description}>{event.description}</p>
                     <div className={styles.buttonRow}>
                         {user._id === event.admin ? (
-                            <Link
-                                href={`/event/edit/${event._id}`}
-                                className={styles.button}
-                            >
-                                Edit Event
-                            </Link>
+                            <button className={styles.button}>
+                                <Link
+                                    href={`/event/edit/${event._id}`}
+                                    className="link"
+                                >
+                                    Edit Event
+                                </Link>
+                            </button>
                         ) : (
                             <button
                                 className={styles.button}
@@ -258,7 +260,7 @@ export default function Event({ eventId, user, setUser }) {
                             onChange={(e) => setMessage(e.target.value)}
                         ></input>
                         <button
-                            className={styles.hide}
+                            className={styles.sendButton}
                             type="submit"
                             onClick={handleSubmit}
                         >

@@ -6,21 +6,9 @@
 }
 
 .delete {
-    background-color: rgb(195, 74, 195);
-    color: white;
-    border: none;
-    border-radius: 15px;
     margin-top: 5px;
-    font-size: 13pt;
-    padding: 10px;
-    cursor: pointer;
-    text-decoration: none;
-}
-.delete:hover {
-    background-color: rgb(159, 58, 159);
-}
-.delete:active {
-    background-color: rgb(137, 43, 137);
+    font-size: 12pt;
+    padding: 7px 10px;
 }
 
 .confirmRow {
@@ -28,24 +16,18 @@
     align-items: center;
     width: 250px;
     justify-content: space-evenly;
-    font-size: 13pt;
+    font-size: 12pt;
     margin-top: 5px;
 }
 .prompt {
-    background-color: rgb(195, 74, 195);
-    color: white;
-    border: none;
-    border-radius: 15px;
-    font-size: 13pt;
-    padding: 10px 15px;
-    cursor: pointer;
-    text-decoration: none;
+    border-radius: 10px;
+    font-size: 12pt;
+    padding: 7px 10px;
+    width: 50px;
 }
-.prompt:hover {
-    background-color: rgb(159, 58, 159);
-}
-.prompt:active {
-    background-color: rgb(137, 43, 137);
+.miniSpin {
+    height: 11.7px;
+    width: 11.7px;
 }
 
 .body {

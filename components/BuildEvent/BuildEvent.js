@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Image from "next/image";
-import styles from "../../styles/CreateEvent.module.css";
+import styles from "../../styles/BuildEvent.module.css";
 import { AiTwotoneCalendar } from "react-icons/ai";
 import { IoLocationSharp } from "react-icons/io5";
 import { formatDate, formatTime } from "../../lib/utils/utils.js";
@@ -28,7 +28,7 @@ export default function CreateEvent({ user, event, submitForm, deleteEvent }) {
                   eventType: "misc",
               }
     );
-    const [deleting, setDeleting] = useState(false);
+    const [deleting, setDeleting] = useState("none");
     const [stepStyles, setStepStyles] = useState([
         `${styles.progressIconContainer} ${styles.completed}`,
         `${styles.progressIconContainer}`,
@@ -120,31 +120,50 @@ export default function CreateEvent({ user, event, submitForm, deleteEvent }) {
         }));
     }
 
+    function renderDeleteButton() {
+        if (deleting === "none")
+            return (
+                <button
+                    className={styles.delete}
+                    onClick={() => setDeleting("prompt")}
+                >
+                    Delete Event
+                </button>
+            );
+        else
+            return (
+                <div className={styles.confirmRow}>
+                    Are you sure?
+                    {deleting === "prompt" ? (
+                        <button
+                            onClick={async () => {
+                                setDeleting("loading");
+                                await deleteEvent();
+                                setDeleting("none");
+                            }}
+                            className={styles.prompt}
+                        >
+                            Yes
+                        </button>
+                    ) : (
+                        <button className={styles.prompt}>
+                            <div className={`spin ${styles.miniSpin}`} />
+                        </button>
+                    )}
+                    <button
+                        onClick={() => setDeleting("none")}
+                        className={styles.prompt}
+                    >
+                        No
+                    </button>
+                </div>
+            );
+    }
+
     return (
         <div className={styles.container}>
             <h1>Build Your Event</h1>
-            {event &&
-                (deleting ? (
-                    <div className={styles.confirmRow}>
-                        Are you sure?
-                        <button className={styles.prompt} onClick={deleteEvent}>
-                            Yes
-                        </button>
-                        <button
-                            className={styles.prompt}
-                            onClick={() => setDeleting(false)}
-                        >
-                            No
-                        </button>
-                    </div>
-                ) : (
-                    <button
-                        className={styles.delete}
-                        onClick={() => setDeleting(true)}
-                    >
-                        Delete Event
-                    </button>
-                ))}
+            {event && renderDeleteButton()}
             <div className={styles.body}>
                 <div className={styles.formContainer}>
                     <ProgressBar step={formStep} stepStyles={stepStyles} />

@@ -103,24 +103,17 @@ export default function Register() {
 
     function renderSubmit() {
         if (submitStatus === "none") {
-            return (
-                <input
-                    className={styles.submit}
-                    type="submit"
-                    value="Sign up"
-                    onClick={handleRegisterClick}
-                />
-            );
+            return <button onClick={handleRegisterClick}>Sign up</button>;
         }
         if (submitStatus === "submitting") {
             return (
-                <div className={styles.submit}>
-                    <div className={styles.spin} />
-                </div>
+                <button>
+                    <div className="spin" />
+                </button>
             );
         }
         if (submitStatus === "success") {
-            return <div className={styles.submit}>Success!</div>;
+            return <button>Success!</button>;
         }
     }
 

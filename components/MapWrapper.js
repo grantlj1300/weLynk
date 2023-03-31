@@ -116,6 +116,15 @@ export default function MapWrapper({
     }, [regionView]);
 
     useEffect(() => {
+        if (map && currentEvent) {
+            map.getView().animate({
+                center: fromLonLat(currentEvent.location.coordinates),
+            });
+        }
+        // eslint-disable-next-line
+    }, [currentEvent]);
+
+    useEffect(() => {
         if (map) {
             markerSource.clear();
             const features = events.map((event) => {

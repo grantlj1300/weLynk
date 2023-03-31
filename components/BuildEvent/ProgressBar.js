@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from "../../styles/CreateEvent.module.css";
+import styles from "../../styles/BuildEvent.module.css";
 import { TfiWrite } from "react-icons/tfi";
 import { IoLocationOutline } from "react-icons/io5";
 import { HiOutlinePhoto } from "react-icons/hi2";

@@ -83,20 +83,13 @@ export default function Login({ handleUserLogIn }) {
 
     function renderSubmit() {
         if (submitStatus === "none") {
-            return (
-                <input
-                    className={styles.submit}
-                    type="submit"
-                    value="Log in"
-                    onClick={handleLogInClick}
-                />
-            );
+            return <button onClick={handleLogInClick}>Log in</button>;
         }
         if (submitStatus === "submitting") {
             return (
-                <div className={styles.submit}>
-                    <div className={styles.spin} />
-                </div>
+                <button>
+                    <div className="spin" />
+                </button>
             );
         }
     }
