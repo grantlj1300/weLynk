@@ -90,6 +90,10 @@
     overflow-y: scroll;
 }
 
+.button {
+    width: 100%;
+}
+
 @media only screen and (max-width: 768px) {
     #infoBox {
         height: 50%;

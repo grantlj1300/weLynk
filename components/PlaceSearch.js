@@ -20,7 +20,6 @@ export default function PlaceSearch({
         setQuery(query);
         handlePlaceSelect(addressObject);
     }
-    console.log(autoCompleteRef.current);
     return (
         <Autocomplete
             onLoad={(ref) => (autoCompleteRef.current = ref)}

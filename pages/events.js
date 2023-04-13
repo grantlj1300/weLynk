@@ -29,7 +29,15 @@ export default function Events({ user, setUser }) {
                 return keyword;
             })
             .join(" ");
-        const params = { ...coordinates, filter: filter, keywords: keywordStr };
+        const friends = user.friends
+            .filter((friend) => friend.status === 2)
+            .map((friend) => friend.user);
+        const params = {
+            ...coordinates,
+            filter: filter,
+            keywords: keywordStr,
+            friends: [...friends, user._id],
+        };
         setActiveFilter(filter);
         setActiveKeywords(keywords);
         try {

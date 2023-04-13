@@ -1,10 +1,11 @@
 import Link from "next/link";
 import React, { useState } from "react";
-import styles from "../../styles/Navbar.module.css";
+import styles from "../../styles/Layout/Navbar.module.css";
 import { BiMapPin } from "react-icons/bi";
-import SearchBar from "../SearchBar";
+import SearchBar from "./SearchBar";
+import NotificationPopup from "./NotificationPopup";
 
-export default function Navbar({ handleLogOut, user }) {
+export default function Navbar({ handleLogOut, user, setUser }) {
     const [showMenu, setShowMenu] = useState(false);
     return (
         <nav className={styles.headerContainer}>
@@ -20,6 +21,7 @@ export default function Navbar({ handleLogOut, user }) {
                 }`}
             >
                 <SearchBar />
+                <NotificationPopup user={user} setUser={setUser} />
                 <div
                     className={styles.hamburgerIconContainer}
                     onClick={() => setShowMenu((prev) => !prev)}

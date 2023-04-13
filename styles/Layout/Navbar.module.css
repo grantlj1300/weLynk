@@ -1,11 +1,12 @@
 .headerContainer {
     height: 64px;
-    padding: 0px 25px 0px 25px;
+    padding: 0px 0px 0px 25px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     background: rgb(112,48,181);
     color: white;
+    position: relative;
 }
 .right {
     display: flex;
@@ -16,7 +17,7 @@
 }
 
 .link, .link:hover, .link:visited, .link:active {
-    margin-left: 25px;
+    margin-right: 25px;
     color: inherit;
     text-decoration: none;
     cursor: pointer;

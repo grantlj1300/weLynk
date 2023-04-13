@@ -1,0 +1,79 @@
+.iconContainer {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    border-radius: 10px 0px 0px 10px;
+}
+.icon {
+    width: 22px;
+    height: 22px;
+    color: white;
+    cursor: pointer;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    height: 64px;
+    margin: 0px 20px 0px 10px;
+}
+
+.rowContainer {
+    top: 100%;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    z-index: 5;
+    position: absolute;
+    width: 360px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    overflow: hidden;
+    box-shadow: 3px 10px 10px -5px rgba(148, 148, 148, 0.49);
+}
+
+@media only screen and (max-width: 768px) {
+    .rowContainer {
+        right: 0;
+    }
+}
+.row {
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-decoration: none;
+    color: black;
+    padding: 8px 7px;
+    background-color: white;
+    border-top: 1px solid rgba(176, 175, 175, 0.539);
+}
+.emptyRow {
+    width: 100%;
+    text-align: center;
+    color: rgb(142, 142, 142);
+    font-size: 13pt;
+    padding: 8px 7px;
+    background-color: white;
+}
+
+.link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: black;
+    margin-right: 20px;
+}
+
+.avatar {
+    border-radius: 25px;
+    margin-right: 13px;
+}
+
+.rowText > h3 {
+    font-size: 12pt;
+}
+.rowText > div {
+    font-size: 10pt;
+    color: rgb(142, 142, 142);
+}

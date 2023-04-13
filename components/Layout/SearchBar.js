@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
-import styles from "../styles/SearchBar.module.css";
+import styles from "../../styles/Layout/SearchBar.module.css";
 import { AiOutlineSearch } from "react-icons/ai";
 
 export default function SearchBar() {

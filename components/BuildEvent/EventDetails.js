@@ -2,12 +2,17 @@ import React from "react";
 import styles from "../../styles/BuildEvent.module.css";
 import { MdNavigateNext } from "react-icons/md";
 
-export default function EventDetails({ nextStep, handleChange, formData }) {
+export default function EventDetails({
+    nextStep,
+    handleChange,
+    formData,
+    setFormData,
+}) {
     function handleNext() {
         const { title, date, time, description } = formData;
         if (title && date && time && description) nextStep();
     }
-
+    console.log(formData.isPublic);
     return (
         <div className={styles.formBody}>
             <label className={styles.label}>Event Name:</label>
@@ -19,22 +24,61 @@ export default function EventDetails({ nextStep, handleChange, formData }) {
                 value={formData.title}
                 onChange={handleChange}
             />
-            <label className={styles.label}>Date:</label>
-            <input
-                className={styles.input}
-                type="date"
-                name="date"
-                value={formData.date}
-                onChange={handleChange}
-            />
-            <label className={styles.label}>Time:</label>
-            <input
-                className={styles.input}
-                type="time"
-                name="time"
-                value={formData.time}
-                onChange={handleChange}
-            />
+            <div className={styles.dateTime}>
+                <div className={styles.entry}>
+                    <label className={styles.label}>Date:</label>
+                    <input
+                        className={styles.input}
+                        type="date"
+                        name="date"
+                        value={formData.date}
+                        onChange={handleChange}
+                    />
+                </div>
+                <div className={styles.entry}>
+                    <label className={styles.label}>Time:</label>
+                    <input
+                        className={styles.input}
+                        type="time"
+                        name="time"
+                        value={formData.time}
+                        onChange={handleChange}
+                    />
+                </div>
+            </div>
+            <label className={styles.label}>Visibility:</label>
+            <div>
+                <label className={styles.visibility}>
+                    <input
+                        type="radio"
+                        name="isPublic"
+                        value={true}
+                        checked={formData.isPublic === true}
+                        onChange={(e) =>
+                            setFormData({
+                                ...formData,
+                                isPublic: JSON.parse(e.target.value),
+                            })
+                        }
+                    />{" "}
+                    Public
+                </label>
+                <label className={styles.visibility}>
+                    <input
+                        type="radio"
+                        name="isPublic"
+                        value={false}
+                        checked={formData.isPublic === false}
+                        onChange={(e) =>
+                            setFormData({
+                                ...formData,
+                                isPublic: JSON.parse(e.target.value),
+                            })
+                        }
+                    />{" "}
+                    Friends Only
+                </label>
+            </div>
             <label className={styles.label}>Event Type:</label>
             <select
                 className={styles.input}

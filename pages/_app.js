@@ -62,7 +62,11 @@ export default function MyApp({ Component, pageProps }) {
                 loadingElement={<div />}
             >
                 <RouteGuard user={user}>
-                    <Layout handleLogOut={handleLogOut} user={user}>
+                    <Layout
+                        handleLogOut={handleLogOut}
+                        user={user}
+                        setUser={setUser}
+                    >
                         <Component
                             {...pageProps}
                             handleUserLogIn={handleUserLogIn}

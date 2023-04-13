@@ -23,6 +23,7 @@ export default function CreateEvent({ user, event, submitForm, deleteEvent }) {
                   address: "",
                   location: { type: "Point", coordinates: [] },
                   description: "",
+                  isPublic: true,
                   date: "",
                   time: "",
                   eventType: "misc",
@@ -70,6 +71,7 @@ export default function CreateEvent({ user, event, submitForm, deleteEvent }) {
                     <EventDetails
                         nextStep={nextStep}
                         handleChange={handleChange}
+                        setFormData={setFormData}
                         formData={formData}
                     />
                 );

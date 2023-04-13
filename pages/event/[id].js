@@ -226,14 +226,14 @@ export default function Event({ eventId, user, setUser }) {
                     <p className={styles.description}>{event.description}</p>
                     <div className={styles.buttonRow}>
                         {user._id === event.admin ? (
-                            <button className={styles.button}>
-                                <Link
-                                    href={`/event/edit/${event._id}`}
-                                    className="link"
-                                >
+                            <Link
+                                href={`/event/edit/${event._id}`}
+                                className={`link ${styles.button}`}
+                            >
+                                <button className={styles.button}>
                                     Edit Event
-                                </Link>
-                            </button>
+                                </button>
+                            </Link>
                         ) : (
                             <button
                                 className={styles.button}

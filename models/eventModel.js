@@ -35,6 +35,10 @@ const eventSchema = new Schema({
         type: String,
         required: true,
     },
+    isPublic: {
+        type: Boolean,
+        required: true,
+    },
     location: {
         type: {
             type: String,

@@ -82,11 +82,9 @@ export default function EventPreview({
     function renderButton() {
         if (attending)
             return (
-                <button className={styles.button}>
-                    <Link href={`/event/${event._id}`} className="link">
-                        Visit Event Page
-                    </Link>
-                </button>
+                <Link href={`/event/${event._id}`} className="link">
+                    <button className={styles.button}>Visit Event Page</button>
+                </Link>
             );
         else if (joining)
             return (

@@ -11,8 +11,15 @@ export default async function handler(req, res) {
     switch (method) {
         case "GET":
             try {
-                let { minLon, maxLon, minLat, maxLat, filter, keywords } =
-                    req.query;
+                let {
+                    minLon,
+                    maxLon,
+                    minLat,
+                    maxLat,
+                    filter,
+                    keywords,
+                    friends,
+                } = req.query;
                 let filterQuery = {};
                 let keywordQuery = {};
                 if (filter !== "all") {
@@ -38,8 +45,20 @@ export default async function handler(req, res) {
                 const dateQuery = {
                     date: { $gte: new Date().toISOString().split("T")[0] },
                 };
+                const pubPrivQuery = {
+                    $or: [
+                        { isPublic: true },
+                        { admin: { $in: friends.split(",") } },
+                    ],
+                };
                 const events = await Event.find({
-                    $and: [filterQuery, keywordQuery, locationQuery, dateQuery],
+                    $and: [
+                        filterQuery,
+                        keywordQuery,
+                        locationQuery,
+                        dateQuery,
+                        pubPrivQuery,
+                    ],
                 });
                 res.status(201).send(events);
             } catch (error) {
