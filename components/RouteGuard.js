@@ -3,13 +3,12 @@ import Loading from "./Loading";
 
 export default function RouteGuard({ children, user }) {
     const router = useRouter();
-    // const unprotected = ["/login", "/register", "/"];
-    const unprotected = ["/login", "/register"];
+    const unprotected = ["/login", "/register", "/"];
 
     if (
         typeof window !== "undefined" &&
         user === null &&
-        !unprotected.includes(router.pathname)
+        (!unprotected.includes(router.pathname) || router.pathname === "/")
     )
         router.push("/login");
     else if (
