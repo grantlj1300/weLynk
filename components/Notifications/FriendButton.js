@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from "../styles/FriendButton.module.css";
+import styles from "../../styles/Notifications/FriendButton.module.css";
 import { BsFillPersonPlusFill } from "react-icons/bs";
 import { FaUserFriends } from "react-icons/fa";
 import { AiOutlineFieldTime } from "react-icons/ai";

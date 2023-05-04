@@ -69,6 +69,25 @@ const userSchema = new Schema({
         required: true,
         default: [],
     },
+    invitations: {
+        type: [
+            {
+                _id: false,
+                sender: {
+                    type: mongoose.Types.ObjectId,
+                    ref: "User",
+                    required: true,
+                },
+                event: {
+                    type: mongoose.Types.ObjectId,
+                    ref: "Event",
+                    required: true,
+                },
+            },
+        ],
+        required: true,
+        default: [],
+    },
 });
 
 export default models.User || model("User", userSchema);

@@ -1,0 +1,47 @@
+.page {
+    display: flex;
+    margin-top: 50px;
+}
+.tabs {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 200px 0px 200px 0px;
+    margin: 0px 50px 0px 50px;
+    color: rgb(236, 136, 236);
+}
+.tab {
+    margin-top: 20px;
+    text-align: center;
+    padding: 5px;
+    cursor: pointer;
+}
+.tab::after {
+    content: '';
+    display: block;
+    border-bottom: solid 3px rgb(175, 51, 175);  
+    transform: scaleX(0);  
+    transition: transform 0.2s ease-in-out;
+}
+.inactiveTab:hover {
+    color: rgb(218, 105, 218);
+}
+.activeTab {
+    transition: color 0.5s;
+    display: inline-block;
+    color: rgb(175, 51, 175);
+}
+.activeTab::after {
+    transform: scaleX(1);
+}
+.activeTab:hover {
+    color: rgb(175, 51, 175);
+    cursor: default;
+}
+.container {
+    width: 70%;
+    margin-top: 10px;
+}
+.entryContainer > h2 {
+    margin: 10px 0px 10px 0px;
+}

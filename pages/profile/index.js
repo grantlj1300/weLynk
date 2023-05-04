@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import styles from "../../styles/Profile.module.css";
-import Carousel from "../../components/Carousel";
+import Carousel from "../../components/Carousel/Carousel";
 import { AiOutlineSetting } from "react-icons/ai";
 import EditProfileModal from "../../components/EditProfile/EditProfileModal";
 import Head from "next/head";

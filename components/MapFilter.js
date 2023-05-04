@@ -11,6 +11,8 @@ export default function EventPreview({
     filter,
     keywords,
     setKeywords,
+    eventVisibility,
+    setEventVisibility,
 }) {
     const [filtering, setFiltering] = useState(false);
     const checkedTypes = {
@@ -129,6 +131,37 @@ export default function EventPreview({
                             Add keyword
                         </div>
                     )}
+                </div>
+                <h2>Filter by visibility:</h2>
+                <div className={styles.line} />
+                <div className={styles.checkContainer}>
+                    <label className={styles.option}>
+                        <input
+                            className={styles.optionCheck}
+                            type="radio"
+                            checked={eventVisibility === "all"}
+                            onChange={() => setEventVisibility("all")}
+                        />
+                        All
+                    </label>
+                    <label className={styles.option}>
+                        <input
+                            className={styles.optionCheck}
+                            type="radio"
+                            checked={eventVisibility === "public"}
+                            onChange={() => setEventVisibility("public")}
+                        />
+                        Public Only
+                    </label>
+                    <label className={styles.option}>
+                        <input
+                            className={styles.optionCheck}
+                            type="radio"
+                            checked={eventVisibility === "friends"}
+                            onChange={() => setEventVisibility("friends")}
+                        />
+                        Friends Only
+                    </label>
                 </div>
                 {filtering ? (
                     <button>

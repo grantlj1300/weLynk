@@ -18,10 +18,12 @@ export default async function handler(req, res) {
                     maxLat,
                     filter,
                     keywords,
+                    eventVisibility,
                     friends,
                 } = req.query;
                 let filterQuery = {};
                 let keywordQuery = {};
+                let pubPrivQuery = {};
                 if (filter !== "all") {
                     const eventTypes = filter.split(",");
                     filterQuery = { eventType: { $in: eventTypes } };
@@ -31,6 +33,23 @@ export default async function handler(req, res) {
                 }
                 if (parseFloat(minLon) > parseFloat(maxLon)) {
                     minLon -= 360;
+                }
+                if (eventVisibility === "public") {
+                    pubPrivQuery = { isPublic: true };
+                } else if (eventVisibility === "friends") {
+                    pubPrivQuery = {
+                        $and: [
+                            { isPublic: false },
+                            { admin: { $in: friends.split(",") } },
+                        ],
+                    };
+                } else {
+                    pubPrivQuery = {
+                        $or: [
+                            { isPublic: true },
+                            { admin: { $in: friends.split(",") } },
+                        ],
+                    };
                 }
                 const locationQuery = {
                     location: {
@@ -44,12 +63,6 @@ export default async function handler(req, res) {
                 };
                 const dateQuery = {
                     date: { $gte: new Date().toISOString().split("T")[0] },
-                };
-                const pubPrivQuery = {
-                    $or: [
-                        { isPublic: true },
-                        { admin: { $in: friends.split(",") } },
-                    ],
                 };
                 const events = await Event.find({
                     $and: [

@@ -39,7 +39,15 @@
     height: 45%;
     border-bottom: 4px solid rgba(180, 90, 180, 0.633);
 }
-
+.share {
+    position: absolute;
+    z-index: 10;
+    top: 10px;
+    right: 10px;
+    color: white;
+    cursor: pointer;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.15);
+}
 .image {
     object-fit: cover;
 }

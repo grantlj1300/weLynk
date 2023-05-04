@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
-import styles from "../styles/CarouselCard.module.css";
-import { formatDate, formatTime } from "../lib/utils/utils.js";
+import styles from "../../styles/Carousel/CarouselCard.module.css";
+import { formatDate, formatTime } from "../../lib/utils/utils.js";
 
 export default function CarouselCard({ event }) {
     if (event === "fetching") {

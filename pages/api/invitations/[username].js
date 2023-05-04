@@ -8,29 +8,38 @@ export default async function handler(req, res) {
     switch (method) {
         case "GET":
             try {
-                const user = await User.findOne({ username: username });
-                res.status(201).send(user);
+                const user = await User.findOne({ username })
+                    .populate({
+                        path: "invitations",
+                        populate: [
+                            {
+                                path: "sender",
+                                model: "User",
+                                select: "name _id username",
+                            },
+                            { path: "event", model: "Event" },
+                        ],
+                    })
+                    .exec();
+                res.status(201).send(user.invitations);
             } catch (error) {
                 console.log(error);
                 res.status(400).end();
             }
             break;
-        case "PUT":
+        case "DELETE":
             try {
-                const { invitation } = req.body;
+                const { eventId } = req.body;
                 const user = await User.findOneAndUpdate(
                     { username },
                     {
-                        $push: {
-                            invitations: {
-                                $each: [invitation],
-                                $position: 0,
-                            },
+                        $pull: {
+                            invitations: { event: eventId },
                         },
                     },
                     { new: true }
                 );
-                res.status(201).send(user);
+                res.status(200).send(user);
             } catch (error) {
                 console.log(error);
                 res.status(400).end();

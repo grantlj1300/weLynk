@@ -19,6 +19,9 @@ export default function Events({ user, setUser }) {
     const [activeFilter, setActiveFilter] = useState(filter);
     const [keywords, setKeywords] = useState([]);
     const [activeKeywords, setActiveKeywords] = useState(keywords);
+    const [eventVisibility, setEventVisibility] = useState("all");
+    const [activeEventVisibility, setActiveEventVisibility] =
+        useState(eventVisibility);
 
     async function getEvents(coordinates) {
         const keywordStr = keywords
@@ -36,10 +39,12 @@ export default function Events({ user, setUser }) {
             ...coordinates,
             filter: filter,
             keywords: keywordStr,
+            eventVisibility: eventVisibility,
             friends: [...friends, user._id],
         };
         setActiveFilter(filter);
         setActiveKeywords(keywords);
+        setActiveEventVisibility(eventVisibility);
         try {
             const res = await fetch(
                 "/api/events?" + new URLSearchParams(params),
@@ -85,6 +90,7 @@ export default function Events({ user, setUser }) {
                 filter={() => {
                     setFilter(activeFilter);
                     setKeywords(activeKeywords);
+                    setEventVisibility(activeEventVisibility);
                     setShowFilter(true);
                 }}
             />
@@ -106,6 +112,8 @@ export default function Events({ user, setUser }) {
                 setKeywords={setKeywords}
                 showPreview={showPreview}
                 setShowPreview={setShowPreview}
+                eventVisibility={eventVisibility}
+                setEventVisibility={setEventVisibility}
             />
         </div>
     );

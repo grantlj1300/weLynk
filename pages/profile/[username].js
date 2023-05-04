@@ -1,11 +1,11 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import styles from "../../styles/Profile.module.css";
-import Carousel from "../../components/Carousel";
+import Carousel from "../../components/Carousel/Carousel";
 import Loading from "../../components/Loading";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import FriendButton from "../../components/FriendButton";
+import FriendButton from "../../components/Notifications/FriendButton";
 
 export default function OtherProfile({ otherUsername, user, setUser }) {
     const [otherUser, setOtherUser] = useState("loading");

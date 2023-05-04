@@ -9,7 +9,7 @@ export default async function handler(req, res) {
             try {
                 const users = await User.find({
                     _id: { $in: req.body },
-                }).select("_id name username avatar");
+                }).select("_id name username avatar invitations");
                 res.status(201).send(users);
             } catch (error) {
                 console.log(error);

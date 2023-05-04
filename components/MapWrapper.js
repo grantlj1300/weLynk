@@ -29,6 +29,8 @@ export default function MapWrapper({
     setShowList,
     showPreview,
     setShowPreview,
+    eventVisibility,
+    setEventVisibility,
 }) {
     const [map, setMap] = useState();
     const [currentEvent, setCurrentEvent] = useState();
@@ -265,6 +267,8 @@ export default function MapWrapper({
                 setFilter={setFilter}
                 keywords={keywords}
                 setKeywords={setKeywords}
+                eventVisibility={eventVisibility}
+                setEventVisibility={setEventVisibility}
             />
             <EventPreview
                 event={currentEvent}

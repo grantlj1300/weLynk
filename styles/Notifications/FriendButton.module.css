@@ -22,6 +22,15 @@
 .container:active {
     background-color: rgb(252, 125, 252);
 }
+.deactivated {
+    cursor: default;
+}
+.deactivated:hover {
+    background-color: rgb(248, 182, 248);
+}
+.deactivated:active {
+    background-color: rgb(248, 182, 248);
+}
 .dual > .container {
     width: 52px;
 }

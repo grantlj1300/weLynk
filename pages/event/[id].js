@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "../../styles/Event.module.css";
-import { RiSendPlaneFill } from "react-icons/ri";
+import { RiSendPlaneFill, RiShareBoxFill } from "react-icons/ri";
 import { formatDate, formatTime } from "../../lib/utils/utils.js";
 import Loading from "../../components/Loading";
 import Pusher from "pusher-js";
@@ -10,11 +10,13 @@ import { IoLocationSharp } from "react-icons/io5";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import FriendsModal from "../../components/Notifications/FriendsModal";
 
 export default function Event({ eventId, user, setUser }) {
     const [event, setEvent] = useState("loading");
     const [message, setMessage] = useState("");
     const [allMessages, setAllMessages] = useState([]);
+    const [showFriends, setShowFriends] = useState(false);
     const chats = useRef(null);
     const router = useRouter();
 
@@ -191,8 +193,21 @@ export default function Event({ eventId, user, setUser }) {
             <Head>
                 <title>weLynk | {event.title}</title>
             </Head>
+            {showFriends && (
+                <FriendsModal
+                    closeModal={() => setShowFriends(false)}
+                    user={user}
+                    setUser={setUser}
+                    event={event}
+                />
+            )}
             <div className={styles.eventContainer}>
                 <div className={styles.imageContainer}>
+                    <RiShareBoxFill
+                        size={30}
+                        className={styles.share}
+                        onClick={() => setShowFriends(true)}
+                    />
                     <Image
                         src={
                             event?.photo

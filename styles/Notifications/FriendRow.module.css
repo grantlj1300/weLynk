@@ -1,0 +1,35 @@
+.row {
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-decoration: none;
+    color: black;
+    padding: 8px 7px;
+    background-color: white;
+    border-top: 1px solid rgba(176, 175, 175, 0.539);
+}
+.lastRow {
+    border-bottom: 1px solid rgba(176, 175, 175, 0.539);
+}
+
+.link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: black;
+    margin-right: 20px;
+}
+
+.avatar {
+    border-radius: 25px;
+    margin-right: 13px;
+}
+
+.rowText > h3 {
+    font-size: 12pt;
+}
+.rowText > div {
+    font-size: 10pt;
+    color: rgb(142, 142, 142);
+}
