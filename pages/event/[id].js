@@ -17,6 +17,8 @@ export default function Event({ eventId, user, setUser }) {
     const [message, setMessage] = useState("");
     const [allMessages, setAllMessages] = useState([]);
     const [showFriends, setShowFriends] = useState(false);
+    const [attending, setAttending] = useState(user.events.includes(eventId));
+    const [joining, setJoining] = useState(false);
     const chats = useRef(null);
     const router = useRouter();
 
@@ -95,54 +97,29 @@ export default function Event({ eventId, user, setUser }) {
         }
     }
 
-    async function removeUserFromEvent() {
-        try {
-            const reqBody = {
-                eventId: eventId,
-                updated: {
-                    members: event.members.filter(
-                        (userObj) => userObj._id !== user._id
-                    ),
-                },
-            };
-            const res = await fetch("/api/events", {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(reqBody),
-            });
-            const data = await res.json();
-            return data;
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-    async function removeEventFromUser() {
+    async function leaveEvent() {
+        setJoining(true);
         try {
             const reqBody = {
                 userId: user._id,
-                events: user.events.filter((id) => id !== event._id),
+                eventId: event._id,
             };
-            const res = await fetch("/api/user", {
-                method: "PUT",
+            const res = await fetch("/api/membership", {
+                method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify(reqBody),
             });
             const data = await res.json();
-            setUser(data);
+            setEvent(data.event);
+            setUser(data.user);
+            setAttending(false);
+            router.push("/profile");
         } catch (error) {
             console.log(error);
         }
-    }
-
-    async function leaveEvent() {
-        await removeUserFromEvent();
-        await removeEventFromUser();
-        router.push("/profile");
+        setJoining(false);
     }
 
     async function handleSubmit(e) {
@@ -168,8 +145,59 @@ export default function Event({ eventId, user, setUser }) {
         setMessage("");
     }
 
-    if (event === "loading") {
-        return <Loading />;
+    async function joinEvent() {
+        setJoining(true);
+        try {
+            const reqBody = {
+                userId: user._id,
+                eventId: event._id,
+            };
+            const res = await fetch("/api/membership", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(reqBody),
+            });
+            const data = await res.json();
+            setEvent(data.event);
+            setUser(data.user);
+            setAttending(true);
+        } catch (error) {
+            console.log(error);
+        }
+        setJoining(false);
+    }
+
+    function renderButton() {
+        if (joining) {
+            return (
+                <button className={styles.button}>
+                    <div className="spin" />
+                </button>
+            );
+        } else if (!attending) {
+            return (
+                <button className={styles.button} onClick={joinEvent}>
+                    Join Event
+                </button>
+            );
+        } else if (user._id === event.admin) {
+            return (
+                <Link
+                    href={`/event/edit/${event._id}`}
+                    className={`link ${styles.button}`}
+                >
+                    <button className={styles.button}>Edit Event</button>
+                </Link>
+            );
+        } else {
+            return (
+                <button className={styles.button} onClick={leaveEvent}>
+                    Leave Event
+                </button>
+            );
+        }
     }
 
     const messages = allMessages.map((data, idx) => {
@@ -178,7 +206,7 @@ export default function Event({ eventId, user, setUser }) {
             <div
                 key={idx}
                 className={`${styles.messageContainer} 
-                ${other ? styles.otherMessage : styles.userMessage}`}
+            ${other ? styles.otherMessage : styles.userMessage}`}
             >
                 {other && (
                     <div className={styles.messageSender}>@{data.username}</div>
@@ -188,8 +216,12 @@ export default function Event({ eventId, user, setUser }) {
         );
     });
 
+    if (event === "loading") {
+        return <Loading />;
+    }
+
     return (
-        <div className={styles.container}>
+        <div className={`${styles.container} ${attending ? "" : styles.hide}`}>
             <Head>
                 <title>weLynk | {event.title}</title>
             </Head>
@@ -203,11 +235,13 @@ export default function Event({ eventId, user, setUser }) {
             )}
             <div className={styles.eventContainer}>
                 <div className={styles.imageContainer}>
-                    <RiShareBoxFill
-                        size={30}
-                        className={styles.share}
-                        onClick={() => setShowFriends(true)}
-                    />
+                    {attending && (
+                        <RiShareBoxFill
+                            size={30}
+                            className={styles.share}
+                            onClick={() => setShowFriends(true)}
+                        />
+                    )}
                     <Image
                         src={
                             event?.photo
@@ -239,25 +273,7 @@ export default function Event({ eventId, user, setUser }) {
                         </h5>
                     </div>
                     <p className={styles.description}>{event.description}</p>
-                    <div className={styles.buttonRow}>
-                        {user._id === event.admin ? (
-                            <Link
-                                href={`/event/edit/${event._id}`}
-                                className={`link ${styles.button}`}
-                            >
-                                <button className={styles.button}>
-                                    Edit Event
-                                </button>
-                            </Link>
-                        ) : (
-                            <button
-                                className={styles.button}
-                                onClick={leaveEvent}
-                            >
-                                Leave Event
-                            </button>
-                        )}
-                    </div>
+                    <div className={styles.buttonRow}>{renderButton()}</div>
                 </div>
             </div>
             <div className={styles.chatContainer}>

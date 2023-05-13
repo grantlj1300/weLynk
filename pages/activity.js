@@ -97,6 +97,7 @@ export default function Activity({ user, setUser }) {
             user={user}
             setUser={setUser}
             friend={result.sender}
+            viewed={result.viewed}
             last={i + 1 == invitations.length}
             event={result.event}
         />
@@ -108,7 +109,7 @@ export default function Activity({ user, setUser }) {
                 <title>weLynk | Activity</title>
             </Head>
             <div className={styles.tabs}>
-                <h2
+                <div
                     className={`${styles.tab} ${
                         activeTab === "Friends"
                             ? styles.activeTab
@@ -116,9 +117,9 @@ export default function Activity({ user, setUser }) {
                     }`}
                     onClick={() => setActiveTab("Friends")}
                 >
-                    Friends
-                </h2>
-                <h2
+                    <h2 className={styles.text}>Friends</h2>
+                </div>
+                <div
                     className={`${styles.tab} ${
                         activeTab === "Invitations"
                             ? styles.activeTab
@@ -126,8 +127,8 @@ export default function Activity({ user, setUser }) {
                     }`}
                     onClick={() => setActiveTab("Invitations")}
                 >
-                    Invitations
-                </h2>
+                    <h2 className={styles.text}>Invitations</h2>
+                </div>
             </div>
             {activeTab === "Friends" ? (
                 <div className={styles.container}>

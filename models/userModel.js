@@ -83,6 +83,10 @@ const userSchema = new Schema({
                     ref: "Event",
                     required: true,
                 },
+                viewed: {
+                    type: Boolean,
+                    default: false,
+                },
             },
         ],
         required: true,

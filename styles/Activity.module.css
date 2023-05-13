@@ -1,5 +1,6 @@
 .page {
     display: flex;
+    justify-content: center;
     margin-top: 50px;
 }
 .tabs {
@@ -7,31 +8,39 @@
     flex-direction: column;
     align-items: center;
     padding: 200px 0px 200px 0px;
-    margin: 0px 50px 0px 50px;
     color: rgb(236, 136, 236);
 }
 .tab {
     margin-top: 20px;
     text-align: center;
-    padding: 5px;
+    padding: 10px;
     cursor: pointer;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    z-index: 2;
 }
-.tab::after {
+.inactiveTab:hover {
+    color: rgb(218, 105, 218);
+}
+.tab > .text::after {
     content: '';
     display: block;
     border-bottom: solid 3px rgb(175, 51, 175);  
     transform: scaleX(0);  
     transition: transform 0.2s ease-in-out;
 }
-.inactiveTab:hover {
-    color: rgb(218, 105, 218);
+.text {
+    width: fit-content;
 }
 .activeTab {
     transition: color 0.5s;
-    display: inline-block;
     color: rgb(175, 51, 175);
+    background-color: white;
+    box-shadow: -10px 4px 10px 1px rgba(216, 216, 216, 0.75);
+    border-radius: 10px 0px 0px 10px;
 }
-.activeTab::after {
+.activeTab > .text::after {
     transform: scaleX(1);
 }
 .activeTab:hover {
@@ -39,9 +48,38 @@
     cursor: default;
 }
 .container {
-    width: 70%;
+    width: 800px;
     margin-top: 10px;
+    padding: 10px 20px;
+    box-shadow: 0px 10px 50px -7px rgba(158, 157, 157, 0.75);
+    border-radius: 25px;
+    background-color: white;
+    z-index: 1;
+    box-sizing: border-box;
 }
 .entryContainer > h2 {
     margin: 10px 0px 10px 0px;
+}
+
+@media only screen and (max-width: 768px) {
+    .page {
+        flex-direction: column;
+        align-items: center;
+        margin: 0px;
+    }
+    .tabs {
+        flex-direction: row;
+        padding: 0px;
+        width: 100%;
+    }
+    .activeTab {
+        box-shadow: 0px -10px 10px 1px rgba(216, 216, 216, 0.75);
+        border-radius: 10px 10px 0px 0px;
+    }
+    .container {
+        width: 100%;
+        margin-top: 0px;
+        border-radius: 0px 0px 25px 25px;
+        height: calc(100vh - 200px);
+    }
 }

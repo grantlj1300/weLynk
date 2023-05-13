@@ -3,7 +3,15 @@ import Link from "next/link";
 import React from "react";
 import styles from "../../styles/Notifications/InvitationRow.module.css";
 
-export default function InvitationRow({ user, setUser, friend, last, event }) {
+export default function InvitationRow({
+    user,
+    setUser,
+    friend,
+    viewed,
+    last,
+    event,
+    mini,
+}) {
     // Duplicated
     async function addEventToUser() {
         try {
@@ -76,8 +84,12 @@ export default function InvitationRow({ user, setUser, friend, last, event }) {
     }
 
     return (
-        <div className={`${styles.row} ${last ? styles.lastRow : ""}`}>
-            <div className={styles.inviteText}>
+        <div
+            className={`${styles.row} ${!viewed ? styles.newRow : ""} ${
+                last ? styles.lastRow : ""
+            }`}
+        >
+            <div className={styles.left}>
                 <Link
                     className={styles.link}
                     href={`/profile/${friend.username}`}
@@ -93,25 +105,34 @@ export default function InvitationRow({ user, setUser, friend, last, event }) {
                         width={40}
                         height={40}
                     />
-                    <div className={styles.rowText}>
-                        <h3>@{friend.username}</h3>
-                    </div>
                 </Link>
-                <div className={styles.invite}>invited you to join</div>
-                <Link className={styles.link} href={`/event/${event._id}`}>
-                    <div className={styles.rowText}>
-                        <h3>{event.title}</h3>
+                <div className={styles.inviteText}>
+                    <Link
+                        className={styles.link}
+                        href={`/profile/${friend.username}`}
+                    >
+                        <div className={styles.rowText}>
+                            <h3>@{friend.username}</h3>
+                        </div>
+                    </Link>
+                    <div className={styles.invite}>invited you to join</div>
+                    <Link className={styles.link} href={`/event/${event._id}`}>
+                        <div className={styles.rowText}>
+                            <h3>{event.title}</h3>
+                        </div>
+                    </Link>
+                </div>
+            </div>
+            {!mini && (
+                <div className={styles.buttons}>
+                    <div className={styles.button} onClick={handleEventJoin}>
+                        Accept
                     </div>
-                </Link>
-            </div>
-            <div className={styles.buttons}>
-                <div className={styles.button} onClick={handleEventJoin}>
-                    Accept
+                    <div className={styles.button} onClick={removeInvitation}>
+                        Reject
+                    </div>
                 </div>
-                <div className={styles.button} onClick={removeInvitation}>
-                    Reject
-                </div>
-            </div>
+            )}
         </div>
     );
 }
