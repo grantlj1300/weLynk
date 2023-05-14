@@ -1,7 +1,7 @@
 
 # weLynk
 
-weLynk is a social platform for finding and posting local events. Whether you're looking for a professional conference or a casual meetup, weLynk makes it easy to connect with like-minded individuals and plan fun activities.
+[weLynk](https://welynk.vercel.app) is a social platform for finding and posting local events. Whether you're looking for a professional conference or a casual meetup, weLynk makes it easy to connect with like-minded individuals and plan fun activities.
 
 ## Current Features
 * **Registration and Login**: Users can create a new account and login. Any errors in the registration or login process are displayed to the user.
@@ -82,9 +82,14 @@ To use weLynk, you will need to create an account. Once you're signed in, you ca
 ## Current Status
 weLynk is currently operational. Over time, I'd like to continue to contribute to the project and make improvements.
 ## A Retrospective
-After roughly 6 months of working on weLynk, I can easily say this has been one of my most valuable experiences to date. I was able to bring an idea I've had for a while to life. I have learned many skills and developed features I intend to use in future projects. Firstly, this was the first time I worked with Next.js and Vercel. Having built projects in React in the past, I can say that using Next certainly simplifies things as it abstracts routing and backend API calls. This makes it easier as a "one man team" since there's less for me to worry about and organize.
+After roughly 6 months of working on weLynk, I can easily say this has been one of my most valuable experiences to date. I was able to bring an idea I've had for a while to life. I have learned many skills and developed features I intend to use in future projects. Firstly, this was the first time I worked with Next.js and Vercel. Having built projects in React in the past, I can say that using Next certainly simplifies things as it abstracts routing and backend API calls. This makes it easier as a "one-man team" since there's less for me to worry about and organize.
+
 I also grew more confident in my usage of MongoDB. I became more comfortable with using search indexes to find users and events that match certain keywords. I also learned how to use sessions for the first time which is crucial for handling updates to multiple documents in the database who must remain consistent with each other.
+
 This was also the first time I worked with websockets. In this project, I used the Pusher API to handle the websocket connections for handling the instant messaging system in events. This will certainly be useful in the future since sending data in real-time is common across sites and apps (messaging, notifications, posts, etc...).
+
 I also had to learn how to manage multiple services and APIs. In this case, I was juggling several Google mapping services, the OpenLayers map interface, and a MapBox vector style. This required me to become familiar with the usage of each service by reading documentation and experimenting.
+
 Another skill I developed was designing a visually appealing UI. I believe there are still some areas to improve on the site, but for the most part I believe I did well (especially on the map). I learned how to best manipulate elements via CSS and tried implementing animations throughout the site to give it a more legitimate feel. I also created nearly every element from scratch. Although I could have relied on existing libraries, I wanted to make all the elements myself so I could hone my skills and have complete customization ability.
+
 Overall, this project is the product of failure after failure. There were so many instances where I was at a total loss of what to do or how to overcome a certain issue, but I managed to figure each one out and kept pushing forward. 
