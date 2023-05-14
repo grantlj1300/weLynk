@@ -51,8 +51,30 @@ https://github.com/grantlj1300/weLynk/assets/65977700/7b163466-020a-4ff4-9e63-fc
 https://github.com/grantlj1300/weLynk/assets/65977700/251b5aa7-e543-42b3-bc0b-1ac8e8b393a0
 
 
+* **Joining and Leaving an Event**: Users can find events on the map and join them to gain access to the exclusive event page which houses a group chat for all members. If you decide you don't want to attend, you can leave the event.
 
-* **Group chat**: Each event has a dedicated group chat where attendees can communicate and coordinate logistics.
+
+
+https://github.com/grantlj1300/weLynk/assets/65977700/d8d1211c-80da-4596-9f30-c99574f4bb85
+
+
+
+* **Group chat**: Each event has a dedicated group chat where attendees can communicate and coordinate logistics. The messages arrive and send in real-time as can be seen between the two accounts below.
+
+
+
+https://github.com/grantlj1300/weLynk/assets/65977700/8d24cbf3-830f-44bc-bbbf-5cdacaefd228
+
+
+
+* **Sending Invitations and the Activity Center**: If you're a member of an event, you can send invitations to your friends. The request will show in their activity center.
+
+
+
+https://github.com/grantlj1300/weLynk/assets/65977700/3b0a7172-5f8b-4b79-8a8b-fe9d0aabf72a
+
+
+
 ## Technologies Used
 weLynk is built using [Next.js](https://nextjs.org) with the data being stored in [MongoDB](https://www.mongodb.com). The website uses [Google Maps API](https://developers.google.com/maps/documentation) for event location logic and [OpenLayers](https://openlayers.org) for the map interface. [Pusher](https://pusher.com) is used for websocket connections to provide real-time data for the groupchats.
 ## Getting Started
