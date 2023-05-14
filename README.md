@@ -4,7 +4,22 @@
 weLynk is a social platform for finding and posting local events. Whether you're looking for a professional conference or a casual meetup, weLynk makes it easy to connect with like-minded individuals and plan fun activities.
 
 ## Current Features
-* **Account creation and customization**: Users can create a personalized account, add a profile picture, and set a default viewport for map interactions.
+* **Registration and Login**: Users can create a new account and login. Any errors in the registration or login process are displayed to the user.
+
+
+
+https://github.com/grantlj1300/weLynk/assets/65977700/088fed7f-77f5-4928-b8d0-1f0dfe38334a
+
+
+
+* **Account Editing**: Users can personalize their account by changing their name, email, or bio. You can also upload and crop a profile picture. Finally, users can set a "default" map viewport so that the map will always open on the region they choose.
+
+
+
+https://github.com/grantlj1300/weLynk/assets/65977700/ce5921c6-6289-4b06-bcaa-7be29aa4e537
+
+
+
 * **Event search and filtering**: Users can browse public and private events and filter active events by category and keyword. The search results are displayed on an interactive map that allows users to view event details and join to gain access to the event page.
 * **Event creation and management**: Users can create and post their own events and specify event details (date, time, location, description, etc...).
 * **Group chat**: Each event has a dedicated group chat where attendees can communicate and coordinate logistics.
